@@ -6,10 +6,10 @@
 
 #include "ring-span-lite.t.hpp"
 
-#define ring_span_PRESENT( x ) \
+#define nsrs_PRESENT( x ) \
     std::cout << #x << ": " << x << "\n"
 
-#define ring_span_ABSENT( x ) \
+#define nsrs_ABSENT( x ) \
     std::cout << #x << ": (undefined)\n"
 
 lest::tests & specification()
@@ -20,80 +20,80 @@ lest::tests & specification()
 
 CASE( "__cplusplus" "[.stdc++]" )
 {
-    ring_span_PRESENT( __cplusplus );
+    nsrs_PRESENT( __cplusplus );
 }
 
 CASE( "ring-span-lite version" "[.version]" )
 {
-    ring_span_PRESENT( ring_span_lite_VERSION );
+    nsrs_PRESENT( ring_span_lite_VERSION );
 }
 
 CASE( "compiler version" "[.compiler]" )
 {
-#if ring_span_COMPILER_GNUC_VERSION
-    ring_span_PRESENT( ring_span_COMPILER_GNUC_VERSION );
+#if nsrs_COMPILER_GNUC_VERSION
+    nsrs_PRESENT( nsrs_COMPILER_GNUC_VERSION );
 #else
-    ring_span_ABSENT(  ring_span_COMPILER_GNUC_VERSION );
+    nsrs_ABSENT(  nsrs_COMPILER_GNUC_VERSION );
 #endif
 
-#if ring_span_COMPILER_MSVC_VERSION
-    ring_span_PRESENT( ring_span_COMPILER_MSVC_VERSION );
+#if nsrs_COMPILER_MSVC_VERSION
+    nsrs_PRESENT( nsrs_COMPILER_MSVC_VERSION );
 #else
-    ring_span_ABSENT(  ring_span_COMPILER_MSVC_VERSION );
+    nsrs_ABSENT(  nsrs_COMPILER_MSVC_VERSION );
 #endif
 }
 
 CASE( "Presence of C++ language features" "[.stdlanguage]" )
 {
-#if ring_span_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG
-    ring_span_PRESENT( ring_span_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
+#if nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG
+    nsrs_PRESENT( nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
+    nsrs_ABSENT(  nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
 #endif
 
-#if ring_span_HAVE_CONSTEXPR_11
-    ring_span_PRESENT( ring_span_HAVE_CONSTEXPR_11 );
+#if nsrs_HAVE_CONSTEXPR_11
+    nsrs_PRESENT( nsrs_HAVE_CONSTEXPR_11 );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_CONSTEXPR_11 );
+    nsrs_ABSENT(  nsrs_HAVE_CONSTEXPR_11 );
 #endif
 
-#if ring_span_HAVE_CONSTEXPR_14
-    ring_span_PRESENT( ring_span_HAVE_CONSTEXPR_14 );
+#if nsrs_HAVE_CONSTEXPR_14
+    nsrs_PRESENT( nsrs_HAVE_CONSTEXPR_14 );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_CONSTEXPR_14 );
+    nsrs_ABSENT(  nsrs_HAVE_CONSTEXPR_14 );
 #endif
 
-#if ring_span_HAVE_ENUM_CLASS
-    ring_span_PRESENT( ring_span_HAVE_ENUM_CLASS );
+#if nsrs_HAVE_ENUM_CLASS
+    nsrs_PRESENT( nsrs_HAVE_ENUM_CLASS );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_ENUM_CLASS );
+    nsrs_ABSENT(  nsrs_HAVE_ENUM_CLASS );
 #endif
 
-#if ring_span_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE
-    ring_span_PRESENT( ring_span_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
+#if nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE
+    nsrs_PRESENT( nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
+    nsrs_ABSENT(  nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
 #endif
 
-#if ring_span_HAVE_EXPLICIT_CONVERSION
-    ring_span_PRESENT( ring_span_HAVE_EXPLICIT_CONVERSION );
+#if nsrs_HAVE_EXPLICIT_CONVERSION
+    nsrs_PRESENT( nsrs_HAVE_EXPLICIT_CONVERSION );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_EXPLICIT_CONVERSION );
+    nsrs_ABSENT(  nsrs_HAVE_EXPLICIT_CONVERSION );
 #endif
 
-#if ring_span_HAVE_NOEXCEPT
-    ring_span_PRESENT( ring_span_HAVE_NOEXCEPT );
+#if nsrs_HAVE_NOEXCEPT
+    nsrs_PRESENT( nsrs_HAVE_NOEXCEPT );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_NOEXCEPT );
+    nsrs_ABSENT(  nsrs_HAVE_NOEXCEPT );
 #endif
 }
 
 CASE( "Presence of C++ library features" "[.stdlibrary]" )
 {
-#if ring_span_HAVE_TYPE_TRAITS
-    ring_span_PRESENT( ring_span_HAVE_TYPE_TRAITS );
+#if nsrs_HAVE_TYPE_TRAITS
+    nsrs_PRESENT( nsrs_HAVE_TYPE_TRAITS );
 #else
-    ring_span_ABSENT(  ring_span_HAVE_TYPE_TRAITS );
+    nsrs_ABSENT(  nsrs_HAVE_TYPE_TRAITS );
 #endif
 }
 

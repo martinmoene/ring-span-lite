@@ -23,7 +23,8 @@ namespace nonstd {
 // use oparator<< instead of to_string() overload;
 // see  http://stackoverflow.com/a/10651752/437272
 
-inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span const & v )
+template< typename T, class Popper>
+inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popper> const & v )
 {
     return os << "[ring_span:...]";
 }
