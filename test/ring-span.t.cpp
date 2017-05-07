@@ -28,7 +28,7 @@ inline size_t dim( T (&arr)[N] )
     return N;
 }
 
-CASE( "ring_span: Allows to construct a full span from iterator pair" )
+CASE( "ring_span: Allows to construct an empty span from an iterator pair" )
 {
     int arr[] = { 1, 2, 3, };
 
@@ -38,7 +38,7 @@ CASE( "ring_span: Allows to construct a full span from iterator pair" )
     EXPECT( rs.capacity() == dim(arr)     );
 }
 
-CASE( "ring_span: Allows to construct a partially filled span from iterator pair and iterator, size" )
+CASE( "ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size" )
 {
     int arr[] = { 7, 7, 1, 2, 3, 7, 7, 7, };
     size_type first = 2;

@@ -167,8 +167,8 @@ Appendix
 ### A.1 Ring-span Lite test specification
 
 ```
-ring_span: Allows to construct a full span from iterator pair
-ring_span: Allows to construct a partially filled span from iterator pair and iterator, size
+ring_span: Allows to construct an empty span from an iterator pair
+ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)
