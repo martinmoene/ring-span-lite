@@ -24,9 +24,9 @@ namespace nonstd {
 // see  http://stackoverflow.com/a/10651752/437272
 
 template< typename T, class Popper>
-inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popper> const & v )
+inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popper> const & rs )
 {
-    return os << "[ring_span:...]";
+    os << "[ring_span: "; std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") ); return os << "]";
 }
 
 }
