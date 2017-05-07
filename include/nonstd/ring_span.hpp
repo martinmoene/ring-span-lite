@@ -246,10 +246,14 @@ struct copy_popper
 template< class T >
 struct default_pusher {};
 
-// forward decleare iterator:
+// forward-declare iterator:
+
+namespace detail {
 
 template< class, bool >
 class ring_iterator;
+
+}
 
 //
 // ring span:
@@ -272,8 +276,8 @@ public:
 
     typedef ring_span< T, Popper /*, Pusher*/ > type;
 
-    typedef ring_iterator< type, false          > iterator;
-    typedef ring_iterator< type, true           > const_iterator;
+    typedef detail::ring_iterator< type, false  > iterator;
+    typedef detail::ring_iterator< type, true   > const_iterator;
     typedef std::reverse_iterator<iterator      > reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -618,6 +622,8 @@ void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_
     lhs.swap(rhs);
 }
 
+namespace detail {
+
 //
 // ring iterator:
 //
@@ -770,6 +776,7 @@ void swap( ring_iterator<RS,C> & lhs, ring_iterator<RS,C>  & rhs ) nsrs_noexcept
     lhs.swap(rhs);
 }
 
+} // namespace detail
 } // namespace nonstd
 
 #endif // NONSTD_RING_SPAN_LITE_HPP
