@@ -610,6 +610,14 @@ private:
 //  Pusher    m_pusher;
 };
 
+// swap:
+
+template< class T, class Popper >
+void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
+{
+    lhs.swap(rhs);
+}
+
 //
 // ring iterator:
 //
