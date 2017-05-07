@@ -48,13 +48,13 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
 
     EXPECT( rs.size()     == count    );
     EXPECT( rs.capacity() == dim(arr) );
+    EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
 CASE( "ring_span: Disallows to copy-construct from a ring_span (compile-time)" )
 {
 #if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
-    int arr[] = { 1, 2, 3, };
-    ring_span<int> rs1( arr, arr + dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs1( arr, arr + dim(arr) );
 
     ring_span<int> rs2( rs1 );
 #else
@@ -80,10 +80,11 @@ CASE( "ring_span: Allows to move-construct from a ring_span (C++11)" )
 #if nsrs_CPP11_OR_GREATER
     int arr[] = { 1, 2, 3, };
 
-    ring_span<int> rs( ring_span<int>( arr, arr + dim(arr) ) );
+    ring_span<int> rs( ring_span<int>( arr, arr + dim(arr), arr, dim(arr) ) );
 
-    EXPECT( rs.size()     == size_type(0) );
-    EXPECT( rs.capacity() == dim(arr)     );
+    EXPECT( rs.size()     == dim(arr) );
+    EXPECT( rs.capacity() == dim(arr) );
+    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
 #else
     EXPECT( !!"ring_span: move-construction is not available (no C++11)" );
 #endif
@@ -92,13 +93,13 @@ CASE( "ring_span: Allows to move-construct from a ring_span (C++11)" )
 CASE( "ring_span: Allows to move-assign from a ring_span (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
-    int arr[] = { 1, 2, 3, };
-    ring_span<int> rs( arr, arr + dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
 
-    rs = ring_span<int>( arr, arr + dim(arr) );
+    rs = ring_span<int>( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.size()     == size_type(0) );
-    EXPECT( rs.capacity() == dim(arr)     );
+    EXPECT( rs.size()     == dim(arr) );
+    EXPECT( rs.capacity() == dim(arr) );
+    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
 #else
     EXPECT( !!"ring_span: move-assignment is not available (no C++11)" );
 #endif
@@ -106,54 +107,267 @@ CASE( "ring_span: Allows to move-assign from a ring_span (C++11)" )
 
 CASE( "ring_span: Allows to obtain the capacity of a span" )
 {
-    int arr[] = { 1, 2, 3, };
-
-    ring_span<int> rs( arr, arr + dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
 
     EXPECT( rs.capacity() == dim(arr) );
 }
 
 CASE( "ring_span: Allows to obtain the number of elements in a span (size)" )
 {
-    int arr[] = { 1, 2, 3, };
-
-    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.size() == rs.capacity() );
 }
 
 CASE( "ring_span: Allows to check for an empty span" )
 {
-    int arr[] = { 1, 2, 3, };
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
 
-    ring_span<int> rs( arr, arr + dim(arr) );
-
-    EXPECT( rs.empty()                 );
-    EXPECT( rs.size( ) == size_type(0) );
+    EXPECT( rs.empty() );
 }
 
 CASE( "ring_span: Allows to check for a full span" )
 {
-    int arr[] = { 1, 2, 3, };
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
-
-    EXPECT( rs.full()                  );
-    EXPECT( rs.size() == rs.capacity() );
+    EXPECT( rs.full() );
 }
 
-// (const) front
-// (const) back
-// (const) pop_front
-// (const) pop_back
+CASE( "ring_span: Allows to observe the element at the front" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-// push_back( value)
-// push_back( &&)
-// push_back( in-place)
+    EXPECT( rs.front() == arr[0] );
+}
 
-// swap
-// global swap
+CASE( "ring_span: Allows to observe the element at the back" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
+    EXPECT( rs.back() == arr[dim(arr) - 1] );
+}
+
+CASE( "ring_span: Allows to obtain and remove the element at the front" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.pop_front() == arr[0] );
+}
+
+CASE( "ring_span: Allows to obtain and remove the element at the back" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.pop_back() == arr[dim(arr) - 1] );
+}
+
+CASE( "ring_span: Allows to copy-insert an element at the front" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int new_element = 7;
+
+    rs.push_front( new_element );
+
+    EXPECT( rs.front() == new_element );
+}
+
+#if nsrs_CPP11_OR_GREATER
+struct noncopyable
+{
+    char c; int i;
+    noncopyable() : c(), i() {}
+    noncopyable( char c, int i ) : c(c), i(i) {}
+    noncopyable( noncopyable && ) = default;
+
+    noncopyable( noncopyable const & ) = delete;
+    noncopyable& operator=( noncopyable const & ) = delete;
+};
+
+struct oracle
+{
+    enum state_t { init, moved_from, };
+
+    static state_t & state() { static state_t s = init; return s; }
+    static int     & value() { static int     v = 0;    return v; }
+
+    oracle( int v = 0 ) noexcept { state() = init; value() = v; }
+    oracle( oracle && ) noexcept { state() = moved_from; }
+    oracle & operator=( oracle && ) noexcept { state() = moved_from; return *this; }
+};
+#endif
+
+CASE( "ring_span: Allows to move-insert an element at the front" )
+{
+#if nsrs_CPP11_OR_GREATER
+    oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int value = 7;
+
+    rs.push_front( oracle(value) );
+
+    EXPECT( oracle::state()    == oracle::moved_from );
+    EXPECT( rs.front().value() == value              );
+#else
+    EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: Allows to emplace an element at the front" )
+{
+#if nsrs_CPP11_OR_GREATER
+    noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.front().c == char() );
+    EXPECT( rs.front().i ==  int() );
+
+    EXPECT( !"Fix front() = T(...): avoid copy-assignment" );
+//  rs.emplace_front( 'a', 7 );
+
+//  EXPECT( rs.front().c == 'a' );
+//  EXPECT( rs.front().i ==  7  );
+#else
+    EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: Allows to copy-insert an element at the back" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int new_element = 7;
+
+    rs.push_back( new_element );
+
+    EXPECT( rs.back() == new_element );
+}
+
+CASE( "ring_span: Allows to move-insert an element at the back" )
+{
+#if nsrs_CPP11_OR_GREATER
+    oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int value = 7;
+
+    rs.push_back( oracle(value) );
+
+    EXPECT( oracle::state()   == oracle::moved_from );
+    EXPECT( rs.back().value() == value              );
+#else
+    EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: Allows to emplace an element at the back" )
+{
+#if nsrs_CPP11_OR_GREATER
+    noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.back().c == char() );
+    EXPECT( rs.back().i ==  int() );
+
+    EXPECT( !"Fix back() = T(...): avoid copy-assignment" );
+//  rs.emplace_back( 'a', 7 );
+
+//  EXPECT( rs.back().c == 'a' );
+//  EXPECT( rs.back().i ==  7  );
+#else
+    EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: Adding an element to an empty span make it non-empty" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty() );
+
+    rs.push_back( 7 );
+
+    EXPECT( ! rs.empty() );
+}
+
+CASE( "ring_span: Adding an element to an empty span doesn't change its capacity" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty()                );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    rs.push_back( 7 );
+
+    EXPECT( rs.capacity() == dim(arr) );
+}
+
+CASE( "ring_span: Adding an element to a full span leaves it full" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    rs.push_back( 7 );
+
+    EXPECT( rs.full() );
+}
+
+CASE( "ring_span: Adding an element to a full span doesn't change its capacity" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full()                 );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    rs.push_back( 7 );
+
+    EXPECT( rs.capacity() == dim(arr) );
+}
+
+CASE( "ring_span: Removing an element from an empty span asserts !empty (compile-time)" )
+{
+#if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty() );
+
+    (void) rs.pop_front();
+#else
+    EXPECT( !!"ring_span: check for compile-time error (define nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS)" );
+#endif
+}
+
+CASE( "ring_span: Removing an element from a full span makes it not full" )
+{
+    int arr[] = { 1, 2, 3, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    (void) rs.pop_front();
+
+    EXPECT( ! rs.full() );
+}
+
+CASE( "ring_span: Removing an element from a full span doesn't change its capacity" )
+{
+    int arr[] = { 1, 2, 3, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    (void) rs.pop_front();
+
+    EXPECT( rs.capacity() == dim(arr) );
+}
+
+CASE( "ring_span: Allows to swap ring_spans (member)" )
+{
+    int arr1[] = { 1, 2, 3, }; ring_span<int> rs1( arr1, arr1 + dim(arr1), arr1, dim(arr1) );
+    int arr2[] = { 9, 8, 7, }; ring_span<int> rs2( arr2, arr2 + dim(arr2), arr2, dim(arr2) );
+
+    rs1.swap( rs2 );
+
+    EXPECT( std::equal( rs1.begin(), rs1.end(), arr2 ) );
+    EXPECT( std::equal( rs2.begin(), rs2.end(), arr1 ) );
+}
+
+CASE( "ring_span: Allows to swap ring_spans (non-member)" )
+{
+    int arr1[] = { 1, 2, 3, }; ring_span<int> rs1( arr1, arr1 + dim(arr1), arr1, dim(arr1) );
+    int arr2[] = { 9, 8, 7, }; ring_span<int> rs2( arr2, arr2 + dim(arr2), arr2, dim(arr2) );
+
+    swap( rs1, rs2 );
+
+    EXPECT( std::equal( rs1.begin(), rs1.end(), arr2 ) );
+    EXPECT( std::equal( rs2.begin(), rs2.end(), arr1 ) );
+}
 
 // (const) iteration (for( x:span), algorithm
 
@@ -186,7 +400,7 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
 
 // different poppers
 
-
+//------------------------------------------------------------------------
 // Applets:
 
 #include <iostream>
