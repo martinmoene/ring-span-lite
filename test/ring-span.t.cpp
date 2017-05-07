@@ -196,7 +196,7 @@ struct oracle
 };
 #endif
 
-CASE( "ring_span: Allows to move-insert an element at the front" )
+CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -211,7 +211,7 @@ CASE( "ring_span: Allows to move-insert an element at the front" )
 #endif
 }
 
-CASE( "ring_span: Allows to emplace an element at the front" )
+CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -238,7 +238,7 @@ CASE( "ring_span: Allows to copy-insert an element at the back" )
     EXPECT( rs.back() == new_element );
 }
 
-CASE( "ring_span: Allows to move-insert an element at the back" )
+CASE( "ring_span: Allows to move-insert an element at the back (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -253,7 +253,7 @@ CASE( "ring_span: Allows to move-insert an element at the back" )
 #endif
 }
 
-CASE( "ring_span: Allows to emplace an element at the back" )
+CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
