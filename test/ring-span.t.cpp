@@ -178,6 +178,7 @@ struct noncopyable
     noncopyable() : c(), i() {}
     noncopyable( char c, int i ) : c(c), i(i) {}
     noncopyable( noncopyable && ) = default;
+    noncopyable& operator=( noncopyable && ) = default;
 
     noncopyable( noncopyable const & ) = delete;
     noncopyable& operator=( noncopyable const & ) = delete;
@@ -218,11 +219,10 @@ CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
     EXPECT( rs.front().c == char() );
     EXPECT( rs.front().i ==  int() );
 
-    EXPECT( !"Fix front() = T(...): avoid copy-assignment" );
-//  rs.emplace_front( 'a', 7 );
+    rs.emplace_front( 'a', 7 );
 
-//  EXPECT( rs.front().c == 'a' );
-//  EXPECT( rs.front().i ==  7  );
+    EXPECT( rs.front().c == 'a' );
+    EXPECT( rs.front().i ==  7  );
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
 #endif
@@ -260,11 +260,10 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
     EXPECT( rs.back().c == char() );
     EXPECT( rs.back().i ==  int() );
 
-    EXPECT( !"Fix back() = T(...): avoid copy-assignment" );
-//  rs.emplace_back( 'a', 7 );
+    rs.emplace_back( 'a', 7 );
 
-//  EXPECT( rs.back().c == 'a' );
-//  EXPECT( rs.back().i ==  7  );
+    EXPECT( rs.back().c == 'a' );
+    EXPECT( rs.back().i ==  7  );
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
 #endif
