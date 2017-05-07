@@ -168,16 +168,16 @@
 #endif
 
 namespace nonstd {
-    
+
 #if nsrs_CPP11_OR_GREATER
 using std::move;
 #else
 template< typename T > T const & move( T const  & t ) { return t; }
-#endif 
+#endif
 
 template< bool B, class T, class F >
 struct conditional { typedef T type; };
- 
+
 template< class T, class F >
 struct conditional<false, T, F> { typedef F type; };
 
@@ -195,37 +195,37 @@ using enable_if_t = typename std::enable_if<B,T>::type;
 // element extraction policies:
 //
 
-template< class T > 
+template< class T >
 struct null_popper
 {
     typedef void return_type;
-    
+
     void operator()( T & ) {}
 };
 
-template< class T > 
+template< class T >
 struct default_popper
 {
     typedef T return_type;
-    
+
     T operator()( T & t )
     {
         return nonstd::move( t );
     }
 };
 
-template< class T > 
+template< class T >
 struct copy_popper
 {
     typedef T return_type;
-    
+
 #if nsrs_CPP11_OR_GREATER
     copy_popper( T && t )
-    : copy( std::move(t) ) 
+    : copy( std::move(t) )
     {}
 #else
     copy_popper( T const & t )
-    : copy( t ) 
+    : copy( t )
     {}
 #endif
 
@@ -243,7 +243,7 @@ struct copy_popper
 // element insertion policies:
 //
 
-template< class T > 
+template< class T >
 struct default_pusher {};
 
 // forward decleare iterator:
@@ -255,10 +255,10 @@ class ring_iterator;
 // ring span:
 //
 template
-< 
+<
     class T
     , class Popper = default_popper<T>
-//  , class Pusher = default_pusher<T> 
+//  , class Pusher = default_pusher<T>
 >
 class ring_span
 {
@@ -271,20 +271,20 @@ public:
     typedef std::size_t size_type;
 
     typedef ring_span< T, Popper /*, Pusher*/ > type;
-    
+
     typedef ring_iterator< type, false          > iterator;
     typedef ring_iterator< type, true           > const_iterator;
     typedef std::reverse_iterator<iterator      > reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
     // construction:
-    
+
     template< class ContiguousIterator >
-    ring_span( 
+    ring_span(
         ContiguousIterator   begin
         , ContiguousIterator end
         , Popper popper = Popper()
-//      , Pusher pusher = Pusher() 
+//      , Pusher pusher = Pusher()
     ) nsrs_noexcept
     : m_data     ( & *begin )
     , m_size     ( 0 )
@@ -295,13 +295,13 @@ public:
     {}
 
     template< class ContiguousIterator >
-    ring_span( 
+    ring_span(
         ContiguousIterator   begin
         , ContiguousIterator end
         , ContiguousIterator first
         , size_type          size
         , Popper popper = Popper()
-//      , Pusher pusher = Pusher() 
+//      , Pusher pusher = Pusher()
     ) nsrs_noexcept
     : m_data     ( & * begin )
     , m_size     ( size )
@@ -327,108 +327,108 @@ public:
     {
         return m_size == 0;
     }
-    
+
     bool full() const nsrs_noexcept
     {
         return m_size == m_capacity;
     }
-    
+
     size_type size() const nsrs_noexcept
     {
         return m_size;
     }
-    
+
     size_type capacity() const nsrs_noexcept
     {
         return m_capacity;
     }
-    
+
     // element access:
-    
+
     reference front() nsrs_noexcept
     {
         return *begin();
     }
-    
+
     const_reference front() const nsrs_noexcept
     {
         return *begin();
     }
-    
+
     reference back() nsrs_noexcept
     {
         return *(--end());
     }
-    
+
     const_reference back() const nsrs_noexcept
     {
         return *(--end());
     }
 
     // iteration:
-    
+
     iterator begin() nsrs_noexcept
     {
         return iterator( 0, this );
     }
-    
+
     const_iterator begin() const nsrs_noexcept
     {
         return cbegin();
     }
-    
+
     const_iterator cbegin() const nsrs_noexcept
     {
         return const_iterator( 0, this );
     }
-    
+
     iterator end() nsrs_noexcept
     {
         return iterator( size(), this );
     }
-    
+
     const_iterator end() const nsrs_noexcept
     {
         return cend();
     }
-    
+
     const_iterator cend() const nsrs_noexcept
     {
         return const_iterator( size(), this );
     }
-    
-    reverse_iterator rbegin() nsrs_noexcept 
-    { 
-        return reverse_iterator( end() ); 
-    }
-    
-    reverse_iterator rend() nsrs_noexcept 
-    { 
-        return reverse_iterator( begin() ); 
+
+    reverse_iterator rbegin() nsrs_noexcept
+    {
+        return reverse_iterator( end() );
     }
 
-    const_reverse_iterator rbegin() const nsrs_noexcept 
-    { 
+    reverse_iterator rend() nsrs_noexcept
+    {
+        return reverse_iterator( begin() );
+    }
+
+    const_reverse_iterator rbegin() const nsrs_noexcept
+    {
         return crbegin();
     }
 
-    const_reverse_iterator rend() const nsrs_noexcept 
-    { 
-        return crend(); 
+    const_reverse_iterator rend() const nsrs_noexcept
+    {
+        return crend();
     }
 
-    const_reverse_iterator crbegin() const nsrs_noexcept 
-    { 
-        return const_reverse_iterator( cend() ); 
+    const_reverse_iterator crbegin() const nsrs_noexcept
+    {
+        return const_reverse_iterator( cend() );
     }
 
-    const_reverse_iterator crend() const nsrs_noexcept 
-    { 
-        return const_reverse_iterator(cbegin()); 
+    const_reverse_iterator crend() const nsrs_noexcept
+    {
+        return const_reverse_iterator(cbegin());
     }
 
     // element insertion, extraction:
-    
+
     typename Popper::return_type pop_front()
     {
         assert( ! empty() );
@@ -442,10 +442,10 @@ public:
     typename Popper::return_type pop_back()
     {
         assert( ! empty() );
-        
+
         typename Popper::return_type & element = back_();
         decrement_back_();
-        
+
         return m_popper( element );
     }
 
@@ -475,7 +475,7 @@ public:
 
 #if nsrs_CPP11_OR_GREATER
     template< class... Args >
-    void emplace_back( Args &&... args ) 
+    void emplace_back( Args &&... args )
         nsrs_noexcept_op(( std::is_nothrow_constructible<T, Args...>::value && std::is_nothrow_move_assignable<T>::value ))
     {
         if ( full() )  increment_front_and_back_();
@@ -521,55 +521,55 @@ private:
     {
         return m_data[ normalize_(m_front_idx + idx) ];
     }
-        
-    reference front_() nsrs_noexcept 
-    { 
-        return *( m_data + m_front_idx ); 
-    }
-    
-    const_reference front_() const nsrs_noexcept 
-    { 
-        return *( m_data + m_front_idx ); 
+
+    reference front_() nsrs_noexcept
+    {
+        return *( m_data + m_front_idx );
     }
 
-    reference back_() nsrs_noexcept 
-    { 
-        return *( m_data + normalize_(m_front_idx + m_size - 1) ); 
+    const_reference front_() const nsrs_noexcept
+    {
+        return *( m_data + m_front_idx );
     }
 
-    const_reference back_() const nsrs_noexcept 
-    { 
-        return *( m_data + normalize_(m_front_idx + m_size - 1) ); 
+    reference back_() nsrs_noexcept
+    {
+        return *( m_data + normalize_(m_front_idx + m_size - 1) );
     }
 
-    void increment_front_() nsrs_noexcept 
+    const_reference back_() const nsrs_noexcept
+    {
+        return *( m_data + normalize_(m_front_idx + m_size - 1) );
+    }
+
+    void increment_front_() nsrs_noexcept
     {
         m_front_idx = normalize_(m_front_idx + 1);
         --m_size;
     }
 
-    void decrement_front_() nsrs_noexcept 
+    void decrement_front_() nsrs_noexcept
     {
         m_front_idx = normalize_(m_front_idx + m_capacity - 1);
         ++m_size;
     }
 
-    void increment_back_() nsrs_noexcept 
+    void increment_back_() nsrs_noexcept
     {
         ++m_size;
     }
 
-    void decrement_back_() nsrs_noexcept 
+    void decrement_back_() nsrs_noexcept
     {
         --m_size;
     }
 
-    void increment_front_and_back_() nsrs_noexcept 
+    void increment_front_and_back_() nsrs_noexcept
     {
         m_front_idx = normalize_( m_front_idx + 1 );
     }
-    
-    void decrement_front_and_back_() nsrs_noexcept 
+
+    void decrement_front_and_back_() nsrs_noexcept
     {
         m_front_idx = normalize_( m_front_idx + m_capacity - 1 );
     }
@@ -589,9 +589,9 @@ private:
 #if 0
 template< class RS, bool is_const >
 class ring_iterator : public std::iterator
-< 
+<
     std::random_access_iterator_tag
-    , typename nonstd::conditional<is_const, const typename RS::value_type, typename RS::value_type>::type 
+    , typename nonstd::conditional<is_const, const typename RS::value_type, typename RS::value_type>::type
 >
 #endif
 
@@ -643,14 +643,14 @@ public:
         type r(*this); --*this; return r;
     }
 
-    type & operator+=( int i ) nsrs_noexcept 
-    { 
-        m_idx += i; return *this; 
+    type & operator+=( int i ) nsrs_noexcept
+    {
+        m_idx += i; return *this;
     }
 
-    type & operator-=( int i ) nsrs_noexcept 
-    { 
-        m_idx -= i; return *this; 
+    type & operator-=( int i ) nsrs_noexcept
+    {
+        m_idx -= i; return *this;
     }
 
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
@@ -658,9 +658,9 @@ public:
         // return diff normalize( idx - other.idx )
         return lhs.m_idx - rhs.m_idx;
     }
-    
+
     // comparison:
-    
+
     template< bool C >
     bool operator<( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
@@ -691,15 +691,15 @@ private:
 // advanced iterator:
 
 template< class RS, bool C >
-ring_iterator<RS,C> operator+( ring_iterator<RS,C> it, int i ) nsrs_noexcept 
-{ 
-    it += i; return it; 
+ring_iterator<RS,C> operator+( ring_iterator<RS,C> it, int i ) nsrs_noexcept
+{
+    it += i; return it;
 }
 
 template< class RS, bool C >
-ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept 
-{ 
-    it -= i; return it; 
+ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
+{
+    it -= i; return it;
 }
 
 // other ring_iterator comparisons expressed in <, ==:

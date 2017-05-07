@@ -31,9 +31,9 @@ inline size_t dim( T (&arr)[N] )
 CASE( "ring_span: Allows to construct a full span from iterator pair" )
 {
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( arr, arr + dim(arr) );
-    
+
     EXPECT( rs.size()     == size_type(0) );
     EXPECT( rs.capacity() == dim(arr)     );
 }
@@ -43,7 +43,7 @@ CASE( "ring_span: Allows to construct a partially filled span from iterator pair
     int arr[] = { 7, 7, 1, 2, 3, 7, 7, 7, };
     size_type first = 2;
     size_type count = 3;
-    
+
     ring_span<int> rs( arr, arr + dim(arr), arr + first, count );
 
     EXPECT( rs.size()     == count    );
@@ -79,7 +79,7 @@ CASE( "ring_span: Allows to move-construct from a ring_span (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( ring_span<int>( arr, arr + dim(arr) ) );
 
     EXPECT( rs.size()     == size_type(0) );
@@ -94,7 +94,7 @@ CASE( "ring_span: Allows to move-assign from a ring_span (C++11)" )
 #if nsrs_CPP11_OR_GREATER
     int arr[] = { 1, 2, 3, };
     ring_span<int> rs( arr, arr + dim(arr) );
-    
+
     rs = ring_span<int>( arr, arr + dim(arr) );
 
     EXPECT( rs.size()     == size_type(0) );
@@ -107,27 +107,27 @@ CASE( "ring_span: Allows to move-assign from a ring_span (C++11)" )
 CASE( "ring_span: Allows to obtain the capacity of a span" )
 {
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( arr, arr + dim(arr) );
-    
+
     EXPECT( rs.capacity() == dim(arr) );
 }
 
 CASE( "ring_span: Allows to obtain the number of elements in a span (size)" )
 {
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
-    
+
     EXPECT( rs.size() == rs.capacity() );
 }
 
 CASE( "ring_span: Allows to check for an empty span" )
 {
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( arr, arr + dim(arr) );
-    
+
     EXPECT( rs.empty()                 );
     EXPECT( rs.size( ) == size_type(0) );
 }
@@ -135,9 +135,9 @@ CASE( "ring_span: Allows to check for an empty span" )
 CASE( "ring_span: Allows to check for a full span" )
 {
     int arr[] = { 1, 2, 3, };
-    
+
     ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
-    
+
     EXPECT( rs.full()                  );
     EXPECT( rs.size() == rs.capacity() );
 }
@@ -164,7 +164,7 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
     ring_span  <int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     std::vector<int> vec;
-    for ( auto x : rs )    
+    for ( auto x : rs )
     {
         vec.push_back( x );
     }
@@ -178,8 +178,8 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
 // (const) reverse iteration (algorithm)
 
 // iteration:
-// dereference: *, 
-// increment: pre/post ++, --, +=n, -=n, +n, -n, 
+// dereference: *,
+// increment: pre/post ++, --, +=n, -=n, +n, -n,
 // difference: it-it
 // comparison: == != < <= > >=
 
@@ -212,7 +212,7 @@ CASE( "ring_span: filter" "[.app]" )
     std::cout << "buffer: "; print(std::cout, buffer); std::cout << "\n";
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
-    
+
     std::cout << "result: " << result << "\n";
 
     EXPECT( result == 5.0 );
