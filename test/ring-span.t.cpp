@@ -404,12 +404,6 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
 
 #include <iostream>
 
-template< class T, class Popper /*, class Pusher*/ >
-void print( std::ostream & os, ring_span<T,Popper/*,Pusher*/> & rs )
-{
-    std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") );
-}
-
 CASE( "ring_span: filter" "[.app]" )
 {
     double arr[]   = { 2.0 , 3.0, 5.0, };
@@ -417,12 +411,12 @@ CASE( "ring_span: filter" "[.app]" )
 
     ring_span<double> buffer( arr, arr + dim(arr), arr, dim(arr) );
 
-    std::cout << "buffer: "; print(std::cout, buffer); std::cout << "\n";
+    std::cout << buffer << "\n";
 
-    // In an update loop, interrupt routine or the like:
+    // new sample:
     buffer.push_back( 7.0 );
 
-    std::cout << "buffer: "; print(std::cout, buffer); std::cout << "\n";
+    std::cout << buffer << "\n";
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
 
