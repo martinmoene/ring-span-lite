@@ -471,9 +471,7 @@ public:
 
         back_() = std::move( value );
     }
-#endif
 
-#if nsrs_CPP11_OR_GREATER
     template< class... Args >
     void emplace_back( Args &&... args )
         nsrs_noexcept_op(( std::is_nothrow_constructible<T, Args...>::value && std::is_nothrow_move_assignable<T>::value ))
@@ -483,6 +481,40 @@ public:
 
         back_() = T( std::forward<Args>(args)...);
    }
+#endif
+
+#if nsrs_CPP11_OR_GREATER
+    template<bool b = true, typename = nonstd::enable_if_t<b && std::is_copy_assignable<T>::value> >
+    void push_front( T const & value ) nsrs_noexcept_op(( std::is_nothrow_copy_assignable<T>::value ))
+#else
+    void push_front( T const & value )
+#endif
+    {
+        if ( full() ) decrement_front_and_back_();
+        else          decrement_front_();
+
+        front_() = value;
+    }
+
+#if nsrs_CPP11_OR_GREATER
+    template<bool b = true, typename = nonstd::enable_if_t<b && std::is_move_assignable<T>::value> >
+    void push_front( T && value ) nsrs_noexcept_op(( std::is_nothrow_move_assignable<T>::value ))
+    {
+        if ( full() ) decrement_front_and_back_();
+        else          decrement_front_();
+
+        front_() = std::move(value);
+    }
+
+    template<typename... Args>
+    void emplace_front( Args&&... args )
+        nsrs_noexcept_op(( std::is_nothrow_constructible<T, Args...>::value && std::is_nothrow_move_assignable<T>::value ))
+    {
+        if ( full() ) decrement_front_and_back_();
+        else          decrement_front_();
+
+        front_() = T( std::forward<Args>(args)...);
+    }
 #endif
 
     // swap:
@@ -496,11 +528,6 @@ public:
         swap( m_front_idx, rhs.m_front_idx );
         swap( m_popper   , rhs.m_popper    );
 //      swap( m_pusher   , rhs.m_pusher    );
-    }
-
-    friend void swap( ring_span & lhs, ring_span & rhs ) nsrs_noexcept_op(nsrs_noexcept_op(lhs.swap(rhs)))
-    {
-        lhs.swap(rhs);
     }
 
 private:
@@ -725,6 +752,14 @@ template< class RS, bool C >
 bool operator>=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
 {
     return ! ( lhs < rhs );
+}
+
+// swap:
+
+template< class RS, bool C >
+void swap( ring_iterator<RS,C> & lhs, ring_iterator<RS,C>  & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
+{
+    lhs.swap(rhs);
 }
 
 } // namespace nonstd
