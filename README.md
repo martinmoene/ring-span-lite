@@ -26,10 +26,10 @@ Example usage
 template< typename T, size_t N >
 inline size_t dim( T (&arr)[N] ) { return N; }
 
-template< class T, class Popper >
-void print( std::ostream & os, nonstd::ring_span<T,Popper> & rs )
+template< typename T, class Popper>
+inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popper> const & rs )
 {
-    std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") );
+    os << "[ring_span: "; std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") ); return os << "]";
 }
 
 int main()
@@ -39,15 +39,15 @@ int main()
 
     nonstd::ring_span<double> buffer( arr, arr + dim(arr), arr, dim(arr) );
 
-    std::cout << "buffer: "; print(std::cout, buffer); std::cout << "\n";
+    std::cout << buffer << "\n";
 
     // new sample:
     buffer.push_back( 7.0 );
 
-    std::cout << "buffer: "; print(std::cout, buffer); std::cout << "\n";
+    std::cout << buffer << "\n";
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
-    
+
     std::cout << "result: " << result << "\n";
 }
 ```
@@ -56,8 +56,8 @@ int main()
 
 ```
 prompt> g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp && 01-filter.exe
-buffer: 2, 3, 5,
-buffer: 3, 5, 7,
+[ring_span: 2, 3, 5, ]
+[ring_span: 3, 5, 7, ]
 result: 5
 ```
 
