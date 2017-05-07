@@ -655,7 +655,6 @@ public:
 
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
     {
-        // return diff normalize( idx - other.idx )
         return lhs.m_idx - rhs.m_idx;
     }
 
