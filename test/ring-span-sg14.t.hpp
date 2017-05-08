@@ -9,6 +9,29 @@
 #ifndef ring_span_lite_T_INCLUDED
 #define ring_span_lite_T_INCLUDED
 
+// Compiler detection (C++17 is speculative):
+
+#define nsrs_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
+#define nsrs_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
+#define nsrs_CPP17_OR_GREATER  ( __cplusplus >= 201700L )
+
+// Determine MSVC version (e.g. 14 is VC14, (VS2015/VS2017):
+
+#if defined(_MSC_VER) && !defined(__clang__)
+# define nsrs_COMPILER_MSVC_VERSION   (_MSC_VER / 100 - 5 - (_MSC_VER < 1900))
+#else
+# define nsrs_COMPILER_MSVC_VERSION   0
+#endif
+
+// Consider VC14 as C++11, C++14 for SG14 ring_span:
+
+#if nsrs_COMPILER_MSVC_VERSION >= 14
+# undef  nsrs_CPP11_OR_GREATER
+# define nsrs_CPP11_OR_GREATER  1
+# undef  nsrs_CPP14_OR_GREATER
+# define nsrs_CPP14_OR_GREATER  1
+#endif
+
 #include "sg14-ring.h"
 #include "lest_cpp03.hpp"
 
