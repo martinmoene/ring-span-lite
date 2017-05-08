@@ -198,5 +198,25 @@ ring_span: Removing an element from a full span doesn't change its capacity
 ring_span: Allows to swap ring_spans (member)
 ring_span: Allows to swap ring_spans (non-member)
 ring_span: Allows to appear in range-for (C++11)
+ring_span: Allows iteration (non-const)
+ring_span: Allows iteration (const)
+ring_span: Allows reverse iteration (non-const)
+ring_span: Allows reverse iteration (const)
+ring_span: Allows to dereference iterator
+ring_span: Allows to increment iterator (prefix)
+ring_span: Allows to increment iterator (postfix)
+ring_span: Allows to decrement iterator (prefix)
+ring_span: Allows to increment iterator (postfix)
+ring_span: Allows to advance iterator (+=)
+ring_span: Allows to advance iterator (-=)
+ring_span: Allows to offset iterator (+)
+ring_span: Allows to offset iterator (-)
+ring_span: Allows to obtain difference of iterators
+ring_span: Allows to compare iterators (==)
+ring_span: Allows to compare iterators (!=)
+ring_span: Allows to compare iterators (<)
+ring_span: Allows to compare iterators (<=)
+ring_span: Allows to compare iterators (>)
+ring_span: Allows to compare iterators (<=)
 . . .
 ```
