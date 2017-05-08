@@ -1,0 +1,15 @@
+# Ubuntu 14.04 Trusty support
+sudo: required
+dist: trusty
+
+language:
+  - cpp
+
+compiler:
+  - clang
+  - gcc
+
+script:
+  - mkdir build
+  - cd build
+  - cmake -G "Unix Makefiles" .. && cmake --build . && ctest
