@@ -480,7 +480,7 @@ CASE( "ring_span: Allows to decrement iterator (prefix)" )
     EXPECT( *--pos == arr[0] );
 }
 
-CASE( "ring_span: Allows to increment iterator (postfix)" )
+CASE( "ring_span: Allows to decrement iterator (postfix)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin();

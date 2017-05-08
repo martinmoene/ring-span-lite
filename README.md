@@ -206,7 +206,7 @@ ring_span: Allows to dereference iterator
 ring_span: Allows to increment iterator (prefix)
 ring_span: Allows to increment iterator (postfix)
 ring_span: Allows to decrement iterator (prefix)
-ring_span: Allows to increment iterator (postfix)
+ring_span: Allows to decrement iterator (postfix)
 ring_span: Allows to advance iterator (+=)
 ring_span: Allows to advance iterator (-=)
 ring_span: Allows to offset iterator (+)
