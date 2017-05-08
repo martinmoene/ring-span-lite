@@ -14,11 +14,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "ring-span-lite.t.hpp"
+#ifdef     nsrs_RING_SPAN_LITE_T_HEADER
+# include  nsrs_RING_SPAN_LITE_T_HEADER
+#else
+# include "ring-span-lite.t.hpp"
+#endif
 
 #include <numeric>
-
-using namespace nonstd;
 
 typedef ring_span<int>::size_type size_type;
 

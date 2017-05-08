@@ -4,7 +4,11 @@
 //
 // This code is licensed under the MIT License (MIT).
 
-#include "ring-span-lite.t.hpp"
+#ifdef     nsrs_RING_SPAN_LITE_T_HEADER
+# include  nsrs_RING_SPAN_LITE_T_HEADER
+#else
+# include "ring-span-lite.t.hpp"
+#endif
 
 #define nsrs_PRESENT( x ) \
     std::cout << #x << ": " << x << "\n"

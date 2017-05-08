@@ -27,10 +27,13 @@
 		<Unit filename="../../test/lest_cpp03.hpp" />
 		<Unit filename="../../test/ring-span-lite.t.cpp" />
 		<Unit filename="../../test/ring-span-lite.t.hpp" />
+		<Unit filename="../../test/ring-span-sg14.t.hpp" />
 		<Unit filename="../../test/ring-span.t.cpp" />
+		<Unit filename="../../test/t-sg14.bat" />
 		<Unit filename="../../test/t.bat" />
 		<Unit filename="../../test/tc.bat" />
 		<Unit filename="../../test/tg-all.bat" />
+		<Unit filename="../../test/tg-sg14.bat" />
 		<Unit filename="../../test/tg.bat" />
 		<Extensions>
 			<code_completion />
