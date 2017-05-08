@@ -22,14 +22,41 @@ lest::tests & specification()
     return tests;
 }
 
+CASE( "ring-span-lite version" "[.version]" )
+{
+    nsrs_PRESENT( ring_span_lite_VERSION );
+}
+
 CASE( "__cplusplus" "[.stdc++]" )
 {
     nsrs_PRESENT( __cplusplus );
 }
 
-CASE( "ring-span-lite version" "[.version]" )
+CASE( "nsrs_CPP11_OR_GREATER" "[.stdc++]" )
 {
-    nsrs_PRESENT( ring_span_lite_VERSION );
+#if nsrs_CPP11_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP11_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP11_OR_GREATER );
+#endif
+}
+
+CASE( "nsrs_CPP14_OR_GREATER" "[.stdc++]" )
+{
+#if nsrs_CPP14_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP14_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP14_OR_GREATER );
+#endif
+}
+
+CASE( "nsrs_CPP17_OR_GREATER" "[.stdc++]" )
+{
+#if nsrs_CPP17_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP17_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP17_OR_GREATER );
+#endif
 }
 
 CASE( "compiler version" "[.compiler]" )
