@@ -21,8 +21,8 @@
 		<Unit filename="../../appveyor.yml" />
 		<Unit filename="../../example/01-filter.cpp" />
 		<Unit filename="../../include/nonstd/ring_span.hpp" />
-		<Unit filename="../../spike/quux-ring_span.h" />
-		<Unit filename="../../spike/sg14-ring.h" />
+		<Unit filename="../../sg14/quux-ring_span.h" />
+		<Unit filename="../../sg14/sg14-ring.h" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/lest_cpp03.hpp" />
 		<Unit filename="../../test/ring-span-lite.t.cpp" />
