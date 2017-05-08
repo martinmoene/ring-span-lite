@@ -14,11 +14,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifdef     nsrs_RING_SPAN_LITE_T_HEADER
-# include  nsrs_RING_SPAN_LITE_T_HEADER
-#else
-# include "ring-span-lite.t.hpp"
+#ifndef  nsrs_RING_SPAN_LITE_T_HEADER
+#define  nsrs_RING_SPAN_LITE_T_HEADER  "ring-span-lite.t.hpp"
 #endif
+
+#include nsrs_RING_SPAN_LITE_T_HEADER
 
 #include <numeric>
 
