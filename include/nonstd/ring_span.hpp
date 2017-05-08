@@ -652,14 +652,14 @@ public:
 #if nsrs_CPP11_OR_GREATER
     ring_iterator() = default;
 #else
-    ring_iterator() : m_idx(), m_rv() {}
+    ring_iterator() : m_idx(), m_rs() {}
 #endif
 
     // access content:
 
     reference operator*() const nsrs_noexcept
     {
-        return m_rv->at( m_idx );
+        return m_rs->at( m_idx );
     }
 
     // advance iterator:
@@ -704,13 +704,13 @@ public:
     template< bool C >
     bool operator<( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        assert( m_rv == rhs.m_rv ); return ( m_idx < rhs.m_idx );
+        assert( m_rs == rhs.m_rs ); return ( m_idx < rhs.m_idx );
     }
 
     template< bool C >
     bool operator==( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        assert( m_rv == rhs.m_rv ); return ( m_idx == rhs.m_idx );
+        assert( m_rs == rhs.m_rs ); return ( m_idx == rhs.m_idx );
     }
 
 private:
@@ -718,14 +718,14 @@ private:
     typedef typename RS::size_type size_type;
     typedef typename nonstd::conditional<is_const, const RS, RS>::type ring_type;
 
-    ring_iterator( size_type idx, typename nonstd::conditional<is_const, const RS, RS>::type * rv) nsrs_noexcept
+    ring_iterator( size_type idx, typename nonstd::conditional<is_const, const RS, RS>::type * rs ) nsrs_noexcept
     : m_idx( idx )
-    , m_rv ( rv  )
+    , m_rs ( rs  )
     {}
 
 private:
     size_type   m_idx;
-    ring_type * m_rv;
+    ring_type * m_rs;
 };
 
 // advanced iterator:
