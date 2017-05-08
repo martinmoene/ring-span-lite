@@ -446,7 +446,7 @@ CASE( "ring_span: Allows reverse iteration (const)" )
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     std::vector<int> vec( arr, arr + dim(arr) );
 
-    EXPECT( std::equal( rs.rbegin(), rs.rend(), vec.crbegin() ) );
+    EXPECT( std::equal( rs.crbegin(), rs.crend(), vec.rbegin() ) );
 }
 
 CASE( "ring_span: Allows to dereference iterator" )
