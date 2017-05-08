@@ -172,7 +172,7 @@ namespace nonstd {
 #if nsrs_CPP11_OR_GREATER
 using std::move;
 #else
-template< typename T > T const & move( T const  & t ) { return t; }
+template< typename T > T const & move( T const & t ) { return t; }
 #endif
 
 template< bool B, class T, class F >
@@ -290,9 +290,9 @@ public:
         , Popper popper = Popper()
 //      , Pusher pusher = Pusher()
     ) nsrs_noexcept
-    : m_data     ( & *begin )
+    : m_data     ( &* begin )
     , m_size     ( 0 )
-    , m_capacity ( end - begin )
+    , m_capacity ( static_cast<size_type>( end - begin ) )
     , m_front_idx( 0 )
     , m_popper   ( nonstd::move( popper ) )
 //  , m_pusher   ( nonstd::move( pusher ) )
@@ -307,10 +307,10 @@ public:
         , Popper popper = Popper()
 //      , Pusher pusher = Pusher()
     ) nsrs_noexcept
-    : m_data     ( & * begin )
-    , m_size     ( size )
-    , m_capacity ( end - begin   )
-    , m_front_idx( first - begin )
+    : m_data     ( &* begin )
+    , m_size     ( size     )
+    , m_capacity ( static_cast<size_type>( end   - begin ) )
+    , m_front_idx( static_cast<size_type>( first - begin ) )
     , m_popper   ( nonstd::move( popper ) )
 //  , m_pusher   ( nonstd::move( pusher ) )
     {}
@@ -696,7 +696,7 @@ public:
 
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
     {
-        return lhs.m_idx - rhs.m_idx;
+        return static_cast<difference_type>( lhs.m_idx - rhs.m_idx );
     }
 
     // comparison:
