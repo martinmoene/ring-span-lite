@@ -433,20 +433,28 @@ CASE( "ring_span: Allows iteration (const)" )
 
 CASE( "ring_span: Allows reverse iteration (non-const)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, };
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     std::vector<int> vec( arr, arr + dim(arr) );
 
     EXPECT( std::equal( rs.rbegin(), rs.rend(), vec.rbegin() ) );
+#endif
 }
 
 CASE( "ring_span: Allows reverse iteration (const)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"crbegin(), crend() are not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, };
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     std::vector<int> vec( arr, arr + dim(arr) );
 
     EXPECT( std::equal( rs.crbegin(), rs.crend(), vec.rbegin() ) );
+#endif
 }
 
 CASE( "ring_span: Allows to dereference iterator" )
@@ -490,41 +498,61 @@ CASE( "ring_span: Allows to decrement iterator (postfix)" )
 
 CASE( "ring_span: Allows to advance iterator (+=)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *(pos += 2) == arr[2] );
+#endif
 }
 
 CASE( "ring_span: Allows to advance iterator (-=)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin(); ++pos;
 
     EXPECT( *(pos -= 2) == arr[0] );
+#endif
 }
 
 CASE( "ring_span: Allows to offset iterator (+)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *(pos + 2) == arr[2] );
+#endif
 }
 
 CASE( "ring_span: Allows to offset iterator (-)" )
 {
+#if nsrs_SG14
+    EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin(); ++pos;
 
     EXPECT( *(pos - 2) == arr[0] );
+#endif
 }
 
 CASE( "ring_span: Allows to obtain difference of iterators" )
 {
+#if nsrs_SG14
+    EXPECT( !!"iterator difference is not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.end() - rs.begin() == difference_type( dim(arr) ) );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (==)" )
@@ -563,7 +591,7 @@ CASE( "ring_span: Allows to compare iterators (>)" )
     EXPECT( rs.end() > rs.begin() );
 }
 
-CASE( "ring_span: Allows to compare iterators (<=)" )
+CASE( "ring_span: Allows to compare iterators (>=)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
 

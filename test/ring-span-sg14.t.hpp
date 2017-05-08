@@ -62,6 +62,12 @@ inline std::ostream & operator<<( std::ostream & os, ::sg14::ring_span<T, Popper
     os << "[ring_span: "; std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") ); return os << "]";
 }
 
+template< class RS, bool is_const >
+inline std::ostream & operator<<( std::ostream & os, ::sg14::ring_iterator<RS, is_const> const & it )
+{
+    return os << "[ring_iterator: ?]";
+}
+
 }
 
 namespace lest {
