@@ -30,6 +30,32 @@ inline size_t dim( T (&arr)[N] )
     return N;
 }
 
+#if nsrs_CPP11_OR_GREATER
+struct noncopyable
+{
+    char c; int i;
+    noncopyable() : c(), i() {}
+    noncopyable( char c, int i ) : c(c), i(i) {}
+    noncopyable( noncopyable && ) = default;
+    noncopyable& operator=( noncopyable && ) = default;
+
+    noncopyable( noncopyable const & ) = delete;
+    noncopyable& operator=( noncopyable const & ) = delete;
+};
+
+struct oracle
+{
+    enum state_t { init, moved_from, };
+
+    static state_t & state() { static state_t s = init; return s; }
+    static int     & value() { static int     v = 0;    return v; }
+
+    oracle( int v = 0 ) noexcept { state() = init; value() = v; }
+    oracle( oracle && ) noexcept { state() = moved_from; }
+    oracle & operator=( oracle && ) noexcept { state() = moved_from; return *this; }
+};
+#endif
+
 CASE( "ring_span: Allows to construct an empty span from an iterator pair" )
 {
     int arr[] = { 1, 2, 3, };
@@ -158,50 +184,35 @@ CASE( "ring_span: Allows to obtain and remove the element at the front" )
 
 CASE( "ring_span: Allows to obtain and remove the element at the back" )
 {
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.pop_back() == arr[dim(arr) - 1] );
+#endif
 }
 
 CASE( "ring_span: Allows to copy-insert an element at the front" )
 {
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     int new_element = 7;
 
     rs.push_front( new_element );
 
     EXPECT( rs.front() == new_element );
-}
-
-#if nsrs_CPP11_OR_GREATER
-struct noncopyable
-{
-    char c; int i;
-    noncopyable() : c(), i() {}
-    noncopyable( char c, int i ) : c(c), i(i) {}
-    noncopyable( noncopyable && ) = default;
-    noncopyable& operator=( noncopyable && ) = default;
-
-    noncopyable( noncopyable const & ) = delete;
-    noncopyable& operator=( noncopyable const & ) = delete;
-};
-
-struct oracle
-{
-    enum state_t { init, moved_from, };
-
-    static state_t & state() { static state_t s = init; return s; }
-    static int     & value() { static int     v = 0;    return v; }
-
-    oracle( int v = 0 ) noexcept { state() = init; value() = v; }
-    oracle( oracle && ) noexcept { state() = moved_from; }
-    oracle & operator=( oracle && ) noexcept { state() = moved_from; return *this; }
-};
 #endif
+}
 
 CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
     oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
     int value = 7;
 
@@ -209,6 +220,7 @@ CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 
     EXPECT( oracle::state()    == oracle::moved_from );
     EXPECT( rs.front().value() == value              );
+#endif
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
 #endif
@@ -217,6 +229,9 @@ CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
+#if nsrs_SG14
+    EXPECT( !!"emplace_front() is not available (SG14)" );
+#else
     noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
     EXPECT( rs.front().c == char() );
     EXPECT( rs.front().i ==  int() );
@@ -225,6 +240,7 @@ CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
 
     EXPECT( rs.front().c == 'a' );
     EXPECT( rs.front().i ==  7  );
+#endif
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
 #endif
@@ -323,10 +339,14 @@ CASE( "ring_span: Removing an element from an empty span asserts !empty (front)"
 
 CASE( "ring_span: Removing an element from an empty span asserts !empty (back)" "[.assert]" )
 {
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
     EXPECT( rs.empty() );
 
     (void) rs.pop_back();
+#endif
 }
 
 CASE( "ring_span: Removing an element from a full span makes it not full" )

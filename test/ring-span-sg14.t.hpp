@@ -22,6 +22,14 @@ extern lest::tests & specification();
 
 namespace sg14 {
 
+// provide missing swap:
+
+template< class T, class Popper >
+void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) noexcept( noexcept( lhs.swap(rhs) ) )
+{
+    lhs.swap(rhs);
+}
+
 // use oparator<< instead of to_string() overload;
 // see  http://stackoverflow.com/a/10651752/437272
 
