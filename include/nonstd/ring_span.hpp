@@ -535,8 +535,8 @@ public:
     }
 
 private:
-    friend iterator;
-    friend const_iterator;
+    friend class detail::ring_iterator<ring_span, true >;   // const_iterator;
+    friend class detail::ring_iterator<ring_span, false>;   // iterator;
 
     size_type normalize_( size_type const idx ) const
     {
