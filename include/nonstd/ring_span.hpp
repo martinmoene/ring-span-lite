@@ -768,14 +768,6 @@ bool operator>=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rh
     return ! ( lhs < rhs );
 }
 
-// swap:
-
-template< class RS, bool C >
-void swap( ring_iterator<RS,C> & lhs, ring_iterator<RS,C>  & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
-{
-    lhs.swap(rhs);
-}
-
 } // namespace detail
 } // namespace nonstd
 
