@@ -269,7 +269,7 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 #endif
 }
 
-CASE( "ring_span: Adding an element to an empty span make it non-empty" )
+CASE( "ring_span: Adding an element to an empty span makes it non-empty" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
     EXPECT( rs.empty() );
@@ -311,16 +311,20 @@ CASE( "ring_span: Adding an element to a full span doesn't change its capacity" 
     EXPECT( rs.capacity() == dim(arr) );
 }
 
-CASE( "ring_span: Removing an element from an empty span asserts !empty (compile-time)" )
+CASE( "ring_span: Removing an element from an empty span asserts !empty (front)" "[.assert]" )
 {
-#if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
     EXPECT( rs.empty() );
 
     (void) rs.pop_front();
-#else
-    EXPECT( !!"ring_span: check for compile-time error (define nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS)" );
-#endif
+}
+
+CASE( "ring_span: Removing an element from an empty span asserts !empty (back)" "[.assert]" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty() );
+
+    (void) rs.pop_back();
 }
 
 CASE( "ring_span: Removing an element from a full span makes it not full" )
@@ -420,7 +424,7 @@ CASE( "ring_span: filter" "[.app]" )
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
 
-    std::cout << "result: " << result << "\n";
+    std::cout << "filter result: " << result << "\n";
 
     EXPECT( result == 5.0 );
 }

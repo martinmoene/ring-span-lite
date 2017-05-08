@@ -187,11 +187,12 @@ ring_span: Allows to emplace an element at the front (C++11)
 ring_span: Allows to copy-insert an element at the back
 ring_span: Allows to move-insert an element at the back (C++11)
 ring_span: Allows to emplace an element at the back (C++11)
-ring_span: Adding an element to an empty span make it non-empty
+ring_span: Adding an element to an empty span makes it non-empty
 ring_span: Adding an element to an empty span doesn't change its capacity
 ring_span: Adding an element to a full span leaves it full
 ring_span: Adding an element to a full span doesn't change its capacity
-ring_span: Removing an element from an empty span asserts !empty (compile-time)
+ring_span: Removing an element from an empty span asserts !empty (front)[.assert]
+ring_span: Removing an element from an empty span asserts !empty (back)[.assert]
 ring_span: Removing an element from a full span makes it not full
 ring_span: Removing an element from a full span doesn't change its capacity
 ring_span: Allows to swap ring_spans (member)
