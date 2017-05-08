@@ -23,12 +23,18 @@
 #include <numeric>
 
 typedef ring_span<int>::size_type size_type;
+typedef ring_span<int>::iterator::difference_type difference_type;
+
+#if nsrs_CPP11_OR_GREATER
 
 template< typename T, size_t N >
-inline size_t dim( T (&arr)[N] )
+inline constexpr size_t dim( T (&arr)[N] )
 {
     return N;
 }
+#else
+# define dim(arr) ( sizeof(arr) / sizeof(0[arr]) )
+#endif
 
 #if nsrs_CPP11_OR_GREATER
 struct noncopyable
@@ -394,13 +400,10 @@ CASE( "ring_span: Allows to swap ring_spans (non-member)" )
     EXPECT( std::equal( rs2.begin(), rs2.end(), arr1 ) );
 }
 
-// (const) iteration (for( x:span), algorithm
-
 CASE( "ring_span: Allows to appear in range-for (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
-    int arr[] = { 1, 2, 3, };
-    ring_span  <int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     std::vector<int> vec;
     for ( auto x : rs )
@@ -414,13 +417,159 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
 #endif
 }
 
-// (const) reverse iteration (algorithm)
+CASE( "ring_span: Allows iteration (non-const)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-// iteration:
-// dereference: *,
-// increment: pre/post ++, --, +=n, -=n, +n, -n,
-// difference: it-it
-// comparison: == != < <= > >=
+    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
+}
+
+CASE( "ring_span: Allows iteration (const)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( std::equal( rs.cbegin(), rs.cend(), arr ) );
+}
+
+CASE( "ring_span: Allows reverse iteration (non-const)" )
+{
+    int arr[] = { 1, 2, 3, };
+    ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    std::vector<int> vec( arr, arr + dim(arr) );
+
+    EXPECT( std::equal( rs.rbegin(), rs.rend(), vec.rbegin() ) );
+}
+
+CASE( "ring_span: Allows reverse iteration (const)" )
+{
+    int arr[] = { 1, 2, 3, };
+    ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    std::vector<int> vec( arr, arr + dim(arr) );
+
+    EXPECT( std::equal( rs.rbegin(), rs.rend(), vec.crbegin() ) );
+}
+
+CASE( "ring_span: Allows to dereference iterator" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( *rs.begin() == arr[0] );
+}
+
+CASE( "ring_span: Allows to increment iterator (prefix)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = rs.begin();
+
+    EXPECT( *++pos == arr[1] );
+}
+
+CASE( "ring_span: Allows to increment iterator (postfix)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = rs.begin();
+
+    EXPECT( *pos++ == arr[0] );
+}
+
+CASE( "ring_span: Allows to decrement iterator (prefix)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = ++rs.begin();
+
+    EXPECT( *--pos == arr[0] );
+}
+
+CASE( "ring_span: Allows to increment iterator (postfix)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = ++rs.begin();
+
+    EXPECT( *pos-- == arr[1] );
+}
+
+CASE( "ring_span: Allows to advance iterator (+=)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = rs.begin();
+
+    EXPECT( *(pos += 2) == arr[2] );
+}
+
+CASE( "ring_span: Allows to advance iterator (-=)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = ++rs.begin(); ++pos;
+
+    EXPECT( *(pos -= 2) == arr[0] );
+}
+
+CASE( "ring_span: Allows to offset iterator (+)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = rs.begin();
+
+    EXPECT( *(pos + 2) == arr[2] );
+}
+
+CASE( "ring_span: Allows to offset iterator (-)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator pos = ++rs.begin(); ++pos;
+
+    EXPECT( *(pos - 2) == arr[0] );
+}
+
+CASE( "ring_span: Allows to obtain difference of iterators" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.end() - rs.begin() == difference_type( dim(arr) ) );
+}
+
+CASE( "ring_span: Allows to compare iterators (==)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.begin() == rs.begin() );
+}
+
+CASE( "ring_span: Allows to compare iterators (!=)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.begin() != rs.end() );
+}
+
+CASE( "ring_span: Allows to compare iterators (<)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.begin() < rs.end() );
+}
+
+CASE( "ring_span: Allows to compare iterators (<=)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.begin() <= rs.end()   );
+    EXPECT( rs.begin() <= rs.begin() );
+}
+
+CASE( "ring_span: Allows to compare iterators (>)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.end() > rs.begin() );
+}
+
+CASE( "ring_span: Allows to compare iterators (<=)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.end()   >= rs.begin() );
+    EXPECT( rs.begin() >= rs.begin() );
+}
 
 
 // different poppers
