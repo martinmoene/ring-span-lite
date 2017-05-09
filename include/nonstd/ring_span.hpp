@@ -262,7 +262,6 @@ template
 <
     class T
     , class Popper = default_popper<T>
-//  , class Pusher = default_pusher<T>
 >
 class ring_span
 {
@@ -274,7 +273,7 @@ public:
 
     typedef std::size_t size_type;
 
-    typedef ring_span< T, Popper /*, Pusher*/ > type;
+    typedef ring_span< T, Popper > type;
 
     typedef detail::ring_iterator< type, false  > iterator;
     typedef detail::ring_iterator< type, true   > const_iterator;
@@ -288,14 +287,12 @@ public:
         ContiguousIterator   begin
         , ContiguousIterator end
         , Popper popper = Popper()
-//      , Pusher pusher = Pusher()
     ) nsrs_noexcept
     : m_data     ( &* begin )
     , m_size     ( 0 )
     , m_capacity ( static_cast<size_type>( end - begin ) )
     , m_front_idx( 0 )
     , m_popper   ( nonstd::move( popper ) )
-//  , m_pusher   ( nonstd::move( pusher ) )
     {}
 
     template< class ContiguousIterator >
@@ -305,14 +302,12 @@ public:
         , ContiguousIterator first
         , size_type          size
         , Popper popper = Popper()
-//      , Pusher pusher = Pusher()
     ) nsrs_noexcept
     : m_data     ( &* begin )
     , m_size     ( size     )
     , m_capacity ( static_cast<size_type>( end   - begin ) )
     , m_front_idx( static_cast<size_type>( first - begin ) )
     , m_popper   ( nonstd::move( popper ) )
-//  , m_pusher   ( nonstd::move( pusher ) )
     {}
 
 #if nsrs_HAVE_IS_DEFAULT
@@ -531,7 +526,6 @@ public:
         swap( m_capacity , rhs.m_capacity  );
         swap( m_front_idx, rhs.m_front_idx );
         swap( m_popper   , rhs.m_popper    );
-//      swap( m_pusher   , rhs.m_pusher    );
     }
 
 private:
@@ -611,7 +605,6 @@ private:
     size_type m_capacity;
     size_type m_front_idx;
     Popper    m_popper;
-//  Pusher    m_pusher;
 };
 
 // swap:
