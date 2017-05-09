@@ -617,7 +617,7 @@ private:
 // swap:
 
 template< class T, class Popper >
-void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
+inline void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
 {
     lhs.swap(rhs);
 }
@@ -736,13 +736,13 @@ private:
 // advanced iterator:
 
 template< class RS, bool C >
-ring_iterator<RS,C> operator+( ring_iterator<RS,C> it, int i ) nsrs_noexcept
+inline ring_iterator<RS,C> operator+( ring_iterator<RS,C> it, int i ) nsrs_noexcept
 {
     it += i; return it;
 }
 
 template< class RS, bool C >
-ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
+inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
 {
     it -= i; return it;
 }
@@ -750,25 +750,25 @@ ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
 // other ring_iterator comparisons expressed in <, ==:
 
 template< class RS, bool C >
-bool operator!=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
+inline bool operator!=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
 {
     return ! ( lhs == rhs );
 }
 
 template< class RS, bool C >
-bool operator<=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
+inline bool operator<=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
 {
     return ! ( lhs > rhs );
 }
 
 template< class RS, bool C >
-bool operator>( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
+inline bool operator>( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
 {
     return rhs < lhs;
 }
 
 template< class RS, bool C >
-bool operator>=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
+inline bool operator>=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
 {
     return ! ( lhs < rhs );
 }
