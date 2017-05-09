@@ -684,8 +684,10 @@ public:
         type r(*this); --*this; return r;
     }
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-conversion"
+#if defined(__clang__) || defined(__GNUC__)
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wsign-conversion"
+#endif
 
     type & operator+=( int i ) nsrs_noexcept
     {
@@ -696,7 +698,10 @@ public:
     {
         m_idx -= i; return *this;
     }
-#pragma GCC diagnostic pop
+
+#if defined(__clang__) || defined(__GNUC__)
+# pragma GCC diagnostic pop
+#endif
 
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
     {
