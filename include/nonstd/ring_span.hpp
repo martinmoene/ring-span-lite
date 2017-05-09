@@ -239,13 +239,6 @@ struct copy_popper
     T copy;
 };
 
-//
-// element insertion policies:
-//
-
-template< class T >
-struct default_pusher {};
-
 // forward-declare iterator:
 
 namespace detail {
@@ -258,11 +251,7 @@ class ring_iterator;
 //
 // ring span:
 //
-template
-<
-    class T
-    , class Popper = default_popper<T>
->
+template< class T, class Popper = default_popper<T> >
 class ring_span
 {
 public:
