@@ -223,11 +223,11 @@ struct copy_popper
     copy_popper( T && t )
     : copy( std::move(t) )
     {}
-#else
+#endif
+
     copy_popper( T const & t )
     : copy( t )
     {}
-#endif
 
     T operator()( T & t )
     {
