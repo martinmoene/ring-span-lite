@@ -437,7 +437,7 @@ public:
     {
         assert( ! empty() );
 
-        typename Popper::return_type & element = front_();
+        reference element = front_();
         increment_front_();
 
         return m_popper( element );
@@ -447,7 +447,7 @@ public:
     {
         assert( ! empty() );
 
-        typename Popper::return_type & element = back_();
+        reference element = back_();
         decrement_back_();
 
         return m_popper( element );
