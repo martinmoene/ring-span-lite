@@ -1,0 +1,5 @@
+Changes for Ring-span Lite – A single-file header-only version of a C++yy-like ring_span for use with C++98 and later
+
+version 0.0.0
+
+- Initial release.
