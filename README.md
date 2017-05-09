@@ -63,9 +63,7 @@ result: 5
 
 In a nutshell
 -------------
-**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its code is inspired on Arthur O'Dwyer's reference implementation [3].
-
-It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
+**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its code is inspired on Arthur O'Dwyer's reference implementation [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
 
 **Features and properties of ring-span lite** are ease of installation (single header), freedom of dependencies other than the standard library.
 
@@ -76,7 +74,8 @@ License
 -------
 *ring-span lite* uses the [MIT](LICENSE) license.
 
- Dependencies
+
+Dependencies
 ------------
 *ring-span lite* has no other dependencies than the [C++ standard library](http://en.cppreference.com/w/cpp/header).
 
@@ -90,20 +89,83 @@ Synopsis
 --------
 
 **Contents**  
-- [Types in namespace nonstd](#types-in-namespace-nonstd)  
-- [Interface of *ring-span lite*](#interface-of-ring-span-lite)  
-- [Algorithms for *ring-span lite*](#algorithms-for-ring-span-lite)  
+- [Types in namespace nonstd](#types-in-namespace-nonstd)
+- [Interface of *ring-span lite*](#interface-of-ring-span-lite)
+- [Algorithms for *ring-span lite*](#algorithms-for-ring-span-lite)
 - [Configuration macros](#configuration-macros)
-- [Macros to control alignment](#macros-to-control-alignment)  
 
 ### Types in namespace nonstd
-(table)
+
+| Purpose |[p0059](http://wg21.link/p0059)| Type | Notes |
+|---------|:-----:|-------|
+| Circular buffer view |&#10003;| template< class T, class Popper = default_popper<T> ><br>class ring_span | &nbsp; |
+| Ignore element |&#10003;| template< class T ><br>class null_popper    | &nbsp; |
+| Return element |&#10003;| template< class T ><br>class default_popper | &nbsp; |
+| Return element, replace original |&#10003;| template< class T ><br>class copy_popper | &nbsp; |
 
 ### Interface of *ring-span lite*
-(table)
+
+| Types |[p0059](http://wg21.link/p0059)| Notes |
+|-------|:--------------:|----------------------|
+| type                   |&#10003;| ring_span< T, Popper > |
+| size_type              |&#10003;| &nbsp; |
+| value_type             |&#10003;| &nbsp; |
+| pointer                |&#10003;| &nbsp; |
+| reference              |&#10003;| &nbsp; |
+| const_reference        |&#10003;| &nbsp; |
+| iterator               |&#10003;| &nbsp; |
+| const_iterator         |&#10003;| &nbsp; |
+| reverse_iterator       |&ndash; | &nbsp; |
+| const_reverse_iterator |&ndash; | &nbsp; |
+
+
+| Kind |[p0059](http://wg21.link/p0059)| Method | Note / Result |
+|-------|:--------------:|----------------------|---------------|
+| Construction   |&#10003;| ring_span(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of distance(begin,end) capacity |
+| &nbsp;         |&#10003;| ring_span(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of distance(begin,end) capacity, size elements |
+| &nbsp;         |&#10003;| ring_span( ring_span && ) | = default (>= C++11) |
+| &nbsp;         |&#10003;| ring_span& operator=( ring_span && ) | = default (>= C++11) |
+| &nbsp;         |&#10003;| ring_span( ring_span const & ) | implicitly deleted (>= C++11) |
+| &nbsp;         |&#10003;| ring_span & operator=( ring_span const & ); | implicitly deleted (>= C++11) |
+| &nbsp;         |&ndash; | ring_span( ring_span const & ) | declared private (< C++11) |
+| &nbsp;         |&ndash; | ring_span & operator=( ring_span const & ); | declared private (< C++11) |
+| Observation    |&#10003;| empty()   | true if empty |
+| &nbsp;         |&#10003;| full()    | true if full |
+| &nbsp;         |&#10003;| size()    | current number of elements |
+| &nbsp;         |&#10003;| capacity()| maximum number of elements |
+| Element access |&#10003;| front()   | reference to element at front |
+| &nbsp;         |&#10003;| front()   | const_reference to element at front |
+| &nbsp;         |&#10003;| back()    | reference to back element at back |
+| &nbsp;         |&#10003;| back()    | const_reference to element at back |
+| Iteration      |&#10003;| begin()   | iterator |
+| &nbsp;         |&#10003;| begin()   | const_iterator |
+| &nbsp;         |&#10003;| cbegin()  | const_iterator |
+| &nbsp;         |&#10003;| end()     | iterator |
+| &nbsp;         |&#10003;| end()     | const_iterator |
+| &nbsp;         |&#10003;| cend()    | const_iterator |
+| &nbsp;         |&ndash; | rbegin()  | reverse_iterator |
+| &nbsp;         |&ndash; | rbegin()  | const_reverse_iterator |
+| &nbsp;         |&ndash; | crbegin() | const_reverse_iterator |
+| &nbsp;         |&ndash; | rend()    | reverse_iterator |
+| &nbsp;         |&ndash; | rend()    | const_reverse_iterator |
+| &nbsp;         |&ndash; | crend()   | const_reverse_iterator |
+| Element insertion|&#10003;| push_back( value_type const & value )   | void; SFINAE restrained for >= C++11 |
+| &nbsp;         |&#10003;| push_back( value_type const & value )     | void; unrestrained for < C++11 |
+| &nbsp;         |&#10003;| push_back( value_type && value )          | void; SFINAE restrained for >= C++11 |
+| &nbsp;         |&#10003;| emplace_back( Args &&... args )           | void; SFINAE restrained for >= C++11 |
+| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; SFINAE restrained for >= C++11 |
+| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained for < C++11 |
+| &nbsp;         |&ndash;  | push_front( value_type && value )         | void; SFINAE restrained for >= C++11 |
+| &nbsp;         |&ndash;  | emplace_front( Args &&... args )          | void; SFINAE restrained for >= C++11 |
+| Element extraction|&#10003;| pop_front() | Popper::return_type (p0059 uses auto) |
+| &nbsp;         |&ndash;    | pop_back()  | Popper::return_type |
+| Swap           |&#10003;   | swap( ring_span & rhs ) noexcept | void; |
 
 ### Algorithms for *ring-span lite*
-(table)
+
+| Kind |[p0059](http://wg21.link/p0059)| Function |
+|------|:--------------:|----------------------|
+| Swap |&ndash;| void swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |
 
 ### Configuration macros
 
@@ -114,7 +176,14 @@ Reported to work with
 ---------------------
 The table below mentions the compiler versions *ring-span lite* is reported to work with.
 
-(table)
+OS        | Compiler   | Versions |
+---------:|:-----------|:---------|
+Windows   | Clang/LLVM | ? |
+&nbsp;    | GCC        | 5.2.0, 6.3.0 |
+&nbsp;    | Visual C++<br>(Visual Studio)| <!--8 (2005), -->10 (2010), 11 (2012),<br>12 (2013), 14 (2015, 2017) |
+GNU/Linux | Clang/LLVM | 3.5.0 |
+&nbsp;    | GCC        | 4.8.4 |
+OS X      | ?          | ?   |
 
 
 Building the tests
@@ -152,14 +221,14 @@ All tests should pass, indicating your platform is supported and you are ready t
 
 Other ring-span implementations
 -------------------------------
-
+(TBD)
 
 Notes and references
 --------------------
 ### References
-[1] [A proposal to add a ring span to the standard library](http://wg21.link/p0059) ([latest](http://wg21.link/p0059), [r3](http://wg21.link/p0059r3), [r2](http://wg21.link/p0059r2), [r1](http://wg21.link/p0059r1), [r0](http://wg21.link/p0059r0)).  
-[2] WG21-SG14/SG14. Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h).  
-[3] Arthur O'Dwyer. Reference implementation [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
+[1] [p0059: A proposal to add a ring span to the standard library](http://wg21.link/p0059) ([latest](http://wg21.link/p0059), [r3](http://wg21.link/p0059r3), [r2](http://wg21.link/p0059r2), [r1](http://wg21.link/p0059r1), [r0](http://wg21.link/p0059r0)).  
+[2] [WG21-SG14/SG14](https://github.com/WG21-SG14/SG14/). Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h).  
+[3] [Arthur O'Dwyer](https://github.com/Quuxplusone). Reference implementation of [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
 
 
 Appendix
