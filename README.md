@@ -221,7 +221,7 @@ ring_span: Allows to compare iterators (>=)
 ring_span: A null popper returns void
 ring_span: A null popper leaves the original element unchanged
 ring_span: A default popper returns the element
-ring_span: A default popper moves the element (C++)
+ring_span: A default popper moves the element (C++11)
 ring_span: A default popper leaves the original element unchanged
 ring_span: A copy popper returns the element
 ring_span: A copy popper replaces the original element

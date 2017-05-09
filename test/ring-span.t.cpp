@@ -622,7 +622,7 @@ CASE( "ring_span: A default popper returns the element" )
     EXPECT( rs.pop_front() == arr[0] );
 }
 
-CASE( "ring_span: A default popper moves the element (C++)" )
+CASE( "ring_span: A default popper moves the element (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     oracle arr[1]; ring_span<oracle, default_popper<oracle> > rs( arr, arr + dim(arr), arr, dim(arr) );
