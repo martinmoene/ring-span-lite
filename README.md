@@ -97,7 +97,7 @@ Synopsis
 ### Types in namespace nonstd
 
 | Purpose |[p0059](http://wg21.link/p0059)| Type | Notes |
-|---------|:-----:|-------|
+|---------|:-----------------------------:|------|-------|
 | Circular buffer view |&#10003;| template< class T, class Popper = default_popper<T> ><br>class ring_span | &nbsp; |
 | Ignore element |&#10003;| template< class T ><br>class null_popper    | &nbsp; |
 | Return element |&#10003;| template< class T ><br>class default_popper | &nbsp; |
@@ -121,8 +121,8 @@ Synopsis
 
 | Kind |[p0059](http://wg21.link/p0059)| Method | Note / Result |
 |-------|:--------------:|----------------------|---------------|
-| Construction   |&#10003;| ring_span(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of distance(begin,end) capacity |
-| &nbsp;         |&#10003;| ring_span(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of distance(begin,end) capacity, size elements |
+| Construction   |&#10003;| ring_span(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of<br>distance(begin,end) capacity |
+| &nbsp;         |&#10003;| ring_span(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of<br>distance(begin,end) capacity,<br>size elements |
 | &nbsp;         |&#10003;| ring_span( ring_span && ) | = default (>= C++11) |
 | &nbsp;         |&#10003;| ring_span& operator=( ring_span && ) | = default (>= C++11) |
 | &nbsp;         |&#10003;| ring_span( ring_span const & ) | implicitly deleted (>= C++11) |
