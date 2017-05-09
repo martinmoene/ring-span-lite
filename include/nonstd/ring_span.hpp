@@ -684,6 +684,9 @@ public:
         type r(*this); --*this; return r;
     }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+
     type & operator+=( int i ) nsrs_noexcept
     {
         m_idx += i; return *this;
@@ -693,6 +696,7 @@ public:
     {
         m_idx -= i; return *this;
     }
+#pragma GCC diagnostic pop
 
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
     {
@@ -714,7 +718,8 @@ public:
     }
 
 private:
-    friend RS;
+    friend RS;  // clang: non-class friend type 'RS' is a C++11 extension [-Wc++11-extensions]
+
     typedef typename RS::size_type size_type;
     typedef typename nonstd::conditional<is_const, const RS, RS>::type ring_type;
 
