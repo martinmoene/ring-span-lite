@@ -459,14 +459,14 @@ CASE( "ring_span: Allows reverse iteration (const)" )
 
 CASE( "ring_span: Allows to dereference iterator" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( *rs.begin() == arr[0] );
 }
 
 CASE( "ring_span: Allows to increment iterator (prefix)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *++pos == arr[1] );
@@ -474,7 +474,7 @@ CASE( "ring_span: Allows to increment iterator (prefix)" )
 
 CASE( "ring_span: Allows to increment iterator (postfix)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *pos++ == arr[0] );
@@ -482,7 +482,7 @@ CASE( "ring_span: Allows to increment iterator (postfix)" )
 
 CASE( "ring_span: Allows to decrement iterator (prefix)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin();
 
     EXPECT( *--pos == arr[0] );
@@ -490,7 +490,7 @@ CASE( "ring_span: Allows to decrement iterator (prefix)" )
 
 CASE( "ring_span: Allows to decrement iterator (postfix)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin();
 
     EXPECT( *pos-- == arr[1] );
@@ -501,7 +501,7 @@ CASE( "ring_span: Allows to advance iterator (+=)" )
 #if nsrs_SG14
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *(pos += 2) == arr[2] );
@@ -513,7 +513,7 @@ CASE( "ring_span: Allows to advance iterator (-=)" )
 #if nsrs_SG14
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin(); ++pos;
 
     EXPECT( *(pos -= 2) == arr[0] );
@@ -525,7 +525,7 @@ CASE( "ring_span: Allows to offset iterator (+)" )
 #if nsrs_SG14
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *(pos + 2) == arr[2] );
@@ -537,7 +537,7 @@ CASE( "ring_span: Allows to offset iterator (-)" )
 #if nsrs_SG14
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::iterator pos = ++rs.begin(); ++pos;
 
     EXPECT( *(pos - 2) == arr[0] );
@@ -549,7 +549,7 @@ CASE( "ring_span: Allows to obtain difference of iterators" )
 #if nsrs_SG14
     EXPECT( !!"iterator difference is not available (SG14)" );
 #else
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.end() - rs.begin() == difference_type( dim(arr) ) );
 #endif
@@ -557,28 +557,28 @@ CASE( "ring_span: Allows to obtain difference of iterators" )
 
 CASE( "ring_span: Allows to compare iterators (==)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.begin() == rs.begin() );
 }
 
 CASE( "ring_span: Allows to compare iterators (!=)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.begin() != rs.end() );
 }
 
 CASE( "ring_span: Allows to compare iterators (<)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.begin() < rs.end() );
 }
 
 CASE( "ring_span: Allows to compare iterators (<=)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.begin() <= rs.end()   );
     EXPECT( rs.begin() <= rs.begin() );
@@ -586,21 +586,56 @@ CASE( "ring_span: Allows to compare iterators (<=)" )
 
 CASE( "ring_span: Allows to compare iterators (>)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.end() > rs.begin() );
 }
 
 CASE( "ring_span: Allows to compare iterators (>=)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
     EXPECT( rs.end()   >= rs.begin() );
     EXPECT( rs.begin() >= rs.begin() );
 }
 
+CASE( "ring_span: A null popper returns void" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int, null_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr) );
 
-// different poppers
+    rs.pop_front();
+}
+
+CASE( "ring_span: A default popper returns the element" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int, default_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.pop_front() == arr[0] );
+}
+
+CASE( "ring_span: A default popper moves the element (C++)" )
+{
+#if nsrs_CPP11_OR_GREATER
+    oracle arr[1]; ring_span<oracle, default_popper<oracle> > rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( oracle::state() == oracle::init );
+
+    (void) rs.pop_front();
+
+    EXPECT( oracle::state() == oracle::moved_from );
+#else
+    EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: A copy popper returns the element and replaces the original" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(7) );
+
+    int result = rs.pop_front() ;
+
+    EXPECT( result == 1 );
+    EXPECT( arr[0] == 7 );
+}
 
 //------------------------------------------------------------------------
 // Applets:
