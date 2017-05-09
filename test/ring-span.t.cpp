@@ -647,7 +647,8 @@ CASE( "ring_span: A default popper leaves the original element unchanged" )
 
 CASE( "ring_span: A copy popper returns the element" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(7) );
+    int replacement = 7;
+    int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(replacement) );
 
     int result = rs.pop_front() ;
 
@@ -656,11 +657,12 @@ CASE( "ring_span: A copy popper returns the element" )
 
 CASE( "ring_span: A copy popper replaces the original element" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(7) );
+    int replacement = 7;
+    int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(replacement) );
 
     (void) rs.pop_front() ;
 
-    EXPECT( arr[0] == 7 );
+    EXPECT( arr[0] == replacement );
 }
 
 //------------------------------------------------------------------------
