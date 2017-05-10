@@ -48,7 +48,7 @@ int main()
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
 
-    std::cout << "result: " << result << "\n";
+    std::cout << "filter result: " << result << "\n";
 }
 ```
 
@@ -58,7 +58,7 @@ int main()
 prompt> g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp && 01-filter.exe
 [ring_span: 2, 3, 5, ]
 [ring_span: 3, 5, 7, ]
-result: 5
+filter result: 5
 ```
 
 Or to run with [Buck](https://buckbuild.com/):

@@ -27,7 +27,7 @@ int main()
 
     double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
 
-    std::cout << "result: " << result << "\n";
+    std::cout << "filter result: " << result << "\n";
 }
 
 // g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp && 01-filter.exe
