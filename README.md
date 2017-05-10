@@ -61,6 +61,12 @@ prompt> g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp 
 result: 5
 ```
 
+Or to run with [Buck](https://buckbuild.com/):
+
+```
+prompt> buck run example/:01-filter 
+```
+
 In a nutshell
 -------------
 **ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its code is inspired on Arthur O'Dwyer's reference implementation [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
@@ -193,11 +199,19 @@ OS X      | ?          | ?   |
 Building the tests
 ------------------
 To build the tests you need:
-
-- [CMake](http://cmake.org), version 2.8.7 or later to be installed and in your PATH.
+- [Buck](https://buckbuild.com/) or [CMake](http://cmake.org) version 2.8.7 or later to be installed and in your PATH.
 - A [suitable compiler](#reported-to-work-with). 
 
 The [*lest* test framework](https://github.com/martinmoene/lest)  is included in the [test folder](test).
+
+### Buck
+
+To run the tests:
+```
+prompt> buck run test/
+```
+
+### CMake
  
 The following steps assume that the [ring-span lite source code](https://github.com/martinmoene/ring-span-lite) has been cloned into a directory named `c:\ring-span-lite`.
 
