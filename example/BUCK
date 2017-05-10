@@ -1,0 +1,12 @@
+cxx_binary(
+  name = '01-filter',
+  srcs = [
+    '01-filter.cpp',
+  ],
+  compiler_flags = [
+    '-std=c++11',
+  ],
+  deps = [
+    '//:ring-span-lite',
+  ],
+)
