@@ -169,7 +169,11 @@ Synopsis
 
 ### Configuration macros
 
-Currently none.
+<!-- \-D<b>nsrs_STRICT_P0059</b>=0  
+Define this to 1 to omit behaviour not present in proposal p0059. Default is 0.
+-->
+\-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
+Define this to 1 to include the tests with compile-time errors. Default is 0.
 
 
 Reported to work with
