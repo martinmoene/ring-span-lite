@@ -27,6 +27,12 @@
 
 // ring-span-lite configuration:
 
+#ifndef  nsrs_STRICT_P0059
+# define nsrs_STRICT_P0059  0
+#endif
+
+#define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_STRICT_P0059)
+
 // Compiler detection (C++17 is speculative):
 
 #define nsrs_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
@@ -157,6 +163,10 @@
 
 // additional includes:
 
+#if ! nsrs_CPP11_OR_GREATER
+# include <algorithm>           // std::swap() until C++11
+#endif
+
 #if nsrs_HAVE_INITIALIZER_LIST
 # include <initializer_list>
 #endif
@@ -225,6 +235,8 @@ struct copy_popper
     {}
 #endif
 
+    // missing from SG14:
+
     copy_popper( T const & t )
     : copy( t )
     {}
@@ -266,8 +278,11 @@ public:
 
     typedef detail::ring_iterator< type, false  > iterator;
     typedef detail::ring_iterator< type, true   > const_iterator;
+
+#if nsrs_RING_SPAN_LITE_EXTENSION
     typedef std::reverse_iterator<iterator      > reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+#endif
 
     // construction:
 
@@ -385,6 +400,8 @@ public:
         return const_iterator( size(), this );
     }
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+
     reverse_iterator rbegin() nsrs_noexcept
     {
         return reverse_iterator( end() );
@@ -414,6 +431,7 @@ public:
     {
         return const_reverse_iterator(cbegin());
     }
+#endif
 
     // element insertion, extraction:
 
@@ -427,6 +445,7 @@ public:
         return m_popper( element );
     }
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
     typename Popper::return_type pop_back()
     {
         assert( ! empty() );
@@ -436,6 +455,7 @@ public:
 
         return m_popper( element );
     }
+#endif
 
 #if nsrs_CPP11_OR_GREATER
     template< bool b = true, typename = nonstd::enable_if_t<b && std::is_copy_assignable<T>::value> >
@@ -471,6 +491,8 @@ public:
    }
 #endif
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+
 #if nsrs_CPP11_OR_GREATER
     template<bool b = true, typename = nonstd::enable_if_t<b && std::is_copy_assignable<T>::value> >
     void push_front( T const & value ) nsrs_noexcept_op(( std::is_nothrow_copy_assignable<T>::value ))
@@ -504,6 +526,7 @@ public:
         front_() = T( std::forward<Args>(args)...);
     }
 #endif
+#endif // nsrs_RING_SPAN_LITE_EXTENSION
 
     // swap:
 
@@ -598,11 +621,14 @@ private:
 
 // swap:
 
+#if ! nsrs_CPP11_OR_GREATER
+
 template< class T, class Popper >
 inline void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
 {
     lhs.swap(rhs);
 }
+#endif
 
 namespace detail {
 
@@ -685,10 +711,13 @@ public:
 # pragma GCC diagnostic pop
 #endif
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+
     friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
     {
         return static_cast<difference_type>( lhs.m_idx - rhs.m_idx );
     }
+#endif
 
     // comparison:
 

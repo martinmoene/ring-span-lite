@@ -198,7 +198,7 @@ CASE( "ring_span: Allows to obtain and remove the element at the front" )
 
 CASE( "ring_span: Allows to obtain and remove the element at the back" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -209,7 +209,7 @@ CASE( "ring_span: Allows to obtain and remove the element at the back" )
 
 CASE( "ring_span: Allows to copy-insert an element at the front" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -224,7 +224,7 @@ CASE( "ring_span: Allows to copy-insert an element at the front" )
 CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     oracle arr[3]; ring_span<oracle> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -243,7 +243,7 @@ CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"emplace_front() is not available (SG14)" );
 #else
     noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -303,7 +303,7 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 
 CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
@@ -327,7 +327,7 @@ CASE( "ring_span: Adding an element to an empty span makes it non-empty (back)" 
 
 CASE( "ring_span: Adding an element to an empty span doesn't change its capacity (front)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
@@ -353,7 +353,7 @@ CASE( "ring_span: Adding an element to an empty span doesn't change its capacity
 
 CASE( "ring_span: Adding an element to a full span leaves it full (front)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -377,7 +377,7 @@ CASE( "ring_span: Adding an element to a full span leaves it full (back)" )
 
 CASE( "ring_span: Adding an element to a full span doesn't change its capacity (front)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -411,7 +411,7 @@ CASE( "ring_span: Removing an element from an empty span asserts !empty (front)"
 
 CASE( "ring_span: Removing an element from an empty span asserts !empty (back)" "[.assert]" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
@@ -434,7 +434,7 @@ CASE( "ring_span: Removing an element from a span with one element makes it empt
 
 CASE( "ring_span: Removing an element from a span with one element makes it empty (back)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, };
@@ -461,7 +461,7 @@ CASE( "ring_span: Removing an element from a span with one element doesn't chang
 
 CASE( "ring_span: Removing an element from a span with one element doesn't change its capacity (back)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, };
@@ -488,7 +488,7 @@ CASE( "ring_span: Removing an element from a full span makes it not full (front)
 
 CASE( "ring_span: Removing an element from a full span makes it not full (back)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, };
@@ -515,7 +515,7 @@ CASE( "ring_span: Removing an element from a full span doesn't change its capaci
 
 CASE( "ring_span: Removing an element from a full span doesn't change its capacity (back)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, };
@@ -545,6 +545,7 @@ CASE( "ring_span: Allows to swap ring_spans (non-member)" )
     int arr1[] = { 1, 2, 3, }; ring_span<int> rs1( arr1, arr1 + dim(arr1), arr1, dim(arr1) );
     int arr2[] = { 9, 8, 7, }; ring_span<int> rs2( arr2, arr2 + dim(arr2), arr2, dim(arr2) );
 
+    using std::swap;
     swap( rs1, rs2 );
 
     EXPECT( std::equal( rs1.begin(), rs1.end(), arr2 ) );
@@ -584,7 +585,7 @@ CASE( "ring_span: Allows iteration (const)" )
 
 CASE( "ring_span: Allows reverse iteration (non-const)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"rbegin(), rend() are not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, };
@@ -597,7 +598,7 @@ CASE( "ring_span: Allows reverse iteration (non-const)" )
 
 CASE( "ring_span: Allows reverse iteration (const)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"crbegin(), crend() are not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, };
@@ -649,7 +650,7 @@ CASE( "ring_span: Allows to decrement iterator (postfix)" )
 
 CASE( "ring_span: Allows to advance iterator (+=)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -661,7 +662,7 @@ CASE( "ring_span: Allows to advance iterator (+=)" )
 
 CASE( "ring_span: Allows to advance iterator (-=)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -673,7 +674,7 @@ CASE( "ring_span: Allows to advance iterator (-=)" )
 
 CASE( "ring_span: Allows to offset iterator (+)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -685,7 +686,7 @@ CASE( "ring_span: Allows to offset iterator (+)" )
 
 CASE( "ring_span: Allows to offset iterator (-)" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -697,7 +698,7 @@ CASE( "ring_span: Allows to offset iterator (-)" )
 
 CASE( "ring_span: Allows to obtain difference of iterators" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     EXPECT( !!"iterator difference is not available (SG14)" );
 #else
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -798,7 +799,7 @@ CASE( "ring_span: A default popper leaves the original element unchanged" )
 
 CASE( "ring_span: A copy popper returns the element" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(7) );
 #else
     int replacement = 7;
@@ -812,7 +813,7 @@ CASE( "ring_span: A copy popper returns the element" )
 
 CASE( "ring_span: A copy popper replaces the original element" )
 {
-#if nsrs_SG14
+#if nsrs_STRICT_P0059
     int arr[] = { 1, 2, 3, }; ring_span<int, copy_popper<int> > rs( arr, arr + dim(arr), arr, dim(arr), copy_popper<int>(7) );
 
     (void) rs.pop_front() ;

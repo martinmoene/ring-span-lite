@@ -169,17 +169,18 @@ Synopsis
 
 ### Algorithms for *ring-span lite*
 
-| Kind |[p0059](http://wg21.link/p0059)| Function |
-|------|:--------------:|----------------------|
-| Swap |&ndash;| void swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |
+| Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
+|------|:-----------------------------:|----------|--------|
+| Iterator difference|&ndash;| operator-( ring_span<&hellip;> const & lhs, ring_span<&hellip;> const & rhs )| difference_type |
+| Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void; < C++11 |
 
 ### Configuration macros
 
-<!-- \-D<b>nsrs_STRICT_P0059</b>=0  
-Define this to 1 to omit behaviour not present in proposal p0059. Default is 0.
--->
+\-D<b>nsrs_STRICT_P0059</b>=0  
+Define this to 1 to omit behaviour not present in proposal p0059. Default is undefined.
+
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
-Define this to 1 to include the tests with compile-time errors. Default is 0.
+Define this to 1 to include the tests with compile-time errors. Default is undefined.
 
 
 Reported to work with

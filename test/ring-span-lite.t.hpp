@@ -32,11 +32,15 @@ inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popp
 template< class RS, bool is_const >
 inline std::ostream & operator<<( std::ostream & os, ::nonstd::detail::ring_iterator<RS, is_const> const & it )
 {
+#if nsrs_RING_SPAN_LITE_EXTENSION
     // Note: hack: depends on iterator implementation to use index [0..size());
     // create begin iterator with index 0 (it and bgn are on different containers!):
     typename RS::value_type arr[1]; ::nonstd::detail::ring_iterator<RS, is_const> bgn = RS( arr, arr + 1 ).begin();
 
     return os << "[ring_iterator: " << (it - bgn) << "]";
+#else
+    return os << "[ring_iterator: ?]";
+#endif
 }
 
 }
