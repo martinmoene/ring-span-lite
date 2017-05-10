@@ -85,6 +85,14 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
     EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
+CASE( "ring_span: A span with capacity zero is both empty and full" )
+{
+    int arr[] = { 1, }; ring_span<int> rs( arr, arr + 0 );
+
+    EXPECT( rs.empty() );
+    EXPECT( rs.full()  );
+}
+
 CASE( "ring_span: Disallows to copy-construct from a ring_span (compile-time)" )
 {
 #if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
@@ -293,7 +301,21 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 #endif
 }
 
-CASE( "ring_span: Adding an element to an empty span makes it non-empty" )
+CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty() );
+
+    rs.push_front( 7 );
+
+    EXPECT( ! rs.empty() );
+#endif
+}
+
+CASE( "ring_span: Adding an element to an empty span makes it non-empty (back)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
     EXPECT( rs.empty() );
@@ -303,7 +325,22 @@ CASE( "ring_span: Adding an element to an empty span makes it non-empty" )
     EXPECT( ! rs.empty() );
 }
 
-CASE( "ring_span: Adding an element to an empty span doesn't change its capacity" )
+CASE( "ring_span: Adding an element to an empty span doesn't change its capacity (front)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
+    EXPECT( rs.empty()                );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    rs.push_front( 7 );
+
+    EXPECT( rs.capacity() == dim(arr) );
+#endif
+}
+
+CASE( "ring_span: Adding an element to an empty span doesn't change its capacity (back)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr) );
     EXPECT( rs.empty()                );
@@ -314,7 +351,21 @@ CASE( "ring_span: Adding an element to an empty span doesn't change its capacity
     EXPECT( rs.capacity() == dim(arr) );
 }
 
-CASE( "ring_span: Adding an element to a full span leaves it full" )
+CASE( "ring_span: Adding an element to a full span leaves it full (front)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    rs.push_front( 7 );
+
+    EXPECT( rs.full() );
+#endif
+}
+
+CASE( "ring_span: Adding an element to a full span leaves it full (back)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     EXPECT( rs.full() );
@@ -324,7 +375,22 @@ CASE( "ring_span: Adding an element to a full span leaves it full" )
     EXPECT( rs.full() );
 }
 
-CASE( "ring_span: Adding an element to a full span doesn't change its capacity" )
+CASE( "ring_span: Adding an element to a full span doesn't change its capacity (front)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full()                 );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    rs.push_front( 7 );
+
+    EXPECT( rs.capacity() == dim(arr) );
+#endif
+}
+
+CASE( "ring_span: Adding an element to a full span doesn't change its capacity (back)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
     EXPECT( rs.full()                 );
@@ -355,7 +421,61 @@ CASE( "ring_span: Removing an element from an empty span asserts !empty (back)" 
 #endif
 }
 
-CASE( "ring_span: Removing an element from a full span makes it not full" )
+CASE( "ring_span: Removing an element from a span with one element makes it empty (front)" )
+{
+    int arr[] = { 1, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    (void) rs.pop_front();
+
+    EXPECT( rs.empty() );
+}
+
+CASE( "ring_span: Removing an element from a span with one element makes it empty (back)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
+    int arr[] = { 1, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    (void) rs.pop_back();
+
+    EXPECT( rs.empty() );
+#endif
+}
+
+CASE( "ring_span: Removing an element from a span with one element doesn't change its capacity (front)" )
+{
+    int arr[] = { 1, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    (void) rs.pop_front();
+
+    EXPECT( rs.capacity() == dim(arr) );
+}
+
+CASE( "ring_span: Removing an element from a span with one element doesn't change its capacity (back)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
+    int arr[] = { 1, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    (void) rs.pop_back();
+
+    EXPECT( rs.capacity() == dim(arr) );
+#endif
+}
+
+CASE( "ring_span: Removing an element from a full span makes it not full (front)" )
 {
     int arr[] = { 1, 2, 3, };
     ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -366,7 +486,22 @@ CASE( "ring_span: Removing an element from a full span makes it not full" )
     EXPECT( ! rs.full() );
 }
 
-CASE( "ring_span: Removing an element from a full span doesn't change its capacity" )
+CASE( "ring_span: Removing an element from a full span makes it not full (back)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+
+    (void) rs.pop_back();
+
+    EXPECT( ! rs.full() );
+#endif
+}
+
+CASE( "ring_span: Removing an element from a full span doesn't change its capacity (front)" )
 {
     int arr[] = { 1, 2, 3, };
     ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
@@ -376,6 +511,22 @@ CASE( "ring_span: Removing an element from a full span doesn't change its capaci
     (void) rs.pop_front();
 
     EXPECT( rs.capacity() == dim(arr) );
+}
+
+CASE( "ring_span: Removing an element from a full span doesn't change its capacity (back)" )
+{
+#if nsrs_SG14
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, };
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    EXPECT( rs.full() );
+    EXPECT( rs.capacity() == dim(arr) );
+
+    (void) rs.pop_back();
+
+    EXPECT( rs.capacity() == dim(arr) );
+#endif
 }
 
 CASE( "ring_span: Allows to swap ring_spans (member)" )

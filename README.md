@@ -256,6 +256,7 @@ Appendix
 ```
 ring_span: Allows to construct an empty span from an iterator pair
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
+ring_span: A span with capacity zero is both empty and full
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)
@@ -274,14 +275,24 @@ ring_span: Allows to emplace an element at the front (C++11)
 ring_span: Allows to copy-insert an element at the back
 ring_span: Allows to move-insert an element at the back (C++11)
 ring_span: Allows to emplace an element at the back (C++11)
-ring_span: Adding an element to an empty span makes it non-empty
-ring_span: Adding an element to an empty span doesn't change its capacity
-ring_span: Adding an element to a full span leaves it full
-ring_span: Adding an element to a full span doesn't change its capacity
+ring_span: Adding an element to an empty span makes it non-empty (front)
+ring_span: Adding an element to an empty span makes it non-empty (back)
+ring_span: Adding an element to an empty span doesn't change its capacity (front)
+ring_span: Adding an element to an empty span doesn't change its capacity (back)
+ring_span: Adding an element to a full span leaves it full (front)
+ring_span: Adding an element to a full span leaves it full (back)
+ring_span: Adding an element to a full span doesn't change its capacity (front)
+ring_span: Adding an element to a full span doesn't change its capacity (back)
 ring_span: Removing an element from an empty span asserts !empty (front)[.assert]
 ring_span: Removing an element from an empty span asserts !empty (back)[.assert]
-ring_span: Removing an element from a full span makes it not full
-ring_span: Removing an element from a full span doesn't change its capacity
+ring_span: Removing an element from a span with one element makes it empty (front)
+ring_span: Removing an element from a span with one element makes it empty (back)
+ring_span: Removing an element from a span with one element doesn't change its capacity (front)
+ring_span: Removing an element from a span with one element doesn't change its capacity (back)
+ring_span: Removing an element from a full span makes it not full (front)
+ring_span: Removing an element from a full span makes it not full (back)
+ring_span: Removing an element from a full span doesn't change its capacity (front)
+ring_span: Removing an element from a full span doesn't change its capacity (back)
 ring_span: Allows to swap ring_spans (member)
 ring_span: Allows to swap ring_spans (non-member)
 ring_span: Allows to appear in range-for (C++11)
