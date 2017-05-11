@@ -111,22 +111,20 @@ Synopsis
 
 ### Interface of *ring-span lite*
 
-| Types |[p0059](http://wg21.link/p0059)| Notes |
-|-------|:--------------:|----------------------|
-| type                   |&#10003;| ring_span< T, Popper > |
-| size_type              |&#10003;| &nbsp; |
-| value_type             |&#10003;| &nbsp; |
-| pointer                |&#10003;| &nbsp; |
-| reference              |&#10003;| &nbsp; |
-| const_reference        |&#10003;| &nbsp; |
-| iterator               |&#10003;| &nbsp; |
-| const_iterator         |&#10003;| &nbsp; |
-| reverse_iterator       |&ndash; | &nbsp; |
-| const_reverse_iterator |&ndash; | &nbsp; |
+#### Class `ring_span`
 
-
-| Kind |[p0059](http://wg21.link/p0059)| Method | Note / Result |
-|-------|:--------------:|----------------------|---------------|
+| Kind |[p0059](http://wg21.link/p0059)| Type / Method | Note / Result |
+|-------|:--------------:|-----------------------------|---------------|
+| Various types          |&#10003;| type                   |ring_span< T, Popper > |
+| &nbsp;                 |&#10003;| size_type              |&nbsp; |
+| Value types            |&#10003;| value_type             |&nbsp; |
+| &nbsp;                 |&#10003;| pointer                |&nbsp; |
+| &nbsp;                 |&#10003;| reference              |&nbsp; |
+| &nbsp;                 |&#10003;| const_reference        |&nbsp; |
+| Iterator types         |&#10003;| iterator               |&nbsp; |
+| &nbsp;                 |&#10003;| const_iterator         |&nbsp; |
+| &nbsp;                 |&ndash; | reverse_iterator       |&nbsp; |
+| &nbsp;                 |&ndash; | const_reverse_iterator |&nbsp; |
 | Construction   |&#10003;| ring_span(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of<br>distance(begin,end) capacity |
 | &nbsp;         |&#10003;| ring_span(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of<br>distance(begin,end) capacity,<br>size elements |
 | &nbsp;         |&#10003;| ring_span( ring_span && ) | = default (>= C++11) |
@@ -135,43 +133,65 @@ Synopsis
 | &nbsp;         |&#10003;| ring_span & operator=( ring_span const & ); | implicitly deleted (>= C++11) |
 | &nbsp;         |&ndash; | ring_span( ring_span const & ) | declared private (< C++11) |
 | &nbsp;         |&ndash; | ring_span & operator=( ring_span const & ); | declared private (< C++11) |
-| Observation    |&#10003;| empty()   | true if empty |
-| &nbsp;         |&#10003;| full()    | true if full |
-| &nbsp;         |&#10003;| size()    | current number of elements |
-| &nbsp;         |&#10003;| capacity()| maximum number of elements |
-| Element access |&#10003;| front()   | reference to element at front |
-| &nbsp;         |&#10003;| front()   | const_reference to element at front |
-| &nbsp;         |&#10003;| back()    | reference to back element at back |
-| &nbsp;         |&#10003;| back()    | const_reference to element at back |
-| Iteration      |&#10003;| begin()   | iterator |
-| &nbsp;         |&#10003;| begin()   | const_iterator |
-| &nbsp;         |&#10003;| cbegin()  | const_iterator |
-| &nbsp;         |&#10003;| end()     | iterator |
-| &nbsp;         |&#10003;| end()     | const_iterator |
-| &nbsp;         |&#10003;| cend()    | const_iterator |
-| &nbsp;         |&ndash; | rbegin()  | reverse_iterator |
-| &nbsp;         |&ndash; | rbegin()  | const_reverse_iterator |
-| &nbsp;         |&ndash; | crbegin() | const_reverse_iterator |
-| &nbsp;         |&ndash; | rend()    | reverse_iterator |
-| &nbsp;         |&ndash; | rend()    | const_reverse_iterator |
-| &nbsp;         |&ndash; | crend()   | const_reverse_iterator |
-| Element insertion|&#10003;| push_back( value_type const & value )   | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained for < C++11 |
-| &nbsp;         |&#10003;| push_back( value_type && value )          | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&#10003;| emplace_back( Args &&... args )           | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained for < C++11 |
-| &nbsp;         |&ndash;  | push_front( value_type && value )         | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&ndash;  | emplace_front( Args &&... args )          | void; SFINAE restrained for >= C++11 |
+| Observation    |&#10003;| empty() noexcept   | true if empty |
+| &nbsp;         |&#10003;| full() noexcept    | true if full |
+| &nbsp;         |&#10003;| size() noexcept    | current number of elements |
+| &nbsp;         |&#10003;| capacity() noexcept| maximum number of elements |
+| Element access |&#10003;| front() noexcept   | reference to element at front |
+| &nbsp;         |&#10003;| front() noexcept   | const_reference to element at front |
+| &nbsp;         |&#10003;| back() noexcept    | reference to back element at back |
+| &nbsp;         |&#10003;| back() noexcept    | const_reference to element at back |
+| Iteration      |&#10003;| begin() noexcept   | iterator |
+| &nbsp;         |&#10003;| begin() noexcept   | const_iterator |
+| &nbsp;         |&#10003;| cbegin() noexcept  | const_iterator |
+| &nbsp;         |&#10003;| end() noexcept     | iterator |
+| &nbsp;         |&#10003;| end() noexcept     | const_iterator |
+| &nbsp;         |&#10003;| cend() noexcept    | const_iterator |
+| Reverse iteration|&ndash;| rbegin() noexcept  | reverse_iterator |
+| &nbsp;         |&ndash; | rbegin() noexcept  | const_reverse_iterator |
+| &nbsp;         |&ndash; | crbegin() noexcept | const_reverse_iterator |
+| &nbsp;         |&ndash; | rend() noexcept    | reverse_iterator |
+| &nbsp;         |&ndash; | rend() noexcept    | const_reverse_iterator |
+| &nbsp;         |&ndash; | crend() noexcept   | const_reverse_iterator |
+| Element insertion|&#10003;| push_back( value_type const & value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
+| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained (< C++11) |
+| &nbsp;         |&#10003;| push_back( value_type && value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
+| &nbsp;         |&#10003;| emplace_back( Args &&... args ) noexcept(&hellip;)| void; SFINAE restrained (>= C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type const & value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained (< C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type && value ) noexcept(&hellip;)| void; SFINAE restrained (>= C++11) |
+| &nbsp;         |&ndash;  | emplace_front( Args &&... args ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
 | Element extraction|&#10003;| pop_front() | Popper::return_type (p0059 uses auto) |
 | &nbsp;         |&ndash;    | pop_back()  | Popper::return_type |
 | Swap           |&#10003;   | swap( ring_span & rhs ) noexcept | void; |
+
+#### Class `ring_iterator`
+
+| Kind |[p0059](http://wg21.link/p0059)| Type / Method  | Note / Result |
+|-------|:--------------:|------------------------------|---------------|
+| Various types |&#10003;| type                         |ring_span< T, Popper > |
+| &nbsp;        |&#10003;| difference_type              |&nbsp; |
+| Value types   |&#10003;| value_type                   |&nbsp; |
+| &nbsp;        |&#10003;| pointer                      |&nbsp; |
+| &nbsp;        |&#10003;| reference                    |&nbsp; |
+| Category      |&#10003;| iterator_category            |&nbsp; |
+| Construction  |&#10003;| ring_iterator()              | = default (>= C++11) |
+| &nbsp;        |&ndash; | ring_iterator()              | (< C++11) |
+| Element access|&#10003;| operator*() const noexcept   |reference |
+| Increment     |&#10003;| operator++() noexcept        |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| operator++( int ) noexcept   |ring_iterator<&hellip;> |
+| Decrement     |&#10003;| operator--() noexcept        |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| operator--( int ) noexcept   |ring_iterator<&hellip;> |
+| Addition      |&#10003;| operator+=( int i ) noexcept |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| operator-=( int i ) noexcept |ring_iterator<&hellip;> & |
+| Comparison    |&#10003;| operator<( ring_iterator<&hellip;> const & rhs ) const noexcept |bool |
+| &nbsp;        |&#10003;| operator==( ring_iterator<&hellip;> const & rhs ) const noexcept |bool |
 
 ### Algorithms for *ring-span lite*
 
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
-| Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void; < C++11 |
+| Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void (< C++11) |
 | Iterator<br>difference|&ndash;| operator-( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs )| difference_type |
 | Iterator<br>offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 | &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
@@ -207,7 +227,7 @@ Building the tests
 ------------------
 To build the tests you need:
 - [Buck](https://buckbuild.com/) or [CMake](http://cmake.org) version 2.8.7 or later to be installed and in your PATH.
-- A [suitable compiler](#reported-to-work-with). 
+- A [suitable compiler](#reported-to-work-with).
 
 The [*lest* test framework](https://github.com/martinmoene/lest)  is included in the [test folder](test).
 
@@ -219,7 +239,7 @@ prompt> buck run test/
 ```
 
 ### CMake
- 
+
 The following steps assume that the [ring-span lite source code](https://github.com/martinmoene/ring-span-lite) has been cloned into a directory named `c:\ring-span-lite`.
 
 1. Create a directory for the build outputs for a particular architecture.  
