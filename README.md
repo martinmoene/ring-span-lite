@@ -133,6 +133,18 @@ Synopsis
 | &nbsp;         |&#10003;| ring_span & operator=( ring_span const & ); | implicitly deleted (>= C++11) |
 | &nbsp;         |&ndash; | ring_span( ring_span const & ) | declared private (< C++11) |
 | &nbsp;         |&ndash; | ring_span & operator=( ring_span const & ); | declared private (< C++11) |
+| Iteration      |&#10003;| begin() noexcept   | iterator |
+| &nbsp;         |&#10003;| begin() noexcept   | const_iterator |
+| &nbsp;         |&#10003;| cbegin() noexcept  | const_iterator |
+| &nbsp;         |&#10003;| end() noexcept     | iterator |
+| &nbsp;         |&#10003;| end() noexcept     | const_iterator |
+| &nbsp;         |&#10003;| cend() noexcept    | const_iterator |
+| Reverse iter.  |&ndash;| rbegin() noexcept  | reverse_iterator |
+| &nbsp;         |&ndash; | rbegin() noexcept  | const_reverse_iterator |
+| &nbsp;         |&ndash; | crbegin() noexcept | const_reverse_iterator |
+| &nbsp;         |&ndash; | rend() noexcept    | reverse_iterator |
+| &nbsp;         |&ndash; | rend() noexcept    | const_reverse_iterator |
+| &nbsp;         |&ndash; | crend() noexcept   | const_reverse_iterator |
 | Observation    |&#10003;| empty() noexcept   | true if empty |
 | &nbsp;         |&#10003;| full() noexcept    | true if full |
 | &nbsp;         |&#10003;| size() noexcept    | current number of elements |
@@ -141,28 +153,16 @@ Synopsis
 | &nbsp;         |&#10003;| front() noexcept   | const_reference to element at front |
 | &nbsp;         |&#10003;| back() noexcept    | reference to back element at back |
 | &nbsp;         |&#10003;| back() noexcept    | const_reference to element at back |
-| Iteration      |&#10003;| begin() noexcept   | iterator |
-| &nbsp;         |&#10003;| begin() noexcept   | const_iterator |
-| &nbsp;         |&#10003;| cbegin() noexcept  | const_iterator |
-| &nbsp;         |&#10003;| end() noexcept     | iterator |
-| &nbsp;         |&#10003;| end() noexcept     | const_iterator |
-| &nbsp;         |&#10003;| cend() noexcept    | const_iterator |
-| Reverse iteration|&ndash;| rbegin() noexcept  | reverse_iterator |
-| &nbsp;         |&ndash; | rbegin() noexcept  | const_reverse_iterator |
-| &nbsp;         |&ndash; | crbegin() noexcept | const_reverse_iterator |
-| &nbsp;         |&ndash; | rend() noexcept    | reverse_iterator |
-| &nbsp;         |&ndash; | rend() noexcept    | const_reverse_iterator |
-| &nbsp;         |&ndash; | crend() noexcept   | const_reverse_iterator |
-| Element insertion|&#10003;| push_back( value_type const & value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
-| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained (< C++11) |
-| &nbsp;         |&#10003;| push_back( value_type && value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
-| &nbsp;         |&#10003;| emplace_back( Args &&... args ) noexcept(&hellip;)| void; SFINAE restrained (>= C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type const & value ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained (< C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type && value ) noexcept(&hellip;)| void; SFINAE restrained (>= C++11) |
-| &nbsp;         |&ndash;  | emplace_front( Args &&... args ) noexcept(&hellip;) | void; SFINAE restrained (>= C++11) |
-| Element extraction|&#10003;| pop_front() | Popper::return_type (p0059 uses auto) |
+| Elem.extraction|&#10003;| pop_front() | Popper::return_type (p0059: auto) |
 | &nbsp;         |&ndash;    | pop_back()  | Popper::return_type |
+| Elem.insertion|&#10003;| push_back( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained (< C++11) |
+| &nbsp;         |&#10003;| push_back( value_type && value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&#10003;| emplace_back( Args &&... args ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained (< C++11) |
+| &nbsp;         |&ndash;  | push_front( value_type && value ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         |&ndash;  | emplace_front( Args &&... args ) noexcept(&hellip;) | void; restrained (>= C++11) |
 | Swap           |&#10003;   | swap( ring_span & rhs ) noexcept | void; |
 
 #### Class `ring_iterator`
