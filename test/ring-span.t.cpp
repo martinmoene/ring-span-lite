@@ -303,9 +303,9 @@ CASE( "ring_span: A span with capacity zero is both empty and full" )
 
 CASE( "ring_span: A full span is a delay-line of capacity elements (back-front)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    size_type arr[] = { 1, 2, 3, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    for ( int x = 4; x < 10; rs.push_back( x ), ++x )
+    for ( size_type x = 4; x < 10; rs.push_back( x ), ++x )
     {
         EXPECT( rs.pop_front() == x - rs.capacity() );
     }
@@ -316,9 +316,9 @@ CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)"
 #if nsrs_STRICT_P0059
     EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
 #else
-    int arr[] = { 3, 2, 1, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    size_type arr[] = { 3, 2, 1, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    for ( int x = 4; x < 10; rs.push_front( x ), ++x )
+    for ( size_type x = 4; x < 10; rs.push_front( x ), ++x )
     {
         EXPECT( rs.pop_back() == x - rs.capacity() );
     }
