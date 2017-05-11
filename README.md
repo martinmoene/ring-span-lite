@@ -156,7 +156,7 @@ Synopsis
 | &nbsp;         |&ndash; | rend()    | const_reverse_iterator |
 | &nbsp;         |&ndash; | crend()   | const_reverse_iterator |
 | Element insertion|&#10003;| push_back( value_type const & value )   | void; SFINAE restrained for >= C++11 |
-| &nbsp;         |&#10003;| push_back( value_type const & value )     | void; unrestrained for < C++11 |
+| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained for < C++11 |
 | &nbsp;         |&#10003;| push_back( value_type && value )          | void; SFINAE restrained for >= C++11 |
 | &nbsp;         |&#10003;| emplace_back( Args &&... args )           | void; SFINAE restrained for >= C++11 |
 | &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; SFINAE restrained for >= C++11 |
@@ -171,16 +171,22 @@ Synopsis
 
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
-| Iterator difference|&ndash;| operator-( ring_span<&hellip;> const & lhs, ring_span<&hellip;> const & rhs )| difference_type |
 | Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void; < C++11 |
+| Iterator<br>difference|&ndash;| operator-( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs )| difference_type |
+| Iterator<br>offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+| &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+| Iterator<br>comparison |&#10003;| operator!=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
+| &nbsp; |&#10003;| operator<=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
+| &nbsp; |&#10003;| operator>( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
+| &nbsp;|&#10003;| operator>=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
 
 ### Configuration macros
 
 \-D<b>nsrs_STRICT_P0059</b>=0  
-Define this to 1 to omit behaviour not present in proposal p0059. Default is undefined.
+Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
-Define this to 1 to include the tests with compile-time errors. Default is undefined.
+Define this to 1 to include the tests with compile-time errors. Default is undefined (same effect as 0).
 
 
 Reported to work with
