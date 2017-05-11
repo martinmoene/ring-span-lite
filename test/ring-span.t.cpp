@@ -85,14 +85,6 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
     EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
-CASE( "ring_span: A span with capacity zero is both empty and full" )
-{
-    int arr[] = { 1, }; ring_span<int> rs( arr, arr + 0 );
-
-    EXPECT( rs.empty() );
-    EXPECT( rs.full()  );
-}
-
 CASE( "ring_span: Disallows to copy-construct from a ring_span (compile-time)" )
 {
 #if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
@@ -298,6 +290,38 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
     EXPECT( rs.back().i ==  7  );
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
+#endif
+}
+
+CASE( "ring_span: A span with capacity zero is both empty and full" )
+{
+    int arr[] = { 1, }; ring_span<int> rs( arr, arr + 0 );
+
+    EXPECT( rs.empty() );
+    EXPECT( rs.full()  );
+}
+
+CASE( "ring_span: A full span is a delay-line of capacity elements (back-front)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    for ( int x = 4; x < 10; rs.push_back( x ), ++x )
+    {
+        EXPECT( rs.pop_front() == x - rs.capacity() );
+    }
+}
+
+CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
+#else
+    int arr[] = { 3, 2, 1, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    for ( int x = 4; x < 10; rs.push_front( x ), ++x )
+    {
+        EXPECT( rs.pop_back() == x - rs.capacity() );
+    }
 #endif
 }
 

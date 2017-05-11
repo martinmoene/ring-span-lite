@@ -283,7 +283,6 @@ Appendix
 ```
 ring_span: Allows to construct an empty span from an iterator pair
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
-ring_span: A span with capacity zero is both empty and full
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)
@@ -302,6 +301,9 @@ ring_span: Allows to emplace an element at the front (C++11)
 ring_span: Allows to copy-insert an element at the back
 ring_span: Allows to move-insert an element at the back (C++11)
 ring_span: Allows to emplace an element at the back (C++11)
+ring_span: A span with capacity zero is both empty and full
+ring_span: A full span is a delay-line of capacity elements (back-front)
+ring_span: A full span is a delay-line of capacity elements (front-back)
 ring_span: Adding an element to an empty span makes it non-empty (front)
 ring_span: Adding an element to an empty span makes it non-empty (back)
 ring_span: Adding an element to an empty span doesn't change its capacity (front)
