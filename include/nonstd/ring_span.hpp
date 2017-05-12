@@ -734,8 +734,35 @@ public:
         assert( this->m_rs == rhs.m_rs ); return ( this->m_idx == rhs.m_idx );
     }
 
+    // other comparisons expressed in <, ==:
+
+    template< bool C >
+    inline bool operator!=( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
+    {
+        return ! ( *this == rhs );
+    }
+
+    template< bool C >
+    inline bool operator<=( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
+    {
+        return ! ( *this > rhs );
+    }
+
+    template< bool C >
+    inline bool operator>( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
+    {
+        return rhs < *this;
+    }
+
+    template< bool C >
+    inline bool operator>=( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
+    {
+        return ! ( *this < rhs );
+    }
+
 private:
     friend RS;  // clang: non-class friend type 'RS' is a C++11 extension [-Wc++11-extensions]
+    friend class ring_iterator<RS, ! is_const>;
 
     typedef typename RS::size_type size_type;
     typedef typename nonstd::conditional<is_const, const RS, RS>::type ring_type;
@@ -762,32 +789,6 @@ template< class RS, bool C >
 inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
 {
     it -= i; return it;
-}
-
-// other ring_iterator comparisons expressed in <, ==:
-
-template< class RS, bool C >
-inline bool operator!=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
-{
-    return ! ( lhs == rhs );
-}
-
-template< class RS, bool C >
-inline bool operator<=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
-{
-    return ! ( lhs > rhs );
-}
-
-template< class RS, bool C >
-inline bool operator>( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
-{
-    return rhs < lhs;
-}
-
-template< class RS, bool C >
-inline bool operator>=( ring_iterator<RS,C> const & lhs, ring_iterator<RS,C> const & rhs ) nsrs_noexcept
-{
-    return ! ( lhs < rhs );
 }
 
 } // namespace detail

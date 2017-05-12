@@ -607,6 +607,15 @@ CASE( "ring_span: Allows iteration (const)" )
     EXPECT( std::equal( rs.cbegin(), rs.cend(), arr ) );
 }
 
+CASE( "ring_span: Allows iteration (mixed const-non-const)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator bgn = rs.begin();
+
+    EXPECT( bgn < rs.cend() );
+    EXPECT( std::equal( rs.cbegin(), rs.cend(), bgn ) );
+}
+
 CASE( "ring_span: Allows reverse iteration (non-const)" )
 {
 #if nsrs_STRICT_P0059
@@ -630,6 +639,19 @@ CASE( "ring_span: Allows reverse iteration (const)" )
     std::vector<int> vec( arr, arr + dim(arr) );
 
     EXPECT( std::equal( rs.crbegin(), rs.crend(), vec.rbegin() ) );
+#endif
+}
+
+CASE( "ring_span: Allows reverse iteration (mixed const-non-const)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, };
+    ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::reverse_iterator rbgn = rs.rbegin();
+
+    EXPECT( std::equal( rs.crbegin(), rs.crend(), rbgn ) );
 #endif
 }
 
@@ -735,44 +757,80 @@ CASE( "ring_span: Allows to compare iterators (==)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.begin() == rs.begin() );
+    EXPECT( rs.begin()   == rs.begin()   );
+    EXPECT( rs.cbegin()  == rs.cbegin()  );
+    EXPECT( rs.rbegin()  == rs.rbegin()  );
+    EXPECT( rs.crbegin() == rs.crbegin() );
 }
 
 CASE( "ring_span: Allows to compare iterators (!=)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.begin() != rs.end() );
+    EXPECT( rs.begin()   != rs.end() );
+    EXPECT( rs.cbegin()  != rs.cend()  );
+    EXPECT( rs.rbegin()  != rs.rend()  );
+    EXPECT( rs.crbegin() != rs.crend() );
 }
 
 CASE( "ring_span: Allows to compare iterators (<)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.begin() < rs.end() );
+    EXPECT( rs.begin()   < rs.end()   );
+    EXPECT( rs.cbegin()  < rs.cend()  );
+    EXPECT( rs.rbegin()  < rs.rend()  );
+    EXPECT( rs.crbegin() < rs.crend() );
 }
 
 CASE( "ring_span: Allows to compare iterators (<=)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.begin() <= rs.end()   );
-    EXPECT( rs.begin() <= rs.begin() );
+    EXPECT( rs.begin()   <= rs.end()     );
+    EXPECT( rs.begin()   <= rs.begin()   );
+    EXPECT( rs.cbegin()  <= rs.cend()    );
+    EXPECT( rs.cbegin()  <= rs.cbegin()  );
+    EXPECT( rs.rbegin()  <= rs.rend()    );
+    EXPECT( rs.rbegin()  <= rs.rbegin()  );
+    EXPECT( rs.crbegin() <= rs.crend()   );
+    EXPECT( rs.crbegin() <= rs.crbegin() );
 }
 
 CASE( "ring_span: Allows to compare iterators (>)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.end() > rs.begin() );
+    EXPECT( rs.end()   > rs.begin()   );
+    EXPECT( rs.cend()  > rs.cbegin()  );
+    EXPECT( rs.rend()  > rs.rbegin()  );
+    EXPECT( rs.crend() > rs.crbegin() );
 }
 
 CASE( "ring_span: Allows to compare iterators (>=)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( rs.end()   >= rs.begin() );
-    EXPECT( rs.begin() >= rs.begin() );
+    EXPECT( rs.end()     >= rs.begin()   );
+    EXPECT( rs.begin()   >= rs.begin()   );
+    EXPECT( rs.cend()    >= rs.cbegin()  );
+    EXPECT( rs.cbegin()  >= rs.cbegin()  );
+    EXPECT( rs.rend()    >= rs.rbegin()  );
+    EXPECT( rs.rbegin()  >= rs.rbegin()  );
+    EXPECT( rs.crend()   >= rs.crbegin() );
+    EXPECT( rs.crbegin() >= rs.crbegin() );
+}
+
+CASE( "ring_span: Allows to compare iterators (mixed const-non-const)" )
+{
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator bgn = rs.begin();
+
+    EXPECT(    bgn    != rs.cend() );
+    EXPECT(    bgn    <  rs.cend() );
+    EXPECT(    bgn    <= rs.cend() );
+    EXPECT( rs.cend() >     bgn    );
+    EXPECT( rs.cend() >=    bgn    );
 }
 
 CASE( "ring_span: A null popper returns void" )

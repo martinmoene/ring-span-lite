@@ -327,8 +327,10 @@ ring_span: Allows to swap ring_spans (non-member)
 ring_span: Allows to appear in range-for (C++11)
 ring_span: Allows iteration (non-const)
 ring_span: Allows iteration (const)
+ring_span: Allows iteration (mixed const-non-const)
 ring_span: Allows reverse iteration (non-const)
 ring_span: Allows reverse iteration (const)
+ring_span: Allows reverse iteration (mixed const-non-const)
 ring_span: Allows to dereference iterator
 ring_span: Allows to increment iterator (prefix)
 ring_span: Allows to increment iterator (postfix)
@@ -345,6 +347,7 @@ ring_span: Allows to compare iterators (<)
 ring_span: Allows to compare iterators (<=)
 ring_span: Allows to compare iterators (>)
 ring_span: Allows to compare iterators (>=)
+ring_span: Allows to compare iterators (mixed const-non-const)
 ring_span: A null popper returns void
 ring_span: A null popper leaves the original element unchanged
 ring_span: A default popper returns the element
