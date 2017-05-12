@@ -184,21 +184,23 @@ Synopsis
 | &nbsp;        |&#10003;| operator--( int ) noexcept   |ring_iterator<&hellip;> |
 | Addition      |&#10003;| operator+=( int i ) noexcept |ring_iterator<&hellip;> & |
 | &nbsp;        |&#10003;| operator-=( int i ) noexcept |ring_iterator<&hellip;> & |
-| Comparison    |&#10003;| operator<( ring_iterator<&hellip;> const & rhs ) const noexcept |bool |
-| &nbsp;        |&#10003;| operator==( ring_iterator<&hellip;> const & rhs ) const noexcept |bool |
+| Difference    |&ndash; | operator-( ring_iterator<&hellip;> const & rhs ) | difference_type, note 1 |
+| Comparison    |&#10003;| operator==( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| operator!=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| operator<( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
+| &nbsp;        |&#10003;| operator<=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| operator>( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
+| &nbsp;        |&#10003;| operator>=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+
+note 1: accepts lhs and rhs of diffrerent const-ness.
 
 ### Algorithms for *ring-span lite*
 
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
 | Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void (< C++11) |
-| Iterator<br>difference|&ndash;| operator-( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs )| difference_type |
 | Iterator<br>offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 | &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
-| Iterator<br>comparison |&#10003;| operator!=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
-| &nbsp; |&#10003;| operator<=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
-| &nbsp; |&#10003;| operator>( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
-| &nbsp;|&#10003;| operator>=( ring_iterator<&hellip;> const & lhs, ring_iterator<&hellip;> const & rhs ) noexcept |bool |
 
 ### Configuration macros
 
