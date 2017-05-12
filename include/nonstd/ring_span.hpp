@@ -713,9 +713,10 @@ public:
 
 #if nsrs_RING_SPAN_LITE_EXTENSION
 
-    friend difference_type operator-( type const & lhs, type const & rhs ) nsrs_noexcept // const nsrs_noexcept
+    template< bool C >
+    difference_type operator-( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        return static_cast<difference_type>( lhs.m_idx - rhs.m_idx );
+        return static_cast<difference_type>( this->m_idx ) - static_cast<difference_type>( rhs.m_idx );
     }
 #endif
 
