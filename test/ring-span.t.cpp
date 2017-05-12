@@ -325,6 +325,40 @@ CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)"
 #endif
 }
 
+CASE( "ring_span: A non-full span behaves like an harmonica (back-front)" )
+{
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 0; x < 3; rs.push_back( x ), ++x )
+    {
+        EXPECT( x == rs.size()  );
+    }
+    for ( size_type x = 0; x < 3; ++x )
+    {
+        EXPECT( x == 3 - rs.size()  );
+        EXPECT( x == rs.pop_front() );
+    }
+}
+
+CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
+#else
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 0; x < 3; rs.push_front( x ), ++x )
+    {
+        EXPECT( x == rs.size() );
+    }
+    for ( size_type x = 0; x < 3; ++x )
+    {
+        EXPECT( x == 3 - rs.size() );
+        EXPECT( x == rs.pop_back() );
+    }
+#endif
+}
+
 CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" )
 {
 #if nsrs_STRICT_P0059
