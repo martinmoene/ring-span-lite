@@ -360,3 +360,11 @@ ring_span: A default popper leaves the original element unchanged
 ring_span: A copy popper returns the element
 ring_span: A copy popper replaces the original element
 ```
+
+### A.2 Tests cases tagged with [.applet].
+
+Applets demonstrate a specific use case.
+
+```
+ring_span: filter[.applet]
+```

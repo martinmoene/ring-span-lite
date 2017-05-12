@@ -980,7 +980,7 @@ CASE( "ring_span: A copy popper replaces the original element" )
 
 #include <iostream>
 
-CASE( "ring_span: filter" "[.app]" )
+CASE( "ring_span: filter" "[.applet]" )
 {
     double arr[]   = { 2.0 , 3.0, 5.0, };
     double coeff[] = { 0.25, 0.5, 0.25 };
