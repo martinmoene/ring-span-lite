@@ -199,7 +199,7 @@ note 1: accepts lhs and rhs of different const-ness.
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
 | Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void (< C++11) |
-| Iterator<br>offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+| Iterator offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 | &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 
 ### Configuration macros
