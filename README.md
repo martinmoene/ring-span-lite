@@ -192,7 +192,7 @@ Synopsis
 | &nbsp;        |&#10003;| operator>( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
 | &nbsp;        |&#10003;| operator>=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
 
-note 1: accepts lhs and rhs of diffrerent const-ness.
+note 1: accepts lhs and rhs of different const-ness.
 
 ### Algorithms for *ring-span lite*
 
