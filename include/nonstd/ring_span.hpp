@@ -745,7 +745,7 @@ public:
     template< bool C >
     inline bool operator<=( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        return ! ( *this > rhs );
+        return ! ( rhs < *this );
     }
 
     template< bool C >
