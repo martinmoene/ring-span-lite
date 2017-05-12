@@ -44,7 +44,7 @@ inline std::ostream & operator<<( std::ostream & os, ::nonstd::detail::ring_iter
 }
 
 template< class RS, bool is_const >
-inline std::ostream & operator<<( std::ostream & os, std::reverse_iterator<::nonstd::detail::ring_iterator<RS, is_const> > const & it )
+inline std::ostream & operator<<( std::ostream & os, std::reverse_iterator< ::nonstd::detail::ring_iterator<RS, is_const> > const & it )
 {
     return os << "[reverse ring_iterator: ?]";
 }
