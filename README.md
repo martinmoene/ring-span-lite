@@ -280,6 +280,12 @@ Notes and references
 
 Appendix
 --------
+
+**Contents**  
+- [A.1 Ring-span Lite test specification](#a1-ring-span-lite-test-specification)
+- [A.2 Test cases tagged with \[.applet\]](#a2-test-cases-tagged-with-applet)
+
+
 ### A.1 Ring-span Lite test specification
 
 ```
@@ -361,7 +367,7 @@ ring_span: A copy popper returns the element
 ring_span: A copy popper replaces the original element
 ```
 
-### A.2 Tests cases tagged with [.applet].
+### A.2 Test cases tagged with [.applet]
 
 Applets demonstrate a specific use case.
 
