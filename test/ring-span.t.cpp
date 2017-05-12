@@ -793,8 +793,13 @@ CASE( "ring_span: Allows to compare iterators (==)" )
 
     EXPECT( rs.begin()   == rs.begin()   );
     EXPECT( rs.cbegin()  == rs.cbegin()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rbegin()  == rs.rbegin()  );
     EXPECT( rs.crbegin() == rs.crbegin() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (!=)" )
@@ -803,8 +808,13 @@ CASE( "ring_span: Allows to compare iterators (!=)" )
 
     EXPECT( rs.begin()   != rs.end() );
     EXPECT( rs.cbegin()  != rs.cend()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rbegin()  != rs.rend()  );
     EXPECT( rs.crbegin() != rs.crend() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (<)" )
@@ -813,8 +823,13 @@ CASE( "ring_span: Allows to compare iterators (<)" )
 
     EXPECT( rs.begin()   < rs.end()   );
     EXPECT( rs.cbegin()  < rs.cend()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rbegin()  < rs.rend()  );
     EXPECT( rs.crbegin() < rs.crend() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (<=)" )
@@ -825,10 +840,15 @@ CASE( "ring_span: Allows to compare iterators (<=)" )
     EXPECT( rs.begin()   <= rs.begin()   );
     EXPECT( rs.cbegin()  <= rs.cend()    );
     EXPECT( rs.cbegin()  <= rs.cbegin()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rbegin()  <= rs.rend()    );
     EXPECT( rs.rbegin()  <= rs.rbegin()  );
     EXPECT( rs.crbegin() <= rs.crend()   );
     EXPECT( rs.crbegin() <= rs.crbegin() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (>)" )
@@ -837,8 +857,13 @@ CASE( "ring_span: Allows to compare iterators (>)" )
 
     EXPECT( rs.end()   > rs.begin()   );
     EXPECT( rs.cend()  > rs.cbegin()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rend()  > rs.rbegin()  );
     EXPECT( rs.crend() > rs.crbegin() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (>=)" )
@@ -849,10 +874,15 @@ CASE( "ring_span: Allows to compare iterators (>=)" )
     EXPECT( rs.begin()   >= rs.begin()   );
     EXPECT( rs.cend()    >= rs.cbegin()  );
     EXPECT( rs.cbegin()  >= rs.cbegin()  );
+
+#if nsrs_STRICT_P0059
+    EXPECT( !!"rbegin(), rend() are not available (SG14)" );
+#else
     EXPECT( rs.rend()    >= rs.rbegin()  );
     EXPECT( rs.rbegin()  >= rs.rbegin()  );
     EXPECT( rs.crend()   >= rs.crbegin() );
     EXPECT( rs.crbegin() >= rs.crbegin() );
+#endif
 }
 
 CASE( "ring_span: Allows to compare iterators (mixed const-non-const)" )
