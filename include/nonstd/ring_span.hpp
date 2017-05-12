@@ -724,13 +724,13 @@ public:
     template< bool C >
     bool operator<( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        assert( m_rs == rhs.m_rs ); return ( m_idx < rhs.m_idx );
+        assert( this->m_rs == rhs.m_rs ); return ( this->m_idx < rhs.m_idx );
     }
 
     template< bool C >
     bool operator==( ring_iterator<RS,C> const & rhs ) const nsrs_noexcept
     {
-        assert( m_rs == rhs.m_rs ); return ( m_idx == rhs.m_idx );
+        assert( this->m_rs == rhs.m_rs ); return ( this->m_idx == rhs.m_idx );
     }
 
 private:
