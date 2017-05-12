@@ -544,7 +544,7 @@ private:
     friend class detail::ring_iterator<ring_span, true >;   // const_iterator;
     friend class detail::ring_iterator<ring_span, false>;   // iterator;
 
-    size_type normalize_( size_type const idx ) const
+    size_type normalize_( size_type const idx ) const nsrs_noexcept
     {
         return idx % m_capacity;
     }
