@@ -287,8 +287,8 @@ Appendix
 
 **Contents**  
 - [A.1 Ring-span lite test specification](#a1-ring-span-lite-test-specification)
-- [A.2 Test cases tagged with \[.applet\]](#a2-test-cases-tagged-with-applet)
-- [A.3 Test cases with other tags](#a3-test-cases-with-other-tags)
+- [A.2 Hidden test cases tagged with \[.applet\]](#a2-hidden-test-cases-tagged-with-applet)
+- [A.3 Hidden test cases for compile-time information](#a3-hidden-test-cases-for-compile-time-information)
 
 ### A.1 Ring-span lite test specification
 
@@ -375,7 +375,7 @@ ring_span: A copy popper returns the element
 ring_span: A copy popper replaces the original element
 ```
 
-### A.2 Test cases tagged with [.applet]
+### A.2 Hidden test cases tagged with [.applet]
 
 Applets demonstrate a specific use case.
 
@@ -383,7 +383,7 @@ Applets demonstrate a specific use case.
 ring_span: filter[.applet]
 ```
 
-### A.3 Test cases with other tags
+### A.3 Hidden test cases for compile-time information
 
 The version of *ring-span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
 
