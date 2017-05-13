@@ -27,39 +27,7 @@ CASE( "ring-span-lite version" "[.version]" )
     nsrs_PRESENT( ring_span_lite_VERSION );
 }
 
-CASE( "__cplusplus" "[.stdc++]" )
-{
-    nsrs_PRESENT( __cplusplus );
-}
-
-CASE( "nsrs_CPP11_OR_GREATER" "[.stdc++]" )
-{
-#if nsrs_CPP11_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP11_OR_GREATER );
-#else
-    nsrs_ABSENT(  nsrs_CPP11_OR_GREATER );
-#endif
-}
-
-CASE( "nsrs_CPP14_OR_GREATER" "[.stdc++]" )
-{
-#if nsrs_CPP14_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP14_OR_GREATER );
-#else
-    nsrs_ABSENT(  nsrs_CPP14_OR_GREATER );
-#endif
-}
-
-CASE( "nsrs_CPP17_OR_GREATER" "[.stdc++]" )
-{
-#if nsrs_CPP17_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP17_OR_GREATER );
-#else
-    nsrs_ABSENT(  nsrs_CPP17_OR_GREATER );
-#endif
-}
-
-CASE( "compiler version" "[.compiler]" )
+CASE( "C++ compiler: compiler version" "[.compiler]" )
 {
 #if nsrs_COMPILER_GNUC_VERSION
     nsrs_PRESENT( nsrs_COMPILER_GNUC_VERSION );
@@ -74,7 +42,39 @@ CASE( "compiler version" "[.compiler]" )
 #endif
 }
 
-CASE( "Presence of C++ language features" "[.stdlanguage]" )
+CASE( "C++ language: __cplusplus" "[.stdc++]" )
+{
+    nsrs_PRESENT( __cplusplus );
+}
+
+CASE( "C++ language: nsrs_CPP11_OR_GREATER" "[.stdc++]" )
+{
+#if nsrs_CPP11_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP11_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP11_OR_GREATER );
+#endif
+}
+
+CASE( "C++ language: nsrs_CPP14_OR_GREATER" "[.stdc++]" )
+{
+#if nsrs_CPP14_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP14_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP14_OR_GREATER );
+#endif
+}
+
+CASE( "C++ language: nsrs_CPP17_OR_GREATER" "[.stdc++]" )
+{
+#if nsrs_CPP17_OR_GREATER
+    nsrs_PRESENT( nsrs_CPP17_OR_GREATER );
+#else
+    nsrs_ABSENT(  nsrs_CPP17_OR_GREATER );
+#endif
+}
+
+CASE( "C++ language: presence of C++ language features" "[.stdlanguage]" )
 {
 #if nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG
     nsrs_PRESENT( nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
@@ -119,7 +119,7 @@ CASE( "Presence of C++ language features" "[.stdlanguage]" )
 #endif
 }
 
-CASE( "Presence of C++ library features" "[.stdlibrary]" )
+CASE( "C++ library: presence of C++ library features" "[.stdlibrary]" )
 {
 #if nsrs_HAVE_TYPE_TRAITS
     nsrs_PRESENT( nsrs_HAVE_TYPE_TRAITS );

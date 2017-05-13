@@ -288,9 +288,11 @@ Appendix
 **Contents**  
 - [A.1 Ring-span Lite test specification](#a1-ring-span-lite-test-specification)
 - [A.2 Test cases tagged with \[.applet\]](#a2-test-cases-tagged-with-applet)
-
+- [A.3 Test cases with other tags](#a3-test-cases-with-other-tags)
 
 ### A.1 Ring-span Lite test specification
+
+Note: test cases that assert are tagged with `[.assert]` and only run when [.assert] is included on the command line, like: `test [.assert] partial-test-name`.
 
 ```
 ring_span: Allows to construct an empty span from an iterator pair
@@ -379,4 +381,19 @@ Applets demonstrate a specific use case.
 
 ```
 ring_span: filter[.applet]
+```
+
+### A.3 Test cases with other tags
+
+The version of *ring_span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
+
+```
+ring-span-lite version[.version]
+C++ compiler: compiler version[.compiler]
+C++ language: __cplusplus[.stdc++]
+C++ language: nsrs_CPP11_OR_GREATER[.stdc++]
+C++ language: nsrs_CPP14_OR_GREATER[.stdc++]
+C++ language: nsrs_CPP17_OR_GREATER[.stdc++]
+C++ language: presence of C++ language features[.stdlanguage]
+C++ library: presence of C++ library features[.stdlibrary]
 ```
