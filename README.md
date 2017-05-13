@@ -286,11 +286,11 @@ Appendix
 --------
 
 **Contents**  
-- [A.1 Ring-span Lite test specification](#a1-ring-span-lite-test-specification)
+- [A.1 Ring-span lite test specification](#a1-ring-span-lite-test-specification)
 - [A.2 Test cases tagged with \[.applet\]](#a2-test-cases-tagged-with-applet)
 - [A.3 Test cases with other tags](#a3-test-cases-with-other-tags)
 
-### A.1 Ring-span Lite test specification
+### A.1 Ring-span lite test specification
 
 Note: test cases that assert are tagged with `[.assert]` and only run when [.assert] is included on the command line, like: `test [.assert] partial-test-name`.
 
@@ -385,7 +385,7 @@ ring_span: filter[.applet]
 
 ### A.3 Test cases with other tags
 
-The version of *ring_span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
+The version of *ring-span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
 
 ```
 ring-span-lite version[.version]
