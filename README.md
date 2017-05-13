@@ -97,7 +97,7 @@ Synopsis
 **Contents**  
 - [Types in namespace nonstd](#types-in-namespace-nonstd)
 - [Interface of *ring-span lite*](#interface-of-ring-span-lite)
-- [Algorithms for *ring-span lite*](#algorithms-for-ring-span-lite)
+- [Non-member functions for *ring-span lite*](#non-member-functions-for-ring-span-lite)
 - [Configuration macros](#configuration-macros)
 
 ### Types in namespace nonstd
@@ -194,7 +194,7 @@ Synopsis
 
 note 1: accepts lhs and rhs of different const-ness.
 
-### Algorithms for *ring-span lite*
+### Non-member functions for *ring-span lite*
 
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
