@@ -8,6 +8,8 @@ cmake_minimum_required( VERSION 2.8.12 )
 
 project( ring_span_lite )
 
+option( RING_SPAN_LITE_COLOURISE "Colourise test output" OFF )
+
 enable_testing()
 
 add_subdirectory( test )

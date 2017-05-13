@@ -14,6 +14,10 @@ set( SOURCES ring-span-lite.t.cpp ring-span.t.cpp )
 
 add_definitions( -Dgsl_CONFIG_CONTRACT_VIOLATION_THROWS )
 
+if( RING_SPAN_LITE_COLOURISE )
+    add_definitions( -Dlest_FEATURE_COLOURISE=1 )
+endif()
+
 set( HAS_STD_FLAGS  FALSE )
 set( HAS_CPP11_FLAG FALSE )
 set( HAS_CPP14_FLAG FALSE )
