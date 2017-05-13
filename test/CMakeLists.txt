@@ -45,7 +45,7 @@ elseif( ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR
         endif()
     else()  # Clang:
         set( HAS_CPP11_FLAG TRUE )
-        set( HAS_CPP14_FLAG TRUE )
+#       set( HAS_CPP14_FLAG TRUE )
     endif()
 
     add_compile_options( -Wall -Wno-missing-braces -fno-elide-constructors -Wconversion -Wsign-conversion -Wno-string-conversion )
