@@ -253,13 +253,17 @@ Here we use c:\ring-span-lite\build-win-x86-vc10.
 
 2. Configure CMake to use the compiler of your choice (run `cmake --help` for a list).
 
-        cmake -G "Visual Studio 10 2010" ..
+        cmake -G "Visual Studio 10 2010" [see 3. below] ..
 
-3. Build the test suite in the Debug configuration (alternatively use Release).    
+3. Optional. You can control above configuration through the following options:
+
+   - `-DRING_SPAN_LITE_COLOURISE_TEST=ON`: use colour for pass, fail, default off
+
+4. Build the test suite in the Debug configuration (alternatively use Release).    
 
         cmake --build . --config Debug
 
-4. Run the test suite.    
+5. Run the test suite.    
 
         ctest -V -C Debug
 
