@@ -8,13 +8,15 @@ cmake_minimum_required( VERSION 2.8 )
 
 project( test )
 
+option( RING_SPAN_LITE_COLOURISE_TEST "Colourise test output" OFF )
+
 include_directories  (  "${PROJECT_SOURCE_DIR}/../include/nonstd" )
 
 set( SOURCES ring-span-lite.t.cpp ring-span.t.cpp )
 
 add_definitions( -Dgsl_CONFIG_CONTRACT_VIOLATION_THROWS )
 
-if( RING_SPAN_LITE_COLOURISE )
+if( RING_SPAN_LITE_COLOURISE_TEST )
     add_definitions( -Dlest_FEATURE_COLOURISE=1 )
 endif()
 
