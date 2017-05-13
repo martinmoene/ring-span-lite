@@ -204,7 +204,7 @@ note 1: accepts lhs and rhs of different const-ness.
 
 ### Configuration macros
 
-\-D<b>nsrs_STRICT_P0059</b>=0  
+\-D<b>nsrs\CONFIG\_STRICT\_P0059</b>=0  
 Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  

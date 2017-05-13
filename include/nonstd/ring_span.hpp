@@ -27,11 +27,11 @@
 
 // ring-span-lite configuration:
 
-#ifndef  nsrs_STRICT_P0059
-# define nsrs_STRICT_P0059  0
+#ifndef  nsrs_CONFIG_STRICT_P0059
+# define nsrs_CONFIG_STRICT_P0059  0
 #endif
 
-#define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_STRICT_P0059)
+#define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
 // Compiler detection (C++17 is speculative):
 
