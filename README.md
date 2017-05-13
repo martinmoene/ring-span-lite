@@ -309,11 +309,6 @@ ring_span: Allows to emplace an element at the front (C++11)
 ring_span: Allows to copy-insert an element at the back
 ring_span: Allows to move-insert an element at the back (C++11)
 ring_span: Allows to emplace an element at the back (C++11)
-ring_span: A span with capacity zero is both empty and full
-ring_span: A full span is a delay-line of capacity elements (back-front)
-ring_span: A full span is a delay-line of capacity elements (front-back)
-ring_span: A non-full span behaves like an harmonica (back-front)
-ring_span: A non-full span behaves like an harmonica (front-back)
 ring_span: Adding an element to an empty span makes it non-empty (front)
 ring_span: Adding an element to an empty span makes it non-empty (back)
 ring_span: Adding an element to an empty span doesn't change its capacity (front)
@@ -358,6 +353,13 @@ ring_span: Allows to compare iterators (<=)
 ring_span: Allows to compare iterators (>)
 ring_span: Allows to compare iterators (>=)
 ring_span: Allows to compare iterators (mixed const-non-const)
+ring_span: A span with capacity zero is both empty and full
+ring_span: A full span is a delay-line of capacity elements (back-front)
+ring_span: A full span is a delay-line of capacity elements (front-back)
+ring_span: A non-full span is a stack of capacity elements (back)
+ring_span: A non-full span is a stack of capacity elements (front)
+ring_span: A non-full span behaves like an harmonica (back-front)
+ring_span: A non-full span behaves like an harmonica (front-back)
 ring_span: A null popper returns void
 ring_span: A null popper leaves the original element unchanged
 ring_span: A default popper returns the element

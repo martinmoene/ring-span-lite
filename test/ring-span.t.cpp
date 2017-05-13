@@ -293,72 +293,6 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 #endif
 }
 
-CASE( "ring_span: A span with capacity zero is both empty and full" )
-{
-    int arr[] = { 1, }; ring_span<int> rs( arr, arr + 0 );
-
-    EXPECT( rs.empty() );
-    EXPECT( rs.full()  );
-}
-
-CASE( "ring_span: A full span is a delay-line of capacity elements (back-front)" )
-{
-    size_type arr[] = { 1, 2, 3, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
-
-    for ( size_type x = 4; x < 10; rs.push_back( x ), ++x )
-    {
-        EXPECT( rs.pop_front() == x - rs.capacity() );
-    }
-}
-
-CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)" )
-{
-#if nsrs_STRICT_P0059
-    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
-#else
-    size_type arr[] = { 3, 2, 1, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
-
-    for ( size_type x = 4; x < 10; rs.push_front( x ), ++x )
-    {
-        EXPECT( rs.pop_back() == x - rs.capacity() );
-    }
-#endif
-}
-
-CASE( "ring_span: A non-full span behaves like an harmonica (back-front)" )
-{
-    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
-
-    for ( size_type x = 0; x < 3; rs.push_back( x ), ++x )
-    {
-        EXPECT( x == rs.size()  );
-    }
-    for ( size_type x = 0; x < 3; ++x )
-    {
-        EXPECT( x == 3 - rs.size()  );
-        EXPECT( x == rs.pop_front() );
-    }
-}
-
-CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" )
-{
-#if nsrs_STRICT_P0059
-    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
-#else
-    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
-
-    for ( size_type x = 0; x < 3; rs.push_front( x ), ++x )
-    {
-        EXPECT( x == rs.size() );
-    }
-    for ( size_type x = 0; x < 3; ++x )
-    {
-        EXPECT( x == 3 - rs.size() );
-        EXPECT( x == rs.pop_back() );
-    }
-#endif
-}
-
 CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" )
 {
 #if nsrs_STRICT_P0059
@@ -895,6 +829,110 @@ CASE( "ring_span: Allows to compare iterators (mixed const-non-const)" )
     EXPECT(    bgn    <= rs.cend() );
     EXPECT( rs.cend() >     bgn    );
     EXPECT( rs.cend() >=    bgn    );
+}
+
+CASE( "ring_span: A span with capacity zero is both empty and full" )
+{
+    int arr[] = { 1, }; ring_span<int> rs( arr, arr + 0 );
+
+    EXPECT( rs.empty() );
+    EXPECT( rs.full()  );
+}
+
+CASE( "ring_span: A full span is a delay-line of capacity elements (back-front)" )
+{
+    size_type arr[] = { 1, 2, 3, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    for ( size_type x = 4; x < 10; rs.push_back( x ), ++x )
+    {
+        EXPECT( rs.pop_front() == x - rs.capacity() );
+    }
+}
+
+CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
+#else
+    size_type arr[] = { 3, 2, 1, }; ring_span<size_type> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    for ( size_type x = 4; x < 10; rs.push_front( x ), ++x )
+    {
+        EXPECT( rs.pop_back() == x - rs.capacity() );
+    }
+#endif
+}
+
+CASE( "ring_span: A non-full span is a stack of capacity elements (back)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"pop_back() is not available (SG14)" );
+#else
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 1; x <= 3; ++x )
+    {
+        rs.push_back( x );
+    }
+    for ( size_type x = 3; x != 0 ; --x )
+    {
+        EXPECT( x == rs.size()     );
+        EXPECT( x == rs.pop_back() );
+    }
+#endif
+}
+
+CASE( "ring_span: A non-full span is a stack of capacity elements (front)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"push_front() is not available (SG14)" );
+#else
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 1; x <= 3; ++x )
+    {
+        rs.push_front( x );
+    }
+    for ( size_type x = 3; x >= 1 ; --x )
+    {
+        EXPECT( x == rs.size()      );
+        EXPECT( x == rs.pop_front() );
+    }
+#endif
+}
+
+CASE( "ring_span: A non-full span behaves like an harmonica (back-front)" )
+{
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 0; x < 3; rs.push_back( x ), ++x )
+    {
+        EXPECT( x == rs.size()  );
+    }
+    for ( size_type x = 0; x < 3; ++x )
+    {
+        EXPECT( x == 3 - rs.size()  );
+        EXPECT( x == rs.pop_front() );
+    }
+}
+
+CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" )
+{
+#if nsrs_STRICT_P0059
+    EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
+#else
+    size_type arr[] = { 7, 7, 7, }; ring_span<size_type> rs( arr, arr + dim(arr) );
+
+    for ( size_type x = 0; x < 3; rs.push_front( x ), ++x )
+    {
+        EXPECT( x == rs.size() );
+    }
+    for ( size_type x = 0; x < 3; ++x )
+    {
+        EXPECT( x == 3 - rs.size() );
+        EXPECT( x == rs.pop_back() );
+    }
+#endif
 }
 
 CASE( "ring_span: A null popper returns void" )
