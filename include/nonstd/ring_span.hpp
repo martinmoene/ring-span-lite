@@ -229,10 +229,16 @@ struct copy_popper
 {
     typedef T return_type;
 
-#if nsrs_RING_SPAN_LITE_EXTENSION
+#if  nsrs_RING_SPAN_LITE_EXTENSION
+# if nsrs_CPP11_OR_GREATER
     copy_popper( T t )
-    : m_copy( nonstd::move(t) )
+    : m_copy( std::move(t) )
     {}
+# else
+    copy_popper( T const & t )
+    : m_copy( t )
+    {}
+# endif
 #else
     copy_popper( T && t )
     : copy( std::move(t) )
