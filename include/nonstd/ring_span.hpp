@@ -231,7 +231,7 @@ struct copy_popper
 
 #if nsrs_RING_SPAN_LITE_EXTENSION
     copy_popper( T t )
-    : copy( nonstd::move(t) )
+    : m_copy( nonstd::move(t) )
     {}
 #else
     copy_popper( T && t )
@@ -241,12 +241,11 @@ struct copy_popper
 
     T operator()( T & t ) const
     {
-        T old = t;
-        t = copy;
-        return old;
+        using std::swap;
+        T result( m_copy ); swap( t, result ); return result;
     }
 
-    T copy;
+    T m_copy;
 };
 
 // forward-declare iterator:
