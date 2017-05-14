@@ -334,33 +334,15 @@ ring_span: Removing an element from a full span makes it not full (front)
 ring_span: Removing an element from a full span makes it not full (back)
 ring_span: Removing an element from a full span doesn't change its capacity (front)
 ring_span: Removing an element from a full span doesn't change its capacity (back)
-ring_span: Allows to swap ring_spans (member)
-ring_span: Allows to swap ring_spans (non-member)
+ring_span: Allows to swap spans (member)
+ring_span: Allows to swap spans (non-member)
+ring_span: Allows to appear in range-for (C++11)
 ring_span: Allows iteration (non-const)
 ring_span: Allows iteration (const)
 ring_span: Allows iteration (mixed const-non-const)
 ring_span: Allows reverse iteration (non-const)
 ring_span: Allows reverse iteration (const)
 ring_span: Allows reverse iteration (mixed const-non-const)
-ring_span: Allows conversion to const ring_iterator
-ring_span: Allows to appear in range-for (C++11)
-ring_span: Allows to dereference iterator
-ring_span: Allows to increment iterator (prefix)
-ring_span: Allows to increment iterator (postfix)
-ring_span: Allows to decrement iterator (prefix)
-ring_span: Allows to decrement iterator (postfix)
-ring_span: Allows to advance iterator (+=)
-ring_span: Allows to advance iterator (-=)
-ring_span: Allows to offset iterator (+)
-ring_span: Allows to offset iterator (-)
-ring_span: Allows to obtain difference of iterators
-ring_span: Allows to compare iterators (==)
-ring_span: Allows to compare iterators (!=)
-ring_span: Allows to compare iterators (<)
-ring_span: Allows to compare iterators (<=)
-ring_span: Allows to compare iterators (>)
-ring_span: Allows to compare iterators (>=)
-ring_span: Allows to compare iterators (mixed const-non-const)
 ring_span: A span with capacity zero is both empty and full
 ring_span: A full span is a delay-line of capacity elements (back-front)
 ring_span: A full span is a delay-line of capacity elements (front-back)
@@ -368,13 +350,31 @@ ring_span: A non-full span is a stack of capacity elements (back)
 ring_span: A non-full span is a stack of capacity elements (front)
 ring_span: A non-full span behaves like an harmonica (back-front)
 ring_span: A non-full span behaves like an harmonica (front-back)
-ring_span: A null popper returns void
-ring_span: A null popper leaves the original element unchanged
-ring_span: A default popper returns the element
-ring_span: A default popper moves the element (C++11)
-ring_span: A default popper leaves the original element unchanged
-ring_span: A copy popper returns the element
-ring_span: A copy popper replaces the original element
+ring_iterator: Allows conversion to const ring_iterator
+ring_iterator: Allows to dereference iterator
+ring_iterator: Allows to increment iterator (prefix)
+ring_iterator: Allows to increment iterator (postfix)
+ring_iterator: Allows to decrement iterator (prefix)
+ring_iterator: Allows to decrement iterator (postfix)
+ring_iterator: Allows to advance iterator (+=)
+ring_iterator: Allows to advance iterator (-=)
+ring_iterator: Allows to offset iterator (+)
+ring_iterator: Allows to offset iterator (-)
+ring_iterator: Allows to obtain difference of iterators
+ring_iterator: Allows to compare iterators (==)
+ring_iterator: Allows to compare iterators (!=)
+ring_iterator: Allows to compare iterators (<)
+ring_iterator: Allows to compare iterators (<=)
+ring_iterator: Allows to compare iterators (>)
+ring_iterator: Allows to compare iterators (>=)
+ring_iterator: Allows to compare iterators (mixed const-non-const)
+null_popper: A null popper returns void
+null_popper: A null popper leaves the original element unchanged
+default_popper: A default popper returns the element
+default_popper: A default popper moves the element (C++11)
+default_popper: A default popper leaves the original element unchanged
+copy_popper: A copy popper returns the element
+copy_popper: A copy popper replaces the original element
 ```
 
 ### A.2 Hidden test cases tagged with [.applet]
