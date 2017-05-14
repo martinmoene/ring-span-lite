@@ -623,6 +623,20 @@ CASE( "ring_span: Allows reverse iteration (mixed const-non-const)" )
 #endif
 }
 
+CASE( "ring_span: Allows conversion to const ring_iterator" )
+{
+#if nsrs_CONFIG_STRICT_P0059
+    EXPECT( !!"conversion to const iterator is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int>::iterator bgn = rs.begin();
+
+    ring_span<int>::const_iterator cbgn = bgn;
+
+    EXPECT( std::equal( cbgn, rs.cend(), rs.cbegin() ) );
+#endif
+}
+
 CASE( "ring_span: Allows to dereference iterator" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );

@@ -177,6 +177,7 @@ Synopsis
 | Category      |&#10003;| iterator_category            |&nbsp; |
 | Construction  |&#10003;| ring_iterator()              | = default (>= C++11) |
 | &nbsp;        |&ndash; | ring_iterator()              | (< C++11) |
+| Conversion    |&ndash; | operator ring_iterator<&hellip;,true>() const noexcept| const ring_iterator |
 | Element access|&#10003;| operator*() const noexcept   |reference |
 | Increment     |&#10003;| operator++() noexcept        |ring_iterator<&hellip;> & |
 | &nbsp;        |&#10003;| operator++( int ) noexcept   |ring_iterator<&hellip;> |
@@ -335,13 +336,14 @@ ring_span: Removing an element from a full span doesn't change its capacity (fro
 ring_span: Removing an element from a full span doesn't change its capacity (back)
 ring_span: Allows to swap ring_spans (member)
 ring_span: Allows to swap ring_spans (non-member)
-ring_span: Allows to appear in range-for (C++11)
 ring_span: Allows iteration (non-const)
 ring_span: Allows iteration (const)
 ring_span: Allows iteration (mixed const-non-const)
 ring_span: Allows reverse iteration (non-const)
 ring_span: Allows reverse iteration (const)
 ring_span: Allows reverse iteration (mixed const-non-const)
+ring_span: Allows conversion to const ring_iterator
+ring_span: Allows to appear in range-for (C++11)
 ring_span: Allows to dereference iterator
 ring_span: Allows to increment iterator (prefix)
 ring_span: Allows to increment iterator (postfix)

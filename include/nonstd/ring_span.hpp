@@ -660,6 +660,15 @@ public:
     ring_iterator() : m_idx(), m_rs() {}
 #endif
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    // conversion to const iterator:
+
+    operator ring_iterator<RS, true>() const nsrs_noexcept
+    {
+        return ring_iterator<RS, true>( m_idx, m_rs );
+    }
+#endif
+
     // access content:
 
     reference operator*() const nsrs_noexcept
