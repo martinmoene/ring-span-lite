@@ -210,7 +210,7 @@ struct null_popper
 {
     typedef void return_type;
 
-    void operator()( T & ) {}
+    void operator()( T & ) const nsrs_noexcept {}
 };
 
 template< class T >
@@ -218,7 +218,7 @@ struct default_popper
 {
     typedef T return_type;
 
-    T operator()( T & t )
+    T operator()( T & t ) const
     {
         return nonstd::move( t );
     }
@@ -241,7 +241,7 @@ struct copy_popper
     : copy( t )
     {}
 
-    T operator()( T & t )
+    T operator()( T & t ) const
     {
         T old = t;
         t = copy;
