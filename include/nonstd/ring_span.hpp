@@ -229,17 +229,15 @@ struct copy_popper
 {
     typedef T return_type;
 
-#if nsrs_CPP11_OR_GREATER
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    copy_popper( T t )
+    : copy( nonstd::move(t) )
+    {}
+#else
     copy_popper( T && t )
     : copy( std::move(t) )
     {}
 #endif
-
-    // missing from SG14:
-
-    copy_popper( T const & t )
-    : copy( t )
-    {}
 
     T operator()( T & t ) const
     {
