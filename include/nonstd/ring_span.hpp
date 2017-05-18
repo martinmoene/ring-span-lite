@@ -624,14 +624,11 @@ private:
 
 // swap:
 
-#if ! nsrs_CPP11_OR_GREATER
-
 template< class T, class Popper >
 inline void swap( ring_span<T,Popper> & lhs, ring_span<T,Popper> & rhs ) nsrs_noexcept_op( nsrs_noexcept_op( lhs.swap(rhs) ) )
 {
     lhs.swap(rhs);
 }
-#endif
 
 namespace detail {
 

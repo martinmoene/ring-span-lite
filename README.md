@@ -199,9 +199,11 @@ note 1: accepts lhs and rhs of different const-ness.
 
 | Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
 |------|:-----------------------------:|----------|--------|
-| Swap               |&ndash;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void (< C++11) |
+| Swap    |&ndash;/&#10003;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void |
 | Iterator offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 | &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+
+Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&ensp;&middot;&ensp;&ndash;/&#10003; not in proposal/in sg14 code
 
 ### Configuration macros
 
