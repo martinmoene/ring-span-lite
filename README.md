@@ -69,7 +69,7 @@ prompt> buck run example/:01-filter
 
 In a nutshell
 -------------
-**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its code is inspired on the reference implementation by Guy Davidson and Arthur O'Dwyer [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
+**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its initial code is inspired on the reference implementation by Arthur O'Dwyer [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
 
 **Features and properties of ring-span lite** are ease of installation (single header), freedom of dependencies other than the standard library.
 
@@ -281,8 +281,8 @@ Notes and references
 --------------------
 ### References
 [1] [p0059: A proposal to add a ring span to the standard library](http://wg21.link/p0059) ([latest](http://wg21.link/p0059), [r4](http://wg21.link/p0059r4), [r3](http://wg21.link/p0059r3), [r2](http://wg21.link/p0059r2), [r1](http://wg21.link/p0059r1), [r0](http://wg21.link/p0059r0)).  
-[2] [WG21-SG14/SG14](https://github.com/WG21-SG14/SG14/). Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h).  
-[3] [Guy Davidson](https://github.com/hatcat) and [Arthur O'Dwyer](https://github.com/Quuxplusone). Reference implementation of [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
+[2] [WG21-SG14/SG14](https://github.com/WG21-SG14/SG14/). Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h) by [Guy Davidson](https://github.com/hatcat) and [Arthur O'Dwyer](https://github.com/Quuxplusone).  
+[3] [Arthur O'Dwyer](https://github.com/Quuxplusone). Reference implementation of [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
 
 
 Appendix
