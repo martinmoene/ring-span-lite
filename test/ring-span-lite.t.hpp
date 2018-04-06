@@ -12,6 +12,18 @@
 #include "ring_span.hpp"
 #include "lest_cpp03.hpp"
 
+// Compiler warning suppression:
+
+#if defined __clang__
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wundef"
+# pragma clang diagnostic ignored "-Wheader-hygiene"
+# pragma clang diagnostic ignored "-Wstring-conversion"
+#elif defined __GNUC__
+# pragma GCC   diagnostic push
+# pragma GCC   diagnostic ignored "-Wundef"
+#endif
+
 using namespace nonstd;
 
 #define CASE( name ) lest_CASE( specification(), name )

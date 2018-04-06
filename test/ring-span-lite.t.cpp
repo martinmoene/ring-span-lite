@@ -22,6 +22,17 @@ lest::tests & specification()
     return tests;
 }
 
+CASE( "C++ language: __cplusplus" "[.stdc++]" )
+{
+    nsrs_PRESENT( __cplusplus );
+
+#ifdef _MSVC_LANG
+    nsrs_PRESENT( _MSVC_LANG );
+#else
+    nsrs_ABSENT(  _MSVC_LANG );
+#endif
+}
+
 CASE( "ring-span-lite version" "[.version]" )
 {
     nsrs_PRESENT( ring_span_lite_VERSION );
@@ -29,22 +40,23 @@ CASE( "ring-span-lite version" "[.version]" )
 
 CASE( "C++ compiler: compiler version" "[.compiler]" )
 {
-#if nsrs_COMPILER_GNUC_VERSION
+#ifdef nsrs_COMPILER_CLANG_VERSION
+    nsrs_PRESENT( nsrs_COMPILER_CLANG_VERSION );
+#else
+    nsrs_ABSENT(  nsrs_COMPILER_CLANG_VERSION );
+#endif
+
+#ifdef nsrs_COMPILER_GNUC_VERSION
     nsrs_PRESENT( nsrs_COMPILER_GNUC_VERSION );
 #else
     nsrs_ABSENT(  nsrs_COMPILER_GNUC_VERSION );
 #endif
 
-#if nsrs_COMPILER_MSVC_VERSION
+#ifdef nsrs_COMPILER_MSVC_VERSION
     nsrs_PRESENT( nsrs_COMPILER_MSVC_VERSION );
 #else
     nsrs_ABSENT(  nsrs_COMPILER_MSVC_VERSION );
 #endif
-}
-
-CASE( "C++ language: __cplusplus" "[.stdc++]" )
-{
-    nsrs_PRESENT( __cplusplus );
 }
 
 CASE( "C++ language: nsrs_CPP11_OR_GREATER" "[.stdc++]" )

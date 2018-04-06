@@ -33,46 +33,107 @@
 
 #define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
-// Compiler detection (C++17 is speculative):
+// Compiler detection (C++20 is speculative):
+// Note: MSVC supports C++14 in full since it supports C++17.
 
-#define nsrs_CPP11_OR_GREATER  ( __cplusplus >= 201103L )
-#define nsrs_CPP14_OR_GREATER  ( __cplusplus >= 201402L )
-#define nsrs_CPP17_OR_GREATER  ( __cplusplus >= 201700L )
+#ifdef _MSVC_LANG
+# define nsrs_MSVC_LANG _MSVC_LANG
+#else
+# define nsrs_MSVC_LANG 0
+#endif
+
+#define nsrs_CPP11_OR_GREATER ( __cplusplus >= 201103L || nsrs_MSVC_LANG >= 201103L )
+#define span_CPP14_OR_GREATER ( __cplusplus >= 201402L || span_MSVC_LANG >= 201402L /*201703L*/ )
+#define nsrs_CPP17_OR_GREATER ( __cplusplus >= 201703L || nsrs_MSVC_LANG >= 201703L )
+#define nsrs_CPP20_OR_GREATER ( __cplusplus >= 202000L || nsrs_MSVC_LANG >= 202000L )
+
+// Compiler versions:
+//
+// MSVC++ 6.0  _MSC_VER == 1200 (Visual Studio 6.0)
+// MSVC++ 7.0  _MSC_VER == 1300 (Visual Studio .NET 2002)
+// MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio .NET 2003)
+// MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
+// MSVC++ 9.0  _MSC_VER == 1500 (Visual Studio 2008)
+// MSVC++ 10.0 _MSC_VER == 1600 (Visual Studio 2010)
+// MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
+// MSVC++ 12.0 _MSC_VER == 1800 (Visual Studio 2013)
+// MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015)
+// ............_MSVC_LANG: 201402 for -std:c++14, default
+// MSVC++ 14.1 _MSC_VER >= 1910 (Visual Studio 2017)
+// ............_MSVC_LANG: 201402 for -std:c++14, default
+// ............_MSVC_LANG: 201703 for -std:c++17
+
+#if defined( _MSC_VER ) && !defined( __clang__ )
+# define nsrs_COMPILER_MSVC_VERSION ( _MSC_VER / 10 - 10 * ( 5 + ( _MSC_VER < 1900 ) ) )
+#else
+# define nsrs_COMPILER_MSVC_VERSION 0
+#endif
+
+#define nsrs_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * major + minor ) + patch )
+
+#if defined __clang__
+# define nsrs_COMPILER_CLANG_VERSION nsrs_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
+#else
+# define nsrs_COMPILER_CLANG_VERSION 0
+#endif
+
+#if defined __GNUC__
+# define nsrs_COMPILER_GNUC_VERSION nsrs_COMPILER_VERSION( __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ )
+#else
+# define nsrs_COMPILER_GNUC_VERSION 0
+#endif
+
+// Compiler warning suppression:
+
+#if defined __clang__
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wundef"
+# define span_RESTORE_WARNINGS()   _Pragma( "clang diagnostic pop" )
+
+#elif defined __GNUC__
+# pragma GCC   diagnostic push
+# pragma GCC   diagnostic ignored "-Wundef"
+# define span_RESTORE_WARNINGS()   _Pragma( "GCC diagnostic pop" )
+
+#elif span_COMPILER_MSVC_VERSION >= 140
+# define span_DISABLE_MSVC_WARNINGS(codes)  __pragma(warning(push))  __pragma(warning(disable: codes))
+# define span_RESTORE_WARNINGS()            __pragma(warning(pop ))
+
+// Suppress the following MSVC warnings:
+// - C4345: initialization behavior changed
+//
+// Suppress the following MSVC GSL warnings:
+// - C26439, gsl::f.6 : special function 'function' can be declared 'noexcept'
+// - C26440, gsl::f.6 : function 'function' can be declared 'noexcept'
+// - C26472, gsl::t.1 : don't use a static_cast for arithmetic conversions;
+//                      use brace initialization, gsl::narrow_cast or gsl::narrow
+// - C26473: gsl::t.1 : don't cast between pointer types where the source type and the target type are the same
+// - C26481: gsl::b.1 : don't use pointer arithmetic. Use span instead
+// - C26490: gsl::t.1 : don't use reinterpret_cast
+
+span_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
+
+#else
+# define span_RESTORE_WARNINGS()  /*empty*/
+#endif
 
 // half-open range [lo..hi):
 #define nsrs_BETWEEN( v, lo, hi ) ( lo <= v && v < hi )
 
-#if defined(_MSC_VER) && !defined(__clang__)
-# define nsrs_COMPILER_MSVC_VERSION   (_MSC_VER / 100 - 5 - (_MSC_VER < 1900))
-#else
-# define nsrs_COMPILER_MSVC_VERSION   0
-#endif
-
-#if defined __GNUC__
-# define nsrs_COMPILER_GNUC_VERSION  __GNUC__
-#else
-# define nsrs_COMPILER_GNUC_VERSION    0
-#endif
-
-#if nsrs_BETWEEN(nsrs_COMPILER_MSVC_VERSION, 7, 14 )
-# pragma warning( push )
-# pragma warning( disable: 4345 )   // initialization behavior changed
-#endif
-
 // Presence of C++11 language features:
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 10
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 100
 # define nsrs_HAVE_AUTO  1
 # define nsrs_HAVE_NULLPTR  1
 # define nsrs_HAVE_STATIC_ASSERT  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 12
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
 # define nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG  1
 # define nsrs_HAVE_INITIALIZER_LIST  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 14
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140
 # define nsrs_HAVE_ALIAS_TEMPLATE  1
 # define nsrs_HAVE_CONSTEXPR_11  1
 # define nsrs_HAVE_ENUM_CLASS  1
@@ -101,34 +162,34 @@
 # define nsrs_HAVE_TR1_ADD_POINTER  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 9
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 90
 # define nsrs_HAVE_TYPE_TRAITS  1
 # define nsrs_HAVE_STD_ADD_POINTER  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 11
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 110
 # define nsrs_HAVE_ARRAY  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 12
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
 # define nsrs_HAVE_CONDITIONAL  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 14 || (nsrs_COMPILER_MSVC_VERSION >= 9 && _HAS_CPP0X)
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140 || (nsrs_COMPILER_MSVC_VERSION >= 90 && _HAS_CPP0X)
 # define nsrs_HAVE_CONTAINER_DATA_METHOD  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 12
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
 # define nsrs_HAVE_REMOVE_CV  1
 #endif
 
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 14
+#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140
 # define nsrs_HAVE_SIZED_TYPES  1
 #endif
 
 // For the rest, consider VC14 as C++11 for ring-span-lite:
 
-#if nsrs_COMPILER_MSVC_VERSION >= 14
+#if nsrs_COMPILER_MSVC_VERSION >= 140
 # undef  nsrs_CPP11_OR_GREATER
 # define nsrs_CPP11_OR_GREATER  1
 #endif
@@ -802,5 +863,7 @@ inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexc
 
 } // namespace detail
 } // namespace nonstd
+
+span_RESTORE_WARNINGS()
 
 #endif // NONSTD_RING_SPAN_LITE_HPP
