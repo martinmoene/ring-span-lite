@@ -1,10 +1,10 @@
-# Copyright (c) 2017 Martin Moene
+# Copyright (c) 2017-2018 Martin Moene
 #
 # https://github.com/martinmoene/ring-span-lite
 #
 # This code is licensed under the MIT License (MIT).
 
-cmake_minimum_required( VERSION 2.8.12 )
+cmake_minimum_required( VERSION 3.0 )
 
 project( ring_span_lite )
 

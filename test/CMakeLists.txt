@@ -1,99 +1,182 @@
-# Copyright (c) 2017 Martin Moene
+# Copyright (c) 2017-2018 Martin Moene
 #
 # https://github.com/martinmoene/ring-span-lite
 #
 # This code is licensed under the MIT License (MIT).
 
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required( VERSION 3.0 )
 
 project( test )
 
 option( RING_SPAN_LITE_COLOURISE_TEST "Colourise test output" OFF )
 
-include_directories  (  "${PROJECT_SOURCE_DIR}/../include/nonstd" )
+set( MAIN_BASE ring-span-main )
+set( HDRNAME   ring-span.hpp    )
+set( SOURCES   ${MAIN_BASE}.t.cpp ring-span.t.cpp )
 
-set( SOURCES ring-span-lite.t.cpp ring-span.t.cpp )
+set( HDRDIR  ${PROJECT_SOURCE_DIR}/../include/nonstd )
+set( HDRPATH ${HDRDIR}/${HDRNAME} )
 
-add_definitions( -Dgsl_CONFIG_CONTRACT_VIOLATION_THROWS )
+# Configure ring-span-lite for testing:
+
+set( OPTIONS "" )
+set( RING_SPAN_CONFIG "" )
 
 if( RING_SPAN_LITE_COLOURISE_TEST )
-    add_definitions( -Dlest_FEATURE_COLOURISE=1 )
+    set( LEST_COLOURISE -Dlest_FEATURE_COLOURISE=1 )
 endif()
 
 set( HAS_STD_FLAGS  FALSE )
+set( HAS_CPP98_FLAG FALSE )
+set( HAS_CPP03_FLAG FALSE )
 set( HAS_CPP11_FLAG FALSE )
 set( HAS_CPP14_FLAG FALSE )
+set( HAS_CPP17_FLAG FALSE )
+set( HAS_CPP20_FLAG FALSE )
 
 if( MSVC )
-    add_compile_options( -W3 -EHsc -D_SCL_SECURE_NO_WARNINGS )
-
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR
-        CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-
     set( HAS_STD_FLAGS TRUE )
+
+    set( STD_OPT     -std: )
+    set( OPTIONS     -W3 -EHsc )
+    set( DEFINITIONS -D_SCL_SECURE_NO_WARNINGS -DNOMINMAX ${RING_SPAN_CONFIG} ${LEST_COLOURISE} )
+
+    if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00 )
+        set( HAS_CPP14_FLAG TRUE )
+        set( HAS_CPPLATEST_FLAG TRUE )
+    endif()
+    if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.11 )
+        set( HAS_CPP17_FLAG TRUE )
+    endif()
+
+elseif( CMAKE_CXX_COMPILER_ID MATCHES GNU OR
+        CMAKE_CXX_COMPILER_ID MATCHES Clang )
+
+    set( HAS_STD_FLAGS  TRUE )
+    set( HAS_CPP98_FLAG TRUE )
+    set( HAS_CPP03_FLAG TRUE )
+
+    set( STD_OPT     -std= )
+    set( OPTIONS     -Wall -Wno-missing-braces -fno-elide-constructors -Wconversion -Wsign-conversion -Wno-string-conversion )
+    set( DEFINITIONS ${RING_SPAN_CONFIG} ${LEST_COLOURISE} )
 
     # GNU: available -std flags depends on version
     if( CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
-        execute_process(
-            COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-
-        if( GCC_VERSION )
-            if( NOT GCC_VERSION VERSION_LESS 4.8.0 )
-                set( HAS_CPP11_FLAG TRUE )
-            endif()
-            if( NOT GCC_VERSION VERSION_LESS 4.9.2 )
-                set( HAS_CPP14_FLAG TRUE )
-            endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.0 )
+            set( HAS_CPP11_FLAG TRUE )
         endif()
-    else()  # Clang:
-        set( HAS_CPP11_FLAG TRUE )
-#       set( HAS_CPP14_FLAG TRUE )
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.2 )
+            set( HAS_CPP14_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.1.0 )
+            set( HAS_CPP17_FLAG TRUE )
+        endif()
     endif()
 
-    add_compile_options( -Wall -Wno-missing-braces -fno-elide-constructors -Wconversion -Wsign-conversion -Wno-string-conversion )
-
-    add_executable( ring-span-lite-cpp98.t ${SOURCES} )
-    target_compile_options( ring-span-lite-cpp98.t  PUBLIC -std=c++98 )
-
-    add_executable( ring-span-lite-cpp03.t ${SOURCES} )
-    target_compile_options( ring-span-lite-cpp03.t  PUBLIC -std=c++03 )
-
-    if( HAS_CPP11_FLAG )
-        add_executable( ring-span-lite-cpp11.t ${SOURCES} )
-        target_compile_options( ring-span-lite-cpp11.t  PUBLIC -std=c++11 )
+    # Clang: available -std flags depends on version
+    if( CMAKE_CXX_COMPILER_ID MATCHES Clang )
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3.0 )
+            set( HAS_CPP11_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.4.0 )
+            set( HAS_CPP14_FLAG TRUE )
+        endif()
+        if( NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0.0 )
+            set( HAS_CPP17_FLAG TRUE )
+        endif()
     endif()
 
-    if( HAS_CPP14_FLAG )
-        add_executable( ring-span-lite-cpp14.t ${SOURCES} )
-        target_compile_options( ring-span-lite-cpp14.t  PUBLIC -std=c++14 )
-    endif()
-
-elseif( CMAKE_CXX_COMPILER_ID MATCHES "Intel" )
+elseif( CMAKE_CXX_COMPILER_ID MATCHES Intel )
 # as is
 else()
 # as is
 endif()
 
-add_executable( ring-span-lite.t ${SOURCES} )
+# enable MS C++ Core Guidelines checker if MSVC:
+
+function( enable_msvs_guideline_checker target )
+    if( MSVC )
+        set_target_properties( ${target} PROPERTIES
+        VS_GLOBAL_EnableCppCoreCheck true
+        VS_GLOBAL_CodeAnalysisRuleSet CppCoreCheckRules.ruleset
+        VS_GLOBAL_RunCodeAnalysis true )
+    endif()
+endfunction()
+
+# make target, compile for given standard if specified:
+
+function( make_target target std )
+    if( std )
+        set( OPTIONAL_STD ${STD_OPT}${std} )
+    endif()
+    add_executable            ( ${target} ${SOURCES} )
+    target_compile_options    ( ${target} PRIVATE ${OPTIONS} ${OPTIONAL_STD} )
+    target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
+    target_include_directories( ${target} PRIVATE ${HDRDIR} )
+endfunction()
+
+# add generic executable, unless -std flags can be specified:
+
+if( NOT HAS_STD_FLAGS )
+    make_target( ${MAIN_BASE}.t "" )
+else()
+    # unconditionally add C++98 variant as MSVC has no option for it:
+    if( HAS_CPP98_FLAG )
+        make_target( ${MAIN_BASE}-cpp98.t c++98 )
+    else()
+        make_target( ${MAIN_BASE}-cpp98.t "" )
+    endif()
+
+    if( HAS_CPP03_FLAG )
+        make_target( ${MAIN_BASE}-cpp03.t c++03 )
+    endif()
+
+    if( HAS_CPP11_FLAG )
+        make_target( ${MAIN_BASE}-cpp11.t c++11 )
+    endif()
+
+    if( HAS_CPP14_FLAG )
+        make_target( ${MAIN_BASE}-cpp14.t c++14 )
+    endif()
+
+    if( HAS_CPP17_FLAG )
+        make_target( ${MAIN_BASE}-cpp17.t c++17 )
+        enable_msvs_guideline_checker( ${MAIN_BASE}-cpp17.t )
+    endif()
+
+    if( HAS_CPPLATEST_FLAG )
+        make_target( ${MAIN_BASE}-cpplatest.t c++latest )
+    endif()
+endif()
 
 # configure unit tests via CTest:
 
 enable_testing()
 
-if( NOT HAS_STD_FLAGS )
-    add_test(     NAME test          COMMAND ring-span-lite.t --pass )
-else()
-    add_test(     NAME test-cpp98    COMMAND ring-span-lite-cpp98.t )
-    add_test(     NAME test-cpp03    COMMAND ring-span-lite-cpp03.t )
+if( HAS_STD_FLAGS )
+    # unconditionally add C++98 variant for MSVC:
+    add_test(     NAME test-cpp98     COMMAND ${MAIN_BASE}-cpp98.t )
+
+    if( HAS_CPP03_FLAG )
+        add_test( NAME test-cpp03     COMMAND ${MAIN_BASE}-cpp03.t )
+    endif()
     if( HAS_CPP11_FLAG )
-        add_test( NAME test-cpp11    COMMAND ring-span-lite-cpp11.t )
+        add_test( NAME test-cpp11     COMMAND ${MAIN_BASE}-cpp11.t )
     endif()
     if( HAS_CPP14_FLAG )
-        add_test( NAME test-cpp14    COMMAND ring-span-lite-cpp14.t --pass )
+        add_test( NAME test-cpp14     COMMAND ${MAIN_BASE}-cpp14.t )
     endif()
+    if( HAS_CPP17_FLAG )
+        add_test( NAME test-cpp17     COMMAND ${MAIN_BASE}-cpp17.t )
+    endif()
+    if( HAS_CPPLATEST_FLAG )
+        add_test( NAME test-cpplatest COMMAND ${MAIN_BASE}-cpplatest.t )
+    endif()
+else()
+    add_test(     NAME test           COMMAND ${MAIN_BASE}.t --pass )
+    add_test(     NAME list_version   COMMAND ${MAIN_BASE}.t --version )
+    add_test(     NAME list_tags      COMMAND ${MAIN_BASE}.t --list-tags )
+    add_test(     NAME list_tests     COMMAND ${MAIN_BASE}.t --list-tests )
 endif()
-add_test(         NAME list_version  COMMAND ring-span-lite.t --version )
-add_test(         NAME list_tags     COMMAND ring-span-lite.t --list-tags )
-add_test(         NAME list_tests    COMMAND ring-span-lite.t --list-tests )
 
 # end of file
