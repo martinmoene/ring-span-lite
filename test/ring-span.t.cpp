@@ -15,7 +15,7 @@
 // THE SOFTWARE.
 
 #ifndef  nsrs_RING_SPAN_LITE_T_HEADER
-#define  nsrs_RING_SPAN_LITE_T_HEADER  "ring-span-lite.t.hpp"
+#define  nsrs_RING_SPAN_LITE_T_HEADER  "ring-span-main.t.hpp"
 #endif
 
 #include nsrs_RING_SPAN_LITE_T_HEADER

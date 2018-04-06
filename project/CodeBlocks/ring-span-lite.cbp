@@ -25,8 +25,8 @@
 		<Unit filename="../../include/sg14/sg14-ring.h" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/lest_cpp03.hpp" />
-		<Unit filename="../../test/ring-span-lite.t.cpp" />
-		<Unit filename="../../test/ring-span-lite.t.hpp" />
+		<Unit filename="../../test/ring-span-main.t.cpp" />
+		<Unit filename="../../test/ring-span-main.t.hpp" />
 		<Unit filename="../../test/ring-span-sg14.t.hpp" />
 		<Unit filename="../../test/ring-span.t.cpp" />
 		<Unit filename="../../test/t-sg14.bat" />
