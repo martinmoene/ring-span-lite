@@ -43,7 +43,7 @@
 #endif
 
 #define nsrs_CPP11_OR_GREATER ( __cplusplus >= 201103L || nsrs_MSVC_LANG >= 201103L )
-#define span_CPP14_OR_GREATER ( __cplusplus >= 201402L || span_MSVC_LANG >= 201402L /*201703L*/ )
+#define nsrs_CPP14_OR_GREATER ( __cplusplus >= 201402L || nsrs_MSVC_LANG >= 201402L /*201703L*/ )
 #define nsrs_CPP17_OR_GREATER ( __cplusplus >= 201703L || nsrs_MSVC_LANG >= 201703L )
 #define nsrs_CPP20_OR_GREATER ( __cplusplus >= 202000L || nsrs_MSVC_LANG >= 202000L )
 
@@ -88,16 +88,16 @@
 #if defined __clang__
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wundef"
-# define span_RESTORE_WARNINGS()   _Pragma( "clang diagnostic pop" )
+# define nsrs_RESTORE_WARNINGS()   _Pragma( "clang diagnostic pop" )
 
 #elif defined __GNUC__
 # pragma GCC   diagnostic push
 # pragma GCC   diagnostic ignored "-Wundef"
-# define span_RESTORE_WARNINGS()   _Pragma( "GCC diagnostic pop" )
+# define nsrs_RESTORE_WARNINGS()   _Pragma( "GCC diagnostic pop" )
 
-#elif span_COMPILER_MSVC_VERSION >= 140
-# define span_DISABLE_MSVC_WARNINGS(codes)  __pragma(warning(push))  __pragma(warning(disable: codes))
-# define span_RESTORE_WARNINGS()            __pragma(warning(pop ))
+#elif nsrs_COMPILER_MSVC_VERSION >= 140
+# define nsrs_DISABLE_MSVC_WARNINGS(codes)  __pragma(warning(push))  __pragma(warning(disable: codes))
+# define nsrs_RESTORE_WARNINGS()            __pragma(warning(pop ))
 
 // Suppress the following MSVC warnings:
 // - C4345: initialization behavior changed
@@ -111,10 +111,10 @@
 // - C26481: gsl::b.1 : don't use pointer arithmetic. Use span instead
 // - C26490: gsl::t.1 : don't use reinterpret_cast
 
-span_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
+nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 
 #else
-# define span_RESTORE_WARNINGS()  /*empty*/
+# define nsrs_RESTORE_WARNINGS()  /*empty*/
 #endif
 
 // half-open range [lo..hi):
@@ -864,6 +864,6 @@ inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexc
 } // namespace detail
 } // namespace nonstd
 
-span_RESTORE_WARNINGS()
+nsrs_RESTORE_WARNINGS()
 
 #endif // NONSTD_RING_SPAN_LITE_HPP
