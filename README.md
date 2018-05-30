@@ -104,10 +104,10 @@ Synopsis
 
 | Purpose |[p0059](http://wg21.link/p0059)| Type | Notes |
 |---------|:-----------------------------:|------|-------|
-| Circular buffer view |&#10003;| template< class T, class Popper = default_popper<T> ><br>class ring_span | &nbsp; |
-| Ignore element |&#10003;| template< class T ><br>class null_popper    | &nbsp; |
-| Return element |&#10003;| template< class T ><br>class default_popper | &nbsp; |
-| Return element, replace original |&#10003;| template< class T ><br>class copy_popper | &nbsp; |
+| Circular buffer view |&#10003;| template< class T, class Popper = default_popper<T> ><br>class **ring_span** | &nbsp; |
+| Ignore element |&#10003;| template< class T ><br>class **null_popper**    | &nbsp; |
+| Return element |&#10003;| template< class T ><br>class **default_popper** | &nbsp; |
+| Return element, replace original |&#10003;| template< class T ><br>class **copy_popper** | &nbsp; |
 
 ### Interface of *ring-span lite*
 
@@ -115,93 +115,93 @@ Synopsis
 
 | Kind |[p0059](http://wg21.link/p0059)| Type / Method | Note / Result |
 |-------|:--------------:|-----------------------------|---------------|
-| Various types          |&#10003;| type                   |ring_span< T, Popper > |
-| &nbsp;                 |&#10003;| size_type              |&nbsp; |
-| Value types            |&#10003;| value_type             |&nbsp; |
-| &nbsp;                 |&#10003;| pointer                |&nbsp; |
-| &nbsp;                 |&#10003;| reference              |&nbsp; |
-| &nbsp;                 |&#10003;| const_reference        |&nbsp; |
-| Iterator types         |&#10003;| iterator               |&nbsp; |
-| &nbsp;                 |&#10003;| const_iterator         |&nbsp; |
-| &nbsp;                 |&ndash; | reverse_iterator       |&nbsp; |
-| &nbsp;                 |&ndash; | const_reverse_iterator |&nbsp; |
-| Construction   |&#10003;| ring_span(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of<br>distance(begin,end) capacity |
-| &nbsp;         |&#10003;| ring_span(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of<br>distance(begin,end) capacity,<br>size elements |
-| &nbsp;         |&#10003;| ring_span( ring_span && ) | = default (>= C++11) |
-| &nbsp;         |&#10003;| ring_span& operator=( ring_span && ) | = default (>= C++11) |
-| &nbsp;         |&#10003;| ring_span( ring_span const & ) | implicitly deleted (>= C++11) |
-| &nbsp;         |&#10003;| ring_span & operator=( ring_span const & ); | implicitly deleted (>= C++11) |
-| &nbsp;         |&ndash; | ring_span( ring_span const & ) | declared private (< C++11) |
-| &nbsp;         |&ndash; | ring_span & operator=( ring_span const & ); | declared private (< C++11) |
-| Iteration      |&#10003;| begin() noexcept   | iterator |
-| &nbsp;         |&#10003;| begin() noexcept   | const_iterator |
-| &nbsp;         |&#10003;| cbegin() noexcept  | const_iterator |
-| &nbsp;         |&#10003;| end() noexcept     | iterator |
-| &nbsp;         |&#10003;| end() noexcept     | const_iterator |
-| &nbsp;         |&#10003;| cend() noexcept    | const_iterator |
-| Reverse iter.  |&ndash;| rbegin() noexcept  | reverse_iterator |
-| &nbsp;         |&ndash; | rbegin() noexcept  | const_reverse_iterator |
-| &nbsp;         |&ndash; | crbegin() noexcept | const_reverse_iterator |
-| &nbsp;         |&ndash; | rend() noexcept    | reverse_iterator |
-| &nbsp;         |&ndash; | rend() noexcept    | const_reverse_iterator |
-| &nbsp;         |&ndash; | crend() noexcept   | const_reverse_iterator |
-| Observation    |&#10003;| empty() noexcept   | true if empty |
-| &nbsp;         |&#10003;| full() noexcept    | true if full |
-| &nbsp;         |&#10003;| size() noexcept    | current number of elements |
-| &nbsp;         |&#10003;| capacity() noexcept| maximum number of elements |
-| Element access |&#10003;| front() noexcept   | reference to element at front |
-| &nbsp;         |&#10003;| front() noexcept   | const_reference to element at front |
-| &nbsp;         |&#10003;| back() noexcept    | reference to back element at back |
-| &nbsp;         |&#10003;| back() noexcept    | const_reference to element at back |
-| Elem.extraction|&#10003;| pop_front() | Popper::return_type (p0059: auto) |
-| &nbsp;         |&ndash;    | pop_back()  | Popper::return_type |
-| Elem.insertion|&#10003;| push_back( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
-| &nbsp;         |&ndash; | push_back( value_type const & value )     | void; unrestrained (< C++11) |
-| &nbsp;         |&#10003;| push_back( value_type && value ) noexcept(&hellip;) | void; restrained (>= C++11) |
-| &nbsp;         |&#10003;| emplace_back( Args &&... args ) noexcept(&hellip;)| void; restrained (>= C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type const & value )    | void; unrestrained (< C++11) |
-| &nbsp;         |&ndash;  | push_front( value_type && value ) noexcept(&hellip;)| void; restrained (>= C++11) |
-| &nbsp;         |&ndash;  | emplace_front( Args &&... args ) noexcept(&hellip;) | void; restrained (>= C++11) |
-| Swap           |&#10003;   | swap( ring_span & rhs ) noexcept | void; |
+| Various types  |&#10003;| **type**                   |ring_span< T, Popper > |
+| &nbsp;         |&#10003;| **size_type**              |&nbsp; |
+| Value types    |&#10003;| **value_type**             |&nbsp; |
+| &nbsp;         |&#10003;| **pointer**                |&nbsp; |
+| &nbsp;         |&#10003;| **reference**              |&nbsp; |
+| &nbsp;         |&#10003;| **const_reference**        |&nbsp; |
+| Iterator types |&#10003;| **iterator**               |&nbsp; |
+| &nbsp;         |&#10003;| **const_iterator**         |&nbsp; |
+| &nbsp;         |&ndash; | **reverse_iterator**       |&nbsp; |
+| &nbsp;         |&ndash; | **const_reverse_iterator** |&nbsp; |
+| Construction   |&#10003;| **ring_span**(<br>It begin, It end<br>, Popper popper = Popper() ) noexcept | create empty span of<br>distance(begin,end) capacity |
+| &nbsp;         |&#10003;| **ring_span**(<br>It begin, It end<br>, It first, size_type size<br>, Popper popper = Popper() ) noexcept | create partially filled span of<br>distance(begin,end) capacity,<br>size elements |
+| &nbsp;         |&#10003;| **ring_span**( ring_span && ) | = default (>= C++11) |
+| &nbsp;         |&#10003;| ring_span& **operator=**( ring_span && ) | = default (>= C++11) |
+| &nbsp;         |&#10003;| **ring_span**( ring_span const & ) | implicitly deleted (>= C++11) |
+| &nbsp;         |&#10003;| ring_span & **operator=**( ring_span const & ); | implicitly deleted (>= C++11) |
+| &nbsp;         |&ndash; | **ring_span**( ring_span const & ) | declared private (< C++11) |
+| &nbsp;         |&ndash; | ring_span & **operator=**( ring_span const & ); | declared private (< C++11) |
+| Iteration      |&#10003;| **begin**() noexcept   | iterator |
+| &nbsp;         |&#10003;| **begin**() noexcept   | const_iterator |
+| &nbsp;         |&#10003;| **cbegin**() noexcept  | const_iterator |
+| &nbsp;         |&#10003;| **end**() noexcept     | iterator |
+| &nbsp;         |&#10003;| **end**() noexcept     | const_iterator |
+| &nbsp;         |&#10003;| **cend**() noexcept    | const_iterator |
+| Reverse iter.  |&ndash; | **rbegin**() noexcept  | reverse_iterator |
+| &nbsp;         |&ndash; | **rbegin**() noexcept  | const_reverse_iterator |
+| &nbsp;         |&ndash; | **crbegin**() noexcept | const_reverse_iterator |
+| &nbsp;         |&ndash; | **rend**() noexcept    | reverse_iterator |
+| &nbsp;         |&ndash; | **rend**() noexcept    | const_reverse_iterator |
+| &nbsp;         |&ndash; | **crend**() noexcept   | const_reverse_iterator |
+| Observation    |&#10003;| **empty**() noexcept   | true if empty |
+| &nbsp;         |&#10003;| **full**() noexcept    | true if full |
+| &nbsp;         |&#10003;| **size**() noexcept    | current number of elements |
+| &nbsp;         |&#10003;| **capacity**() noexcept| maximum number of elements |
+| Element access |&#10003;| **front**() noexcept   | reference to element at front |
+| &nbsp;         |&#10003;| **front**() noexcept   | const_reference to element at front |
+| &nbsp;         |&#10003;| **back**() noexcept    | reference to back element at back |
+| &nbsp;         |&#10003;| **back**() noexcept    | const_reference to element at back |
+| Elem.extraction|&#10003;| **pop_front**() | Popper::return_type (p0059: auto) |
+| &nbsp;         |&ndash; | **pop_back**()  | Popper::return_type |
+| Elem.insertion|&#10003; | **push_back**( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&ndash; | **push_back**( value_type const & value )     | void; unrestrained (< C++11) |
+| &nbsp;         |&#10003;| **push_back**( value_type && value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&#10003;| **emplace_back**( Args &&... args ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         |&ndash; | **push_front**( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         |&ndash; | **push_front**( value_type const & value )    | void; unrestrained (< C++11) |
+| &nbsp;         |&ndash; | **push_front**( value_type && value ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         |&ndash; | **emplace_front**( Args &&... args ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| Swap           |&#10003;| **swap**( ring_span & rhs ) noexcept | void; |
 
 #### Class `ring_iterator`
 
 | Kind |[p0059](http://wg21.link/p0059)| Type / Method  | Note / Result |
 |-------|:--------------:|------------------------------|---------------|
-| Various types |&#10003;| type                         |ring_span< T, Popper > |
-| &nbsp;        |&#10003;| difference_type              |&nbsp; |
-| Value types   |&#10003;| value_type                   |&nbsp; |
-| &nbsp;        |&#10003;| pointer                      |&nbsp; |
-| &nbsp;        |&#10003;| reference                    |&nbsp; |
-| Category      |&#10003;| iterator_category            |&nbsp; |
-| Construction  |&#10003;| ring_iterator()              | = default (>= C++11) |
-| &nbsp;        |&ndash; | ring_iterator()              | (< C++11) |
-| Conversion    |&ndash; | operator ring_iterator<&hellip;,true>() const noexcept| const ring_iterator |
-| Element access|&#10003;| operator*() const noexcept   |reference |
-| Increment     |&#10003;| operator++() noexcept        |ring_iterator<&hellip;> & |
-| &nbsp;        |&#10003;| operator++( int ) noexcept   |ring_iterator<&hellip;> |
-| Decrement     |&#10003;| operator--() noexcept        |ring_iterator<&hellip;> & |
-| &nbsp;        |&#10003;| operator--( int ) noexcept   |ring_iterator<&hellip;> |
-| Addition      |&#10003;| operator+=( int i ) noexcept |ring_iterator<&hellip;> & |
-| &nbsp;        |&#10003;| operator-=( int i ) noexcept |ring_iterator<&hellip;> & |
-| Difference    |&ndash; | operator-( ring_iterator<&hellip;> const & rhs ) | difference_type, note 1 |
-| Comparison    |&#10003;| operator==( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| operator!=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| operator<( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
-| &nbsp;        |&#10003;| operator<=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| operator>( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
-| &nbsp;        |&#10003;| operator>=( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| Various types |&#10003;| **type**                         |ring_span< T, Popper > |
+| &nbsp;        |&#10003;| **difference_type**              |&nbsp; |
+| Value types   |&#10003;| **value_type**                   |&nbsp; |
+| &nbsp;        |&#10003;| **pointer**                      |&nbsp; |
+| &nbsp;        |&#10003;| **reference**                    |&nbsp; |
+| Category      |&#10003;| **iterator_category**            |&nbsp; |
+| Construction  |&#10003;| **ring_iterator**()              | = default (>= C++11) |
+| &nbsp;        |&ndash; | **ring_iterator**()              | (< C++11) |
+| Conversion    |&ndash; | **operator ring_iterator<&hellip;,true>**() const noexcept| const ring_iterator |
+| Element access|&#10003;| **operator\***() const noexcept  |reference |
+| Increment     |&#10003;| **operator++**() noexcept        |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| **operator++**( int ) noexcept   |ring_iterator<&hellip;> |
+| Decrement     |&#10003;| **operator--**() noexcept        |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| **operator--**( int ) noexcept   |ring_iterator<&hellip;> |
+| Addition      |&#10003;| **operator+=**( int i ) noexcept |ring_iterator<&hellip;> & |
+| &nbsp;        |&#10003;| **operator-=**( int i ) noexcept |ring_iterator<&hellip;> & |
+| Difference    |&ndash; | **operator-**( ring_iterator<&hellip;> const & rhs ) | difference_type, note 1 |
+| Comparison    |&#10003;| **operator==**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| **operator!=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| **operator<**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
+| &nbsp;        |&#10003;| **operator<=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| &nbsp;        |&#10003;| **operator>**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
+| &nbsp;        |&#10003;| **operator>=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
 
 note 1: accepts lhs and rhs of different const-ness.
 
 ### Non-member functions for *ring-span lite*
 
-| Kind |[p0059](http://wg21.link/p0059)| Function | Note / Result |
-|------|:-----------------------------:|----------|--------|
-| Swap    |&ndash;/&#10003;| swap( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void |
-| Iterator offset |&#10003;| operator+( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
-| &nbsp; |&#10003;| operator-( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+| Kind            |[p0059](http://wg21.link/p0059)| Function | Note / Result |
+|-----------------|:-----------------------------:|----------|--------|
+| Swap            |&ndash;/&#10003;| **swap**( ring_span<&hellip;> & lhs, ring_span<&hellip;> & rhs ) |void |
+| Iterator offset |&#10003;| **operator+**( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
+| &nbsp;          |&#10003;| **operator-**( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 
 Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&ensp;&middot;&ensp;&ndash;/&#10003; not in proposal/in sg14 code
 
