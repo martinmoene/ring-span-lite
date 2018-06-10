@@ -12,7 +12,7 @@ cmake_minimum_required( VERSION 3.0 )
 option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ON )
 option( RING_SPAN_LITE_OPT_BUILD_EXAMPLES "Build ring-span-lite examples" OFF )
 
-project( ring_span_lite )
+project( ring_span_lite LANGUAGES CXX )
 
 set( package_name "ring-span-lite" )
 set( include_source_dir "${PROJECT_SOURCE_DIR}/include" )

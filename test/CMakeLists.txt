@@ -7,7 +7,7 @@
 
 cmake_minimum_required( VERSION 3.0 )
 
-project( test )
+project( test LANGUAGES CXX )
 
 option( RING_SPAN_LITE_COLOURISE_TEST "Colourise test output" OFF )
 
