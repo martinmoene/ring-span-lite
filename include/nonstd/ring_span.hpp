@@ -16,7 +16,14 @@
 #include <iterator>
 #include <utility>
 
-#define  ring_span_lite_VERSION "1.0.0"
+#define ring_span_lite_MAJOR  1
+#define ring_span_lite_MINOR  0
+#define ring_span_lite_PATCH  0
+
+#define ring_span_lite_VERSION  ring_span_STRINGIFY(ring_span_lite_MAJOR) "." ring_span_STRINGIFY(ring_span_lite_MINOR) "." ring_span_STRINGIFY(ring_span_lite_PATCH)
+
+#define ring_span_STRINGIFY(  x )  ring_span_STRINGIFY_( x )
+#define ring_span_STRINGIFY_( x )  #x
 
 // ring-span-lite configuration:
 

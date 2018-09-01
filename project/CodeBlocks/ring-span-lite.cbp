@@ -23,6 +23,7 @@
 		<Unit filename="../../include/nonstd/ring_span.hpp" />
 		<Unit filename="../../include/sg14/quux-ring_span.h" />
 		<Unit filename="../../include/sg14/sg14-ring.h" />
+		<Unit filename="../../script/update-version.py" />
 		<Unit filename="../../test/CMakeLists.txt" />
 		<Unit filename="../../test/lest_cpp03.hpp" />
 		<Unit filename="../../test/ring-span-main.t.cpp" />

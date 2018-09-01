@@ -25,6 +25,9 @@ lest::tests & specification()
 
 CASE( "ring-span-lite version" "[.version]" )
 {
+    nsrs_PRESENT( ring_span_lite_MAJOR );
+    nsrs_PRESENT( ring_span_lite_MINOR );
+    nsrs_PRESENT( ring_span_lite_PATCH );
     nsrs_PRESENT( ring_span_lite_VERSION );
 }
 
