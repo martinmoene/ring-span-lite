@@ -7,6 +7,10 @@
 
 cmake_minimum_required( VERSION 3.5 )
 
+# ring_span-lite version, updated by script/update-version.py:
+
+set( ring_span_lite_version "1.0.0" )
+
 # Enable building and performing of tests and building of examples:
 
 option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ON )
