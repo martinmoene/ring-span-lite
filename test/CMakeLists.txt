@@ -54,7 +54,7 @@ elseif( CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang" )
     set( HAS_STD_FLAGS  TRUE )
     set( HAS_CPP98_FLAG TRUE )
 
-    set( OPTIONS     -Wall -Wno-missing-braces -fno-elide-constructors -Wconversion -Wsign-conversion -Wno-string-conversion )
+    set( OPTIONS     -Wall -Wextra -Wconversion -Wsign-conversion -Wno-missing-braces -fno-elide-constructors -Wconversion -Wsign-conversion )
     set( DEFINITIONS ${RING_SPAN_CONFIG} ${LEST_COLOURISE} )
 
     # GNU: available -std flags depends on version
