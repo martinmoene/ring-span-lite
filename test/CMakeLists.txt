@@ -7,9 +7,9 @@
 
 cmake_minimum_required( VERSION 3.5 )
 
-project( test LANGUAGES CXX )
-
 option( RING_SPAN_LITE_COLOURISE_TEST "Colourise test output" OFF )
+
+project( test LANGUAGES CXX )
 
 set( MAIN_BASE ring-span-main )
 set( HDRNAME   ring-span.hpp    )
