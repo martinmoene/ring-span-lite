@@ -15,7 +15,7 @@
 
 // Compiler warning suppression:
 
-#if defined __clang__
+#if defined(__clang__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wundef"
 # pragma clang diagnostic ignored "-Wheader-hygiene"

@@ -71,13 +71,13 @@
 
 #define nsrs_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * major + minor ) + patch )
 
-#if defined __clang__
+#if defined(__clang__)
 # define nsrs_COMPILER_CLANG_VERSION nsrs_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
 #else
 # define nsrs_COMPILER_CLANG_VERSION 0
 #endif
 
-#if defined __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 # define nsrs_COMPILER_GNUC_VERSION nsrs_COMPILER_VERSION( __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__ )
 #else
 # define nsrs_COMPILER_GNUC_VERSION 0
@@ -85,7 +85,7 @@
 
 // Compiler warning suppression:
 
-#if defined __clang__
+#if defined(__clang__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wundef"
 # define nsrs_RESTORE_WARNINGS()   _Pragma( "clang diagnostic pop" )
