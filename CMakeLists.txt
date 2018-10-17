@@ -13,7 +13,7 @@ set( ring_span_lite_version "1.0.0" )
 
 # Enable building and performing of tests and building of examples:
 
-option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ON )
+option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" OFF )
 option( RING_SPAN_LITE_OPT_BUILD_EXAMPLES "Build ring-span-lite examples" OFF )
 
 project( ring_span_lite LANGUAGES CXX )
@@ -33,7 +33,7 @@ target_include_directories(
 
 # Installation:
 
-install( 
+install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} )
 
 # If requested, build and perform tests, build examples:
