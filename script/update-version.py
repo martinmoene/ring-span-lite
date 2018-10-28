@@ -31,6 +31,10 @@ table = (
 #        , r'\ring_span_lite_version\s+=\s+"([0-9]+\.[0-9]+\.[0-9]+)"\s*$'
 #        , 'ring_span_lite_version = "{major}.{minor}.{patch}"\n' )
 
+    , ( 'conanfile.py'
+        , r'version\s+=\s+"([0-9]+\.[0-9]+\.[0-9]+)"\s*$'
+        , 'version = "{major}.{minor}.{patch}"' )
+
     , ( 'include/nonstd/ring_span.hpp'
         , r'\#define\s+ring_span_lite_MAJOR\s+[0-9]+\s*$'
         , '#define ring_span_lite_MAJOR  {major}' )
