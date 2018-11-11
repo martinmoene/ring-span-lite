@@ -120,7 +120,7 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 #endif
 
 // half-open range [lo..hi):
-#define nsrs_BETWEEN( v, lo, hi ) ( lo <= v && v < hi )
+#define nsrs_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
 
 // Presence of C++11 language features:
 
