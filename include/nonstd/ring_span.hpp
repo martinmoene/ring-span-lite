@@ -63,10 +63,12 @@
 // ............_MSVC_LANG: 201402 for -std:c++14, default
 // ............_MSVC_LANG: 201703 for -std:c++17
 
-#if defined( _MSC_VER ) && !defined( __clang__ )
-# define nsrs_COMPILER_MSVC_VERSION ( _MSC_VER / 10 - 10 * ( 5 + ( _MSC_VER < 1900 ) ) )
+#if defined(_MSC_VER ) && !defined(__clang__)
+# define nsrs_COMPILER_MSVC_VER      (_MSC_VER )
+# define nsrs_COMPILER_MSVC_VERSION  (_MSC_VER / 10 - 10 * ( 5 + (_MSC_VER < 1900 ) ) )
 #else
-# define nsrs_COMPILER_MSVC_VERSION 0
+# define nsrs_COMPILER_MSVC_VER      0
+# define nsrs_COMPILER_MSVC_VERSION  0
 #endif
 
 #define nsrs_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * major + minor ) + patch )
