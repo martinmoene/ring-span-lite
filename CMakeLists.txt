@@ -7,16 +7,24 @@
 
 cmake_minimum_required( VERSION 3.5 )
 
-# ring_span-lite version, updated by script/update-version.py:
+# ring_span-lite project and version, updated by script/update-version.py:
+
+project( ring_span_lite LANGUAGES CXX )
 
 set( ring_span_lite_version "0.2.0" )
 
+# Toplevel or subproject:
+
+if ( CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR )
+    set( ring_span_IS_TOPLEVEL_PROJECT TRUE )
+else()
+    set( ring_span_IS_TOPLEVEL_PROJECT FALSE )
+endif()
+
 # Enable building and performing of tests and building of examples:
 
-option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" OFF )
+option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ${ring_span_IS_TOPLEVEL_PROJECT} )
 option( RING_SPAN_LITE_OPT_BUILD_EXAMPLES "Build ring-span-lite examples" OFF )
-
-project( ring_span_lite LANGUAGES CXX )
 
 include( GNUInstallDirs )
 
