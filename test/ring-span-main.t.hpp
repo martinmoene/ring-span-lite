@@ -7,29 +7,37 @@
 
 #pragma once
 
-#ifndef ring_span_lite_T_INCLUDED
-#define ring_span_lite_T_INCLUDED
+#ifndef RING_SPAN_LITE_T_INCLUDED
+#define RING_SPAN_LITE_T_INCLUDED
 
 #include "ring_span.hpp"
-#include "lest_cpp03.hpp"
 
-// Compiler warning suppression:
+// Compiler warning suppression for usage of lest:
 
-#if defined(__clang__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wundef"
-# pragma clang diagnostic ignored "-Wheader-hygiene"
+#ifdef __clang__
 # pragma clang diagnostic ignored "-Wstring-conversion"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wunused-template"
+# pragma clang diagnostic ignored "-Wunused-function"
+# pragma clang diagnostic ignored "-Wunused-member-function"
 #elif defined __GNUC__
-# pragma GCC   diagnostic push
-# pragma GCC   diagnostic ignored "-Wundef"
+# pragma GCC   diagnostic ignored "-Wunused-parameter"
+# pragma GCC   diagnostic ignored "-Wunused-function"
 #endif
 
-using namespace nonstd;
+#include "lest_cpp03.hpp"
 
 #define CASE( name ) lest_CASE( specification(), name )
 
-extern lest::tests & specification();
+// Attribute externally visible for -fwhole-program:
+
+#if defined(__GNUC__) && !defined(__clang__)
+# define any_ATTRIBUTE_EXT_VIS  __attribute__((externally_visible))
+#else
+# define any_ATTRIBUTE_EXT_VIS
+#endif
+
+extern lest::tests & specification() any_ATTRIBUTE_EXT_VIS;
 
 namespace nonstd {
 
@@ -78,6 +86,6 @@ using ::nonstd::operator<<;
 
 } // namespace lest
 
-#endif // ring_span_lite_T_INCLUDED
+#endif // RING_SPAN_LITE_T_INCLUDED
 
 // end of file

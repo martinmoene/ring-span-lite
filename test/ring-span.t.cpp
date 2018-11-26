@@ -15,6 +15,8 @@
 
 #include <numeric>
 
+using namespace nonstd;
+
 typedef ring_span<int>::size_type size_type;
 typedef ring_span<int>::iterator::difference_type difference_type;
 
@@ -34,7 +36,7 @@ struct noncopyable
 {
     char c; int i;
     noncopyable() : c(), i() {}
-    noncopyable( char c, int i ) : c(c), i(i) {}
+    noncopyable( char k, int x ) : c(k), i(x) {}
     noncopyable( noncopyable && ) = default;
     noncopyable& operator=( noncopyable && ) = default;
 
@@ -1043,7 +1045,7 @@ CASE( "ring_span: filter" "[.applet]" )
 
     std::cout << "filter result: " << result << "\n";
 
-    EXPECT( result == 5.0 );
+    EXPECT( result == lest::approx(5.0) );
 }
 
 // end of file

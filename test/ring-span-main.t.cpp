@@ -23,7 +23,7 @@ lest::tests & specification()
     return tests;
 }
 
-CASE( "ring-span-lite version" "[.version]" )
+CASE( "ring-span-lite version" "[.ring-span]][.version]" )
 {
     nsrs_PRESENT( ring_span_lite_MAJOR );
     nsrs_PRESENT( ring_span_lite_MINOR );
@@ -31,25 +31,15 @@ CASE( "ring-span-lite version" "[.version]" )
     nsrs_PRESENT( ring_span_lite_VERSION );
 }
 
-CASE( "C++ compiler: compiler version" "[.compiler]" )
+CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
 {
-#ifdef nsrs_COMPILER_CLANG_VERSION
-    nsrs_PRESENT( nsrs_COMPILER_CLANG_VERSION );
-#else
-    nsrs_ABSENT(  nsrs_COMPILER_CLANG_VERSION );
-#endif
-
-#ifdef nsrs_COMPILER_GNUC_VERSION
-    nsrs_PRESENT( nsrs_COMPILER_GNUC_VERSION );
-#else
-    nsrs_ABSENT(  nsrs_COMPILER_GNUC_VERSION );
-#endif
-
-#ifdef nsrs_COMPILER_MSVC_VERSION
-    nsrs_PRESENT( nsrs_COMPILER_MSVC_VERSION );
-#else
-    nsrs_ABSENT(  nsrs_COMPILER_MSVC_VERSION );
-#endif
+    nsrs_PRESENT( nsrs_HAVE_STD_RING_SPAN );
+    nsrs_PRESENT( nsrs_USES_STD_RING_SPAN );
+    nsrs_PRESENT( nsrs_CONFIG_SELECT_RING_SPAN );
+    nsrs_PRESENT( nsrs_RING_SPAN_DEFAULT );
+    nsrs_PRESENT( nsrs_RING_SPAN_NONSTD );
+    nsrs_PRESENT( nsrs_RING_SPAN_STD );
+    nsrs_PRESENT( nsrs_CPLUSPLUS );
 }
 
 CASE( "C++ language: __cplusplus" "[.stdc++]" )
@@ -63,84 +53,43 @@ CASE( "C++ language: __cplusplus" "[.stdc++]" )
 #endif
 }
 
-CASE( "C++ language: nsrs_CPP11_OR_GREATER" "[.stdc++]" )
+CASE( "C++ compiler: compiler version" "[.compiler]" )
 {
-#if nsrs_CPP11_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP11_OR_GREATER );
+#if nsrs_USES_STD_RING_SPAN
+    std::cout << "(Compiler version not available: using std::ring_span)\n";
 #else
-    nsrs_ABSENT(  nsrs_CPP11_OR_GREATER );
+    nsrs_PRESENT( nsrs_COMPILER_CLANG_VERSION );
+    nsrs_PRESENT( nsrs_COMPILER_GNUC_VERSION );
+    nsrs_PRESENT( nsrs_COMPILER_MSVC_VERSION );
 #endif
 }
 
-CASE( "C++ language: nsrs_CPP14_OR_GREATER" "[.stdc++]" )
+CASE( "Presence of C++ language features" "[.stdlanguage]" )
 {
-#if nsrs_CPP14_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP14_OR_GREATER );
+#if nsrs_USES_STD_RING_SPAN
+    std::cout << "(Presence of C++ language features not available: using std::ring_span)\n";
 #else
-    nsrs_ABSENT(  nsrs_CPP14_OR_GREATER );
-#endif
-}
-
-CASE( "C++ language: nsrs_CPP17_OR_GREATER" "[.stdc++]" )
-{
-#if nsrs_CPP17_OR_GREATER
-    nsrs_PRESENT( nsrs_CPP17_OR_GREATER );
-#else
-    nsrs_ABSENT(  nsrs_CPP17_OR_GREATER );
-#endif
-}
-
-CASE( "C++ language: presence of C++ language features" "[.stdlanguage]" )
-{
-#if nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG
-    nsrs_PRESENT( nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG );
-#endif
-
-#if nsrs_HAVE_CONSTEXPR_11
     nsrs_PRESENT( nsrs_HAVE_CONSTEXPR_11 );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_CONSTEXPR_11 );
-#endif
-
-#if nsrs_HAVE_CONSTEXPR_14
     nsrs_PRESENT( nsrs_HAVE_CONSTEXPR_14 );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_CONSTEXPR_14 );
-#endif
-
-#if nsrs_HAVE_ENUM_CLASS
-    nsrs_PRESENT( nsrs_HAVE_ENUM_CLASS );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_ENUM_CLASS );
-#endif
-
-#if nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE
-    nsrs_PRESENT( nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE );
-#endif
-
-#if nsrs_HAVE_EXPLICIT_CONVERSION
-    nsrs_PRESENT( nsrs_HAVE_EXPLICIT_CONVERSION );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_EXPLICIT_CONVERSION );
-#endif
-
-#if nsrs_HAVE_NOEXCEPT
+    nsrs_PRESENT( nsrs_HAVE_IS_DEFAULT );
+    nsrs_PRESENT( nsrs_HAVE_IS_DELETE );
     nsrs_PRESENT( nsrs_HAVE_NOEXCEPT );
-#else
-    nsrs_ABSENT(  nsrs_HAVE_NOEXCEPT );
+    nsrs_PRESENT( nsrs_HAVE_NULLPTR );
 #endif
 }
 
-CASE( "C++ library: presence of C++ library features" "[.stdlibrary]" )
+CASE( "Presence of C++ library features" "[.stdlibrary]" )
 {
-#if nsrs_HAVE_TYPE_TRAITS
-    nsrs_PRESENT( nsrs_HAVE_TYPE_TRAITS );
+#if nsrs_USES_STD_RING_SPAN
+    std::cout << "(Presence of C++ library features not available: using std::ring_span)\n";
 #else
-    nsrs_ABSENT(  nsrs_HAVE_TYPE_TRAITS );
+    // none
+#endif
+
+#if defined _HAS_CPP0X
+    nsrs_PRESENT( _HAS_CPP0X );
+#else
+    nsrs_ABSENT(  _HAS_CPP0X );
 #endif
 }
 
