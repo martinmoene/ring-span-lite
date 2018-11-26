@@ -26,6 +26,9 @@ endif()
 option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ${ring_span_IS_TOPLEVEL_PROJECT} )
 option( RING_SPAN_LITE_OPT_BUILD_EXAMPLES "Build ring-span-lite examples" OFF )
 
+option( RING_SPAN_LITE_OPT_SELECT_STD     "Select std::ring_span"    OFF )
+option( RING_SPAN_LITE_OPT_SELECT_NONSTD  "Select nonstd::ring_span" OFF )
+
 include( GNUInstallDirs )
 
 set( package_name "ring-span-lite" )
