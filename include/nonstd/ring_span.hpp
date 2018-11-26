@@ -12,20 +12,24 @@
 #ifndef NONSTD_RING_SPAN_LITE_HPP
 #define NONSTD_RING_SPAN_LITE_HPP
 
-#include <cassert>
-#include <iterator>
-#include <utility>
-
 #define ring_span_lite_MAJOR  0
 #define ring_span_lite_MINOR  2
 #define ring_span_lite_PATCH  0
 
-#define ring_span_lite_VERSION  ring_span_STRINGIFY(ring_span_lite_MAJOR) "." ring_span_STRINGIFY(ring_span_lite_MINOR) "." ring_span_STRINGIFY(ring_span_lite_PATCH)
+#define ring_span_lite_VERSION  nsrs_STRINGIFY(ring_span_lite_MAJOR) "." nsrs_STRINGIFY(ring_span_lite_MINOR) "." nsrs_STRINGIFY(ring_span_lite_PATCH)
 
-#define ring_span_STRINGIFY(  x )  ring_span_STRINGIFY_( x )
-#define ring_span_STRINGIFY_( x )  #x
+#define nsrs_STRINGIFY(  x )  nsrs_STRINGIFY_( x )
+#define nsrs_STRINGIFY_( x )  #x
 
 // ring-span-lite configuration:
+
+#define nsrs_RING_SPAN_DEFAULT  0
+#define nsrs_RING_SPAN_NONSTD   1
+#define nsrs_RING_SPAN_STD      2
+
+#if !defined( nsrs_CONFIG_SELECT_RING_SPAN )
+# define nsrs_CONFIG_SELECT_RING_SPAN  ( nsrs_HAVE_STD_RING_SPAN ? nsrs_RING_SPAN_STD : nsrs_RING_SPAN_NONSTD )
+#endif
 
 #ifndef  nsrs_CONFIG_STRICT_P0059
 # define nsrs_CONFIG_STRICT_P0059  0
@@ -33,19 +37,43 @@
 
 #define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
-// Compiler detection (C++20 is speculative):
-// Note: MSVC supports C++14 in full since it supports C++17.
-
-#ifdef _MSVC_LANG
-# define nsrs_MSVC_LANG _MSVC_LANG
-#else
-# define nsrs_MSVC_LANG 0
+#ifndef  nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
+# define nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS  0
 #endif
 
-#define nsrs_CPP11_OR_GREATER ( __cplusplus >= 201103L || nsrs_MSVC_LANG >= 201103L )
-#define nsrs_CPP14_OR_GREATER ( __cplusplus >= 201402L || nsrs_MSVC_LANG >= 201402L /*201703L*/ )
-#define nsrs_CPP17_OR_GREATER ( __cplusplus >= 201703L || nsrs_MSVC_LANG >= 201703L )
-#define nsrs_CPP20_OR_GREATER ( __cplusplus >= 202000L || nsrs_MSVC_LANG >= 202000L )
+// C++ language version detection (C++20 is speculative):
+// Note: VC14.0/1900 (VS2015) lacks too much from C++14.
+
+#ifndef   nsrs_CPLUSPLUS
+# if defined(_MSVC_LANG ) && !defined(__clang__)
+#  define nsrs_CPLUSPLUS  (_MSC_VER == 1900 ? 201103L : _MSVC_LANG )
+# else
+#  define nsrs_CPLUSPLUS  __cplusplus
+# endif
+#endif
+
+#define nsrs_CPP98_OR_GREATER  ( nsrs_CPLUSPLUS >= 199711L )
+#define nsrs_CPP11_OR_GREATER  ( nsrs_CPLUSPLUS >= 201103L )
+#define nsrs_CPP11_OR_GREATER_ ( nsrs_CPLUSPLUS >= 201103L )
+#define nsrs_CPP14_OR_GREATER  ( nsrs_CPLUSPLUS >= 201402L )
+#define nsrs_CPP17_OR_GREATER  ( nsrs_CPLUSPLUS >= 201703L )
+#define nsrs_CPP20_OR_GREATER  ( nsrs_CPLUSPLUS >= 202000L )
+
+// Use C++XX std::ring_span if available and requested:
+
+#define  nsrs_HAVE_STD_RING_SPAN  0
+
+//#if nsrs_CPP17_OR_GREATER && defined(__has_include )
+//# if __has_include( <any> )
+//#  define nsrs_HAVE_STD_RING_SPAN  1
+//# else
+//#  define nsrs_HAVE_STD_RING_SPAN  0
+//# endif
+//#else
+//# define  nsrs_HAVE_STD_RING_SPAN  0
+//#endif
+
+#define  nsrs_USES_STD_RING_SPAN  ( (nsrs_CONFIG_SELECT_RING_SPAN == nsrs_RING_SPAN_STD) || ((nsrs_CONFIG_SELECT_RING_SPAN == nsrs_RING_SPAN_DEFAULT) && nsrs_HAVE_STD_RING_SPAN) )
 
 // Compiler versions:
 //
@@ -85,6 +113,56 @@
 # define nsrs_COMPILER_GNUC_VERSION 0
 #endif
 
+// half-open range [lo..hi):
+//#define nsrs_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
+
+// Presence of language and library features:
+
+#ifdef _HAS_CPP0X
+# define nsrs_HAS_CPP0X  _HAS_CPP0X
+#else
+# define nsrs_HAS_CPP0X  0
+#endif
+
+// Unless defined otherwise below, consider VC14 as C++11 for ring-span-lite:
+
+#if nsrs_COMPILER_MSVC_VER >= 1900
+# undef  nsrs_CPP11_OR_GREATER
+# define nsrs_CPP11_OR_GREATER  1
+#endif
+
+#define nsrs_CPP11_90   (nsrs_CPP11_OR_GREATER_ || nsrs_COMPILER_MSVC_VER >= 1500)
+#define nsrs_CPP11_100  (nsrs_CPP11_OR_GREATER_ || nsrs_COMPILER_MSVC_VER >= 1600)
+#define nsrs_CPP11_110  (nsrs_CPP11_OR_GREATER_ || nsrs_COMPILER_MSVC_VER >= 1700)
+#define nsrs_CPP11_120  (nsrs_CPP11_OR_GREATER_ || nsrs_COMPILER_MSVC_VER >= 1800)
+#define nsrs_CPP11_140  (nsrs_CPP11_OR_GREATER_ || nsrs_COMPILER_MSVC_VER >= 1900)
+
+#define nsrs_CPP14_000  (nsrs_CPP14_OR_GREATER)
+#define nsrs_CPP17_000  (nsrs_CPP17_OR_GREATER)
+
+// Presence of C++11 language features:
+
+// half-open range [lo..hi):
+#define nsrs_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
+
+// Presence of C++11 language features:
+
+#define nsrs_HAVE_CONSTEXPR_11          nsrs_CPP11_140
+#define nsrs_HAVE_IS_DEFAULT            nsrs_CPP11_140
+#define nsrs_HAVE_IS_DELETE             nsrs_CPP11_140
+#define nsrs_HAVE_NOEXCEPT              nsrs_CPP11_140
+#define nsrs_HAVE_NULLPTR               nsrs_CPP11_100
+
+// Presence of C++14 language features:
+
+#define nsrs_HAVE_CONSTEXPR_14          nsrs_CPP14_000
+
+// Presence of C++17 language features:
+// no tag
+
+// Presence of C++ library features:
+// no tag
+
 // Compiler warning suppression:
 
 #if defined(__clang__)
@@ -119,83 +197,6 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 # define nsrs_RESTORE_WARNINGS()  /*empty*/
 #endif
 
-// half-open range [lo..hi):
-#define nsrs_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
-
-// Presence of C++11 language features:
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 100
-# define nsrs_HAVE_AUTO  1
-# define nsrs_HAVE_NULLPTR  1
-# define nsrs_HAVE_STATIC_ASSERT  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
-# define nsrs_HAVE_DEFAULT_FUNCTION_TEMPLATE_ARG  1
-# define nsrs_HAVE_INITIALIZER_LIST  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140
-# define nsrs_HAVE_ALIAS_TEMPLATE  1
-# define nsrs_HAVE_CONSTEXPR_11  1
-# define nsrs_HAVE_ENUM_CLASS  1
-# define nsrs_HAVE_EXPLICIT_CONVERSION  1
-# define nsrs_HAVE_IS_DEFAULT  1
-# define nsrs_HAVE_IS_DELETE  1
-# define nsrs_HAVE_NOEXCEPT  1
-#endif
-
-// Presence of C++14 language features:
-
-#if nsrs_CPP14_OR_GREATER
-# define nsrs_HAVE_CONSTEXPR_14  1
-#endif
-
-// Presence of C++17 language features:
-
-#if nsrs_CPP17_OR_GREATER
-# define nsrs_HAVE_ENUM_CLASS_CONSTRUCTION_FROM_UNDERLYING_TYPE  1
-#endif
-
-// Presence of C++ library features:
-
-#if nsrs_COMPILER_GNUC_VERSION
-# define nsrs_HAVE_TR1_TYPE_TRAITS  1
-# define nsrs_HAVE_TR1_ADD_POINTER  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 90
-# define nsrs_HAVE_TYPE_TRAITS  1
-# define nsrs_HAVE_STD_ADD_POINTER  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 110
-# define nsrs_HAVE_ARRAY  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
-# define nsrs_HAVE_CONDITIONAL  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140 || (nsrs_COMPILER_MSVC_VERSION >= 90 && _HAS_CPP0X)
-# define nsrs_HAVE_CONTAINER_DATA_METHOD  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 120
-# define nsrs_HAVE_REMOVE_CV  1
-#endif
-
-#if nsrs_CPP11_OR_GREATER || nsrs_COMPILER_MSVC_VERSION >= 140
-# define nsrs_HAVE_SIZED_TYPES  1
-#endif
-
-// For the rest, consider VC14 as C++11 for ring-span-lite:
-
-#if nsrs_COMPILER_MSVC_VERSION >= 140
-# undef  nsrs_CPP11_OR_GREATER
-# define nsrs_CPP11_OR_GREATER  1
-#endif
-
 // C++ feature usage:
 
 #if nsrs_HAVE_CONSTEXPR_11
@@ -224,20 +225,16 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 # define nsrs_nullptr NULL
 #endif
 
+// includes:
+
+#include <cassert>
+#include <iterator>
+#include <utility>
+
 // additional includes:
 
 #if ! nsrs_CPP11_OR_GREATER
 # include <algorithm>           // std::swap() until C++11
-#endif
-
-#if nsrs_HAVE_INITIALIZER_LIST
-# include <initializer_list>
-#endif
-
-#if nsrs_HAVE_TYPE_TRAITS
-# include <type_traits>
-#elif nsrs_HAVE_TR1_TYPE_TRAITS
-# include <tr1/type_traits>
 #endif
 
 namespace nonstd {
