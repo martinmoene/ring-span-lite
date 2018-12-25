@@ -9,9 +9,14 @@ cmake_minimum_required( VERSION 3.5 )
 
 # ring_span-lite project and version, updated by script/update-version.py:
 
-project( ring_span_lite LANGUAGES CXX )
+project(
+    ring_span_lite
+    VERSION 0.2.0
+    DESCRIPTION "A C++yy-like ring_span type for C++98, C++11 and later in a single-file header-only library"
+#   HOMEPAGE_URL "https://github.com/martinmoene/ring-span-lite"
+    LANGUAGES CXX )
 
-set( ring_span_lite_version "0.2.0" )
+set( ${PROJECT_NAME}_version "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}" )
 
 # Toplevel or subproject:
 
@@ -21,7 +26,7 @@ else()
     set( ring_span_IS_TOPLEVEL_PROJECT FALSE )
 endif()
 
-# Enable building and performing of tests and building of examples:
+# If toplevel project, enable building and performing of tests, disable building of examples:
 
 option( RING_SPAN_LITE_OPT_BUILD_TESTS    "Build and perform ring-span-lite tests" ${ring_span_IS_TOPLEVEL_PROJECT} )
 option( RING_SPAN_LITE_OPT_BUILD_EXAMPLES "Build ring-span-lite examples" OFF )
