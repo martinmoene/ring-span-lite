@@ -39,7 +39,7 @@ CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
     nsrs_PRESENT( nsrs_RING_SPAN_NONSTD );
     nsrs_PRESENT( nsrs_RING_SPAN_STD );
     nsrs_PRESENT( nsrs_CONFIG_SELECT_RING_SPAN );
-    nsrs_PRESENT( nsrs_CONFIG_NO_EXCEPTIONS );
+//  nsrs_PRESENT( nsrs_CONFIG_NO_EXCEPTIONS );
     nsrs_PRESENT( nsrs_CPLUSPLUS );
 }
 
