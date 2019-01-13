@@ -2,7 +2,7 @@
 //
 // https://github.com/martinmoene/ring-span-lite
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef  nsrs_RING_SPAN_LITE_T_HEADER
@@ -35,10 +35,11 @@ CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
 {
     nsrs_PRESENT( nsrs_HAVE_STD_RING_SPAN );
     nsrs_PRESENT( nsrs_USES_STD_RING_SPAN );
-    nsrs_PRESENT( nsrs_CONFIG_SELECT_RING_SPAN );
     nsrs_PRESENT( nsrs_RING_SPAN_DEFAULT );
     nsrs_PRESENT( nsrs_RING_SPAN_NONSTD );
     nsrs_PRESENT( nsrs_RING_SPAN_STD );
+    nsrs_PRESENT( nsrs_CONFIG_SELECT_RING_SPAN );
+    nsrs_PRESENT( nsrs_CONFIG_NO_EXCEPTIONS );
     nsrs_PRESENT( nsrs_CPLUSPLUS );
 }
 
@@ -99,15 +100,15 @@ int main( int argc, char * argv[] )
 }
 
 #if 0
-g++            -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++98 -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++03 -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++0x -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++11 -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++14 -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
-g++ -std=c++17 -I../include/nonstd -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++            -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++98 -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++03 -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++0x -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++11 -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++14 -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+g++ -std=c++17 -I../include -o ring-span-main.t.exe ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
 
-cl -EHsc -I../include/nonstd ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
+cl -EHsc -I../include ring-span-main.t.cpp ring-span.t.cpp && ring-span-main.t.exe --pass
 #endif
 
 // end of file

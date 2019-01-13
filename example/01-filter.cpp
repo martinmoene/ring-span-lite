@@ -30,5 +30,5 @@ int main()
     std::cout << "filter result: " << result << "\n";
 }
 
-// g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp && 01-filter.exe
-// cl -EHsc -I../include/nonstd 01-filter.cpp && 01-filter.exe
+// g++ -std=c++98 -Wall -I../include -o 01-filter.exe 01-filter.cpp && 01-filter.exe
+// cl -EHsc -I../include 01-filter.cpp && 01-filter.exe
