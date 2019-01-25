@@ -11,7 +11,8 @@ option( RING_SPAN_LITE_COLOURISE_TEST "Colourise test output" OFF )
 
 project( test LANGUAGES CXX )
 
-set( PACKAGE   ${package_name} )
+set( unit_name "ring-span" )
+set( PACKAGE   ${unit_name}-lite )
 set( PROGRAM   ${unit_name}-lite )
 set( SOURCES   ${unit_name}-main.t.cpp ${unit_name}.t.cpp )
 
