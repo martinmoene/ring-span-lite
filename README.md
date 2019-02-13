@@ -283,6 +283,9 @@ Notes and references
 [1] [p0059: A proposal to add a ring span to the standard library](http://wg21.link/p0059) ([latest](http://wg21.link/p0059), [r4](http://wg21.link/p0059r4), [r3](http://wg21.link/p0059r3), [r2](http://wg21.link/p0059r2), [r1](http://wg21.link/p0059r1), [r0](http://wg21.link/p0059r0)).  
 [2] [WG21-SG14/SG14](https://github.com/WG21-SG14/SG14/). Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h) by [Guy Davidson](https://github.com/hatcat) and [Arthur O'Dwyer](https://github.com/Quuxplusone).  
 [3] [Arthur O'Dwyer](https://github.com/Quuxplusone). Reference implementation of [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
+[4] Arthur O’Dwyer. [Reference types with metadata cause problems](https://quuxplusone.github.io/blog/2018/05/30/reference-types-with-metadata-cause-problems/). 30 May 2018.  
+[5] Phillip Johnston. [Creating a Circular Buffer in C and C++](https://embeddedartistry.com/blog/2017/4/6/circular-buffers-in-cc). 17 May 2017.  
+[6] Jan Gaspar. [Boost.Circular Buffer](http://www.boost.org/libs/circular_buffer).  
 
 
 Appendix
