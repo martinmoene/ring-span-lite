@@ -395,12 +395,12 @@ ring_span: filter[.applet]
 The version of *ring-span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
 
 ```
-ring-span-lite version[.version]
-C++ compiler: compiler version[.compiler]
+> ring-span-main.t.exe -l .
+ring-span-lite version[.ring-span]][.version]
+ring-span-lite configuration[.ring-span][.config]
 C++ language: __cplusplus[.stdc++]
-C++ language: nsrs_CPP11_OR_GREATER[.stdc++]
-C++ language: nsrs_CPP14_OR_GREATER[.stdc++]
-C++ language: nsrs_CPP17_OR_GREATER[.stdc++]
-C++ language: presence of C++ language features[.stdlanguage]
-C++ library: presence of C++ library features[.stdlibrary]
+C++ compiler: compiler version[.compiler]
+Presence of C++ language features[.stdlanguage]
+Presence of C++ library features[.stdlibrary]
+ring_span: filter[.applet]
 ```
