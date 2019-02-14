@@ -292,11 +292,27 @@ Appendix
 --------
 
 **Contents**  
-- [A.1 Ring-span lite test specification](#a1-ring-span-lite-test-specification)
-- [A.2 Hidden test cases tagged with \[.applet\]](#a2-hidden-test-cases-tagged-with-applet)
-- [A.3 Hidden test cases for compile-time information](#a3-hidden-test-cases-for-compile-time-information)
+- [A.1 Applets](#a1)
+- [A.2 Compile-time information](#a2)
+- [A.3 Ring-span lite test specification](#a3)
 
-### A.1 Ring-span lite test specification
+<a id="a1"></a>
+### A.1 Applets
+
+Applets demonstrate a specific use case. They are available via tag `[.applet]`.
+
+```
+> ring-span-main.t.exe -l .applet
+ring_span: filter[.applet]
+```
+
+<a id="a2"></a>
+### A.2 Compile-time information
+
+The version of *ring-span lite* is available via tag `[.version]`. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
+
+<a id="a3"></a>
+### A.3 Ring-span lite test specification
 
 Note: test cases that assert are tagged with `[.assert]` and only run when [.assert] is included on the command line, like: `test [.assert] partial-test-name`.
 
@@ -380,27 +396,4 @@ default_popper: A default popper moves the element (C++11)
 default_popper: A default popper leaves the original element unchanged
 copy_popper: A copy popper returns the element
 copy_popper: A copy popper replaces the original element
-```
-
-### A.2 Hidden test cases tagged with [.applet]
-
-Applets demonstrate a specific use case.
-
-```
-ring_span: filter[.applet]
-```
-
-### A.3 Hidden test cases for compile-time information
-
-The version of *ring-span lite* is available via tag [.version]. The following tags are available for information on the compiler and on the C++ standard library used: `[.compiler]`, `[.stdc++]`, `[.stdlanguage]` and `[.stdlibrary]`.
-
-```
-> ring-span-main.t.exe -l .
-ring-span-lite version[.ring-span]][.version]
-ring-span-lite configuration[.ring-span][.config]
-C++ language: __cplusplus[.stdc++]
-C++ compiler: compiler version[.compiler]
-Presence of C++ language features[.stdlanguage]
-Presence of C++ library features[.stdlibrary]
-ring_span: filter[.applet]
 ```
