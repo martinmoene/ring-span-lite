@@ -3,6 +3,10 @@
 
 #include "nonstd/ring_span.hpp"
 
+#if nsrs_CPP17_OR_GREATER
+# include <iterator> // for std::data(), std::size()
+#endif
+
 #ifndef PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
 #define PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER  0
 #endif
@@ -25,6 +29,13 @@ inline auto vtype( C & ) -> typename C::value_type
 {
     return {};
 }
+
+#if nsrs_CPP17_OR_GREATER
+
+using std::data;
+using std::size;
+
+#else // nsrs_CPP17_OR_GREATER
 
 template< typename T, size_t N >
 inline auto vtype( T(&)[N] ) -> T
@@ -55,6 +66,8 @@ inline auto size( C & cont ) -> typename C::size_type
 {
     return cont.size();
 }
+
+#endif// nsrs_CPP17_OR_GREATER
 
 } // namespace detail
 
