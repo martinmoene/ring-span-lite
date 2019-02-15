@@ -23,7 +23,8 @@
 		<Unit filename="../../conanfile.py" />
 		<Unit filename="../../example/01-filter.cpp" />
 		<Unit filename="../../example/02-no-exceptions.cpp" />
-		<Unit filename="../../example/03-make_ring_span.cpp" />
+		<Unit filename="../../example/03-make-ring-span.cpp" />
+		<Unit filename="../../example/BUCK" />
 		<Unit filename="../../include/nonstd/ring_span.hpp" />
 		<Unit filename="../../include/sg14/quux-ring_span.h" />
 		<Unit filename="../../include/sg14/sg14-ring.h" />
