@@ -3,15 +3,86 @@
 
 #include "nonstd/ring_span.hpp"
 
-#include <array>
-#include <string>
-#include <vector>
+#ifndef PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+#define PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER  0
+#endif
 
 namespace nonstd {
 
 // Tag to create empty ring_span:
 
 const struct make_empty_t{} make_empty;
+
+} // namespace nonstd
+
+#if PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+
+namespace nonstd {
+namespace detail {
+
+template< typename C >
+inline auto vtype( C & ) -> typename C::value_type
+{
+    return {};
+}
+
+template< typename T, size_t N >
+inline auto vtype( T(&)[N] ) -> T
+{
+    return {};
+}
+
+template< typename T, size_t N >
+inline auto data( T(&arr)[N] ) -> T*
+{
+    return &arr[0];
+}
+
+template< typename T, size_t N >
+inline auto size( T(&)[N] ) -> size_t
+{
+    return N;
+}
+
+template< typename C >
+inline auto data( C & cont ) -> typename C::pointer
+{
+    return cont.data();
+}
+
+template< typename C >
+inline auto size( C & cont ) -> typename C::size_type
+{
+    return cont.size();
+}
+
+} // namespace detail
+
+// Create filled or empty ring_buffer from container:
+
+template< typename C >
+inline auto make_ring_span( C & cont ) -> ring_span<decltype(detail::vtype(cont))>
+{
+    return { detail::data(cont), detail::data(cont) + detail::size(cont), detail::data(cont), detail::size(cont) };
+}
+
+template< typename C >
+inline auto make_ring_span( C & cont, make_empty_t ) -> ring_span<decltype(detail::vtype(cont))>
+{
+    return { detail::data(cont), detail::data(cont) + detail::size(cont) };
+}
+
+} // namespace nonstd
+
+#else // PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+
+#if ! PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+# include <array>
+# include <string>
+# include <vector>
+#endif
+
+namespace nonstd {
 
 // Create filled or empty ring_buffer from C-array:
 
@@ -69,6 +140,8 @@ inline auto make_ring_span( std::basic_string<T> & str, make_empty_t ) -> ring_s
     return { str.data(), str.data() + str.size() };
 }
 
+#endif // PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+
 } // namespace nonstd
 
 //------------------------------------------------------------------------
@@ -77,6 +150,12 @@ inline auto make_ring_span( std::basic_string<T> & str, make_empty_t ) -> ring_s
 #include <iostream>
 #include <iterator>
 #include <numeric>
+
+#if PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
+# include <array>
+# include <string>
+# include <vector>
+#endif
 
 template< typename T >
 std::ostream & operator<<( std::ostream & os, nonstd::ring_span<T> const & spn )
@@ -130,13 +209,13 @@ int main()
     }
 }
 
-// cl -nologo -EHsc -I../include 03-make-ring-span.cpp && 03-make-ring-span
-// g++ -std=c++11 -Wall -fno-exceptions -I../include -o 03-make-ring-span 03-make-ring-span.cpp && 03-make-ring-span
+// cl -nologo -DPROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER=1 -W4 -EHsc -I../include 03-make-ring-span.cpp && 03-make-ring-span
+// g++ -std=c++11 -DPROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER=1 -Wall -fno-exceptions -I../include -o 03-make-ring-span 03-make-ring-span.cpp && 03-make-ring-span
 
 // Output:
-// spn_c_arr_filled: capacity: 3 size: 3, content: { 0, 1, 2, }
-// spn_c_arr_empty: capacity: 3 size: 0, content: { }
-// spn_std_arr_filled: capacity: 4 size: 4, content: { 0, 1, 2, 3, }
-// spn_std_arr_f_empty: capacity: 4 size: 0, content: { }
-// spn_std_vec_filled: capacity: 5 size: 5, content: { 0, 1, 2, 3, 4, }
-// spn_std_vec_empty: capacity: 5 size: 0, content: { }
+// spn_c_array_filled: capacity: 3 size: 3, content: { 0, 1, 2, }
+// spn_c_array_empty: capacity: 3 size: 0, content: { }
+// spn_std_array_filled: capacity: 4 size: 4, content: { 0, 1, 2, 3, }
+// spn_std_array_empty: capacity: 4 size: 0, content: { }
+// spn_std_vector_filled: capacity: 5 size: 5, content: { 0, 1, 2, 3, 4, }
+// spn_std_vector_empty: capacity: 5 size: 0, content: { }
