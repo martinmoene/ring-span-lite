@@ -30,18 +30,18 @@ inline auto vtype( C & ) -> typename C::value_type
     return {};
 }
 
+template< typename T, size_t N >
+inline auto vtype( T(&)[N] ) -> T
+{
+    return {};
+}
+
 #if nsrs_CPP17_OR_GREATER
 
 using std::data;
 using std::size;
 
 #else // nsrs_CPP17_OR_GREATER
-
-template< typename T, size_t N >
-inline auto vtype( T(&)[N] ) -> T
-{
-    return {};
-}
 
 template< typename T, size_t N >
 inline auto data( T(&arr)[N] ) -> T*
