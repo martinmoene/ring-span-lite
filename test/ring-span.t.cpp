@@ -4,7 +4,7 @@
 //
 // Copyright 2017-2018 by Martin Moene
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef  nsrs_RING_SPAN_LITE_T_HEADER
@@ -558,16 +558,22 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
 
 CASE( "ring_span: Allows iteration (non-const)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, };
+    ring_span<int>        rs( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int> const crs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
+    EXPECT( std::equal(  rs.begin(),  rs.end(), arr ) );
+    EXPECT( std::equal( crs.begin(), crs.end(), arr ) );
 }
 
 CASE( "ring_span: Allows iteration (const)" )
 {
-    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+    int arr[] = { 1, 2, 3, };
+    ring_span<int>        rs( arr, arr + dim(arr), arr, dim(arr) );
+    ring_span<int> const crs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( std::equal( rs.cbegin(), rs.cend(), arr ) );
+    EXPECT( std::equal(  rs.cbegin(),  rs.cend(), arr ) );
+    EXPECT( std::equal( crs.cbegin(), crs.cend(), arr ) );
 }
 
 CASE( "ring_span: Allows iteration (mixed const-non-const)" )
