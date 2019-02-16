@@ -233,14 +233,27 @@ CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"emplace_front() is not available (SG14)" );
 #else
-    noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
-    EXPECT( rs.front().c == char() );
-    EXPECT( rs.front().i ==  int() );
+    SETUP("") {
+    SECTION("of non-full ring_span")
+    {
+        noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr) );
 
-    rs.emplace_front( 'a', 7 );
+        rs.emplace_front( 'a', 7 );
 
-    EXPECT( rs.front().c == 'a' );
-    EXPECT( rs.front().i ==  7  );
+        EXPECT( rs.front().c == 'a' );
+        EXPECT( rs.front().i ==  7  );
+    }
+    SECTION("of full ring_span")
+    {
+        noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
+        EXPECT( rs.front().c == char() );
+        EXPECT( rs.front().i ==  int() );
+
+        rs.emplace_front( 'a', 7 );
+
+        EXPECT( rs.front().c == 'a' );
+        EXPECT( rs.front().i ==  7  );
+    }}
 #endif
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
@@ -275,14 +288,27 @@ CASE( "ring_span: Allows to move-insert an element at the back (C++11)" )
 CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
-    noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
-    EXPECT( rs.back().c == char() );
-    EXPECT( rs.back().i ==  int() );
+    SETUP("") {
+    SECTION("of non-full ring_span")
+    {
+        noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr) );
 
-    rs.emplace_back( 'a', 7 );
+        rs.emplace_back( 'a', 7 );
 
-    EXPECT( rs.back().c == 'a' );
-    EXPECT( rs.back().i ==  7  );
+        EXPECT( rs.back().c == 'a' );
+        EXPECT( rs.back().i ==  7  );
+    }
+    SECTION("of full ring_span")
+    {
+        noncopyable arr[3]; ring_span<noncopyable> rs( arr, arr + dim(arr), arr, dim(arr) );
+        EXPECT( rs.back().c == char() );
+        EXPECT( rs.back().i ==  int() );
+
+        rs.emplace_back( 'a', 7 );
+
+        EXPECT( rs.back().c == 'a' );
+        EXPECT( rs.back().i ==  7  );
+    }}
 #else
     EXPECT( !!"move-semantics are not available (no C++11)" );
 #endif
