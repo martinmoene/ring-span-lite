@@ -19,7 +19,7 @@ Example usage
 -------------
 
 ```Cpp
-#include "ring_span.hpp"
+#include "nonstd/ring_span.hpp"
 #include <iostream>
 #include <numeric>
 
@@ -55,7 +55,7 @@ int main()
 ### Compile and run
 
 ```
-prompt> g++ -std=c++98 -Wall -I../include/nonstd -o 01-filter.exe 01-filter.cpp && 01-filter.exe
+prompt> g++ -std=c++98 -Wall -I../include -o 01-filter.exe 01-filter.cpp && 01-filter.exe
 [ring_span: 2, 3, 5, ]
 [ring_span: 3, 5, 7, ]
 filter result: 5

@@ -35,7 +35,7 @@
 # define nsrs_CPP14_OR_GREATER  1
 #endif
 
-#include "sg14-ring.h"
+#include "sg14/sg14-ring.h"
 #include "lest_cpp03.hpp"
 
 using namespace sg14;
@@ -67,6 +67,29 @@ namespace lest {
 using ::sg14::operator<<;
 
 } // namespace lest
+
+// Provide the following to enable compilation:
+
+#define ring_span_lite_MAJOR     0
+#define ring_span_lite_MINOR     0
+#define ring_span_lite_PATCH     0
+#define nsrs_HAVE_STD_RING_SPAN  0
+#define nsrs_USES_STD_RING_SPAN  0
+#define nsrs_RING_SPAN_DEFAULT   0
+#define nsrs_RING_SPAN_NONSTD    0
+#define nsrs_RING_SPAN_STD       0
+#define nsrs_CONFIG_SELECT_RING_SPAN 0
+#define nsrs_CPLUSPLUS             __cplusplus
+#define nsrs_COMPILER_CLANG_VERSION  0
+#define nsrs_COMPILER_GNUC_VERSION   0
+#define nsrs_HAVE_CONSTEXPR_11       0
+#define nsrs_HAVE_CONSTEXPR_14       0
+#define nsrs_HAVE_IS_DEFAULT         0
+#define nsrs_HAVE_IS_DELETE          0
+#define nsrs_HAVE_NOEXCEPT           0
+#define nsrs_HAVE_NULLPTR            0
+
+namespace nonstd{}
 
 #endif // ring_span_lite_T_INCLUDED
 
