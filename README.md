@@ -207,19 +207,21 @@ Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&en
 
 ### Configuration macros
 
-### Standard selection macro
-\-D<b>nsrs\_CPLUSPLUS</b>=199711L
+#### Standard selection macro
+\-D<b>nsrs\_CPLUSPLUS</b>=199711L  
 Define this macro to override the auto-detection of the supported C++ standard, if your compiler does not set the `__cpluplus` macro correctly.
 
-### Select `std::ring_span` or `nonstd::ring_span`
+#### Select `std::ring_span` or `nonstd::ring_span`
 At default, *ring_span lite* uses `std::ring_span` if it is available and lets you use it via namespace `nonstd`. You can however override this default and explicitly request to use `std::ring_span` or ring_span lite's `nonstd::ring_span` as `nonstd::ring_span` via the following macros.
 
 -D<b>nsrs\_CONFIG\_SELECT\_RING\_SPAN</b>=nsrs_RING_SPAN_DEFAULT  
 Define this to `nsrs_RING_SPAN_STD` to select `std::ring_span` as `nonstd::ring_span`. Define this to `nsrs_RING_SPAN_NONSTD` to select `nonstd::ring_span` as `nonstd::ring_span`. Default is undefined, which has the same effect as defining to `nsrs_RING_SPAN_DEFAULT`.
 
+#### Disable extensions
 \-D<b>nsrs\CONFIG\_STRICT\_P0059</b>=0  
 Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
+#### Enable compilation errors
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this to 1 to include the tests with compile-time errors. Default is undefined (same effect as 0).
 
