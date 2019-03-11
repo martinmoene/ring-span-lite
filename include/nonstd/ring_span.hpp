@@ -233,7 +233,7 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
     template< bool B = (__VA_ARGS__), typename std::enable_if<B, int>::type = 0 >
 
 #define nsrs_REQUIRES_T(...) \
-    , typename = typename std::enable_if< (__VA_ARGS__), nonstd::detail::enabler >::type
+    , typename = typename std::enable_if< (__VA_ARGS__), nonstd::ring_span_lite::detail::enabler >::type
 
 #endif
 
@@ -249,11 +249,13 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 # include <algorithm>           // std::swap() until C++11
 #endif
 
-namespace nonstd {
+namespace nonstd { namespace ring_span_lite {
 
 namespace detail {
 /*enum*/ struct enabler{};
 }
+
+namespace std11 {
 
 #if nsrs_CPP11_OR_GREATER
 using std::move;
@@ -266,6 +268,8 @@ struct conditional { typedef T type; };
 
 template< class T, class F >
 struct conditional<false, T, F> { typedef F type; };
+
+} // namespace std11
 
 //
 // element extraction policies:
@@ -286,7 +290,7 @@ struct default_popper
 
     T operator()( T & t ) const
     {
-        return nonstd::move( t );
+        return std11::move( t );
     }
 };
 
@@ -365,7 +369,7 @@ public:
     , m_size     ( 0 )
     , m_capacity ( static_cast<size_type>( end - begin ) )
     , m_front_idx( 0 )
-    , m_popper   ( nonstd::move( popper ) )
+    , m_popper   ( std11::move( popper ) )
     {}
 
     template< class ContiguousIterator >
@@ -380,7 +384,7 @@ public:
     , m_size     ( size     )
     , m_capacity ( static_cast<size_type>( end   - begin ) )
     , m_front_idx( static_cast<size_type>( first - begin ) )
-    , m_popper   ( nonstd::move( popper ) )
+    , m_popper   ( std11::move( popper ) )
     {}
 
 #if nsrs_HAVE_IS_DEFAULT
@@ -722,7 +726,7 @@ template< class RS, bool is_const >
 class ring_iterator : public std::iterator
 <
     std::random_access_iterator_tag
-    , typename nonstd::conditional<is_const, const typename RS::value_type, typename RS::value_type>::type
+    , typename std11::conditional<is_const, const typename RS::value_type, typename RS::value_type>::type
 >
 #endif
 
@@ -735,8 +739,8 @@ public:
     typedef std::ptrdiff_t difference_type;
     typedef typename RS::value_type value_type;
 
-    typedef typename nonstd::conditional<is_const, const value_type, value_type>::type * pointer;
-    typedef typename nonstd::conditional<is_const, const value_type, value_type>::type & reference;
+    typedef typename std11::conditional<is_const, const value_type, value_type>::type * pointer;
+    typedef typename std11::conditional<is_const, const value_type, value_type>::type & reference;
     typedef std::random_access_iterator_tag iterator_category;
 
 #if nsrs_CPP11_OR_GREATER
@@ -856,9 +860,9 @@ private:
     friend class ring_iterator<RS, ! is_const>;
 
     typedef typename RS::size_type size_type;
-    typedef typename nonstd::conditional<is_const, const RS, RS>::type ring_type;
+    typedef typename std11::conditional<is_const, const RS, RS>::type ring_type;
 
-    ring_iterator( size_type idx, typename nonstd::conditional<is_const, const RS, RS>::type * rs ) nsrs_noexcept
+    ring_iterator( size_type idx, typename std11::conditional<is_const, const RS, RS>::type * rs ) nsrs_noexcept
     : m_idx( idx )
     , m_rs ( rs  )
     {}
@@ -883,6 +887,13 @@ inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexc
 }
 
 } // namespace detail
+} // namespace ring_span_lite
+
+using ring_span_lite::ring_span;
+using ring_span_lite::null_popper;
+using ring_span_lite::default_popper;
+using ring_span_lite::copy_popper;
+
 } // namespace nonstd
 
 nsrs_RESTORE_WARNINGS()
