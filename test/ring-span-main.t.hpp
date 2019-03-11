@@ -39,22 +39,24 @@
 
 extern lest::tests & specification() any_ATTRIBUTE_EXT_VIS;
 
-namespace nonstd {
+namespace nonstd { namespace ring_span_lite {
 
 // use oparator<< instead of to_string() overload;
 // see  http://stackoverflow.com/a/10651752/437272
 
 template< typename T, class Popper>
-inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span<T, Popper> const & rs )
+inline std::ostream & operator<<( std::ostream & os, ring_span<T, Popper> const & rs )
 {
     os << "[ring_span: "; std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") ); return os << "]";
 }
 
+namespace detail {
+
 template< class RS, bool is_const >
-inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span_lite::detail::ring_iterator<RS, is_const> const & it )
+inline std::ostream & operator<<( std::ostream & os, ring_iterator<RS, is_const> const & it )
 {
 #if nsrs_RING_SPAN_LITE_EXTENSION
-    using ::nonstd::ring_span_lite::detail::ring_iterator;
+    //using ::nonstd::ring_span_lite::detail::ring_iterator;
     // Note: hack: depends on iterator implementation to use index [0..size());
     // create begin iterator with index 0 (it and bgn are on different containers!):
     typename RS::value_type arr[1]; ring_iterator< RS, true> bgn = RS( arr, arr + 1 ).cbegin();
@@ -66,10 +68,10 @@ inline std::ostream & operator<<( std::ostream & os, ::nonstd::ring_span_lite::d
 }
 
 template< class RS, bool is_const >
-inline std::ostream & operator<<( std::ostream & os, std::reverse_iterator< ::nonstd::ring_span_lite::detail::ring_iterator<RS, is_const> > const & it )
+inline std::ostream & operator<<( std::ostream & os, std::reverse_iterator< ring_iterator<RS, is_const> > const & it )
 {
 #if nsrs_RING_SPAN_LITE_EXTENSION
-    using ::nonstd::ring_span_lite::detail::ring_iterator;
+    //using ::nonstd::ring_span_lite::detail::ring_iterator;
     // Note: hack: depends on iterator implementation to use index [0..size());
     // create begin iterator with index 0 (it and bgn are on different containers!):
     typename RS::value_type arr[1]; std::reverse_iterator< ring_iterator< RS, true> > bgn = RS( arr, arr + 1 ).crbegin();
@@ -80,11 +82,14 @@ inline std::ostream & operator<<( std::ostream & os, std::reverse_iterator< ::no
 #endif
 }
 
-}
+} // namespace detail
+} // namespace ring_span_lite
+} // namespace nonstd
 
 namespace lest {
 
-using ::nonstd::operator<<;
+using ::nonstd::ring_span_lite::operator<<;
+using ::nonstd::ring_span_lite::detail::operator<<;
 
 } // namespace lest
 
