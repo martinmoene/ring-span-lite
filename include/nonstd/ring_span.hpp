@@ -4,7 +4,7 @@
 //
 // https://github.com/martinmoene/ring-span-lite
 //
-// Distributed under the Boost Software License, Version 1.0. 
+// Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #pragma once
@@ -255,6 +255,8 @@ namespace detail {
 /*enum*/ struct enabler{};
 }
 
+// type traits C++11:
+
 namespace std11 {
 
 #if nsrs_CPP11_OR_GREATER
@@ -270,6 +272,61 @@ template< class T, class F >
 struct conditional<false, T, F> { typedef F type; };
 
 } // namespace std11
+
+// type traits C++17:
+
+namespace std17 {
+
+#if nsrs_CPP17_OR_GREATER
+
+using std::is_swappable;
+using std::is_nothrow_swappable;
+
+#elif nsrs_CPP11_OR_GREATER
+
+namespace detail {
+
+using std::swap;
+
+struct is_swappable
+{
+    template< typename T, typename = decltype( swap( std::declval<T&>(), std::declval<T&>() ) ) >
+    static std::true_type test( int );
+
+    template< typename >
+    static std::false_type test(...);
+};
+
+struct is_nothrow_swappable
+{
+    // wrap noexcept(epr) in separate function as work-around for VC140 (VS2015):
+
+    template< typename T >
+    static constexpr bool test()
+    {
+        return noexcept( swap( std::declval<T&>(), std::declval<T&>() ) );
+    }
+
+    template< typename T >
+    static auto test( int ) -> std::integral_constant<bool, test<T>()>{}
+
+    template< typename >
+    static std::false_type test(...);
+};
+
+} // namespace detail
+
+// is [nothow] swappable:
+
+template< typename T >
+struct is_swappable : decltype( detail::is_swappable::test<T>(0) ){};
+
+template< typename T >
+struct is_nothrow_swappable : decltype( detail::is_nothrow_swappable::test<T>(0) ){};
+
+#endif // nsrs_CPP17_OR_GREATER
+
+} // namespace std17
 
 //
 // element extraction policies:
@@ -561,7 +618,7 @@ public:
     >
     void emplace_back( Args &&... args ) noexcept
     (
-        std::is_nothrow_constructible<T, Args...>::value 
+        std::is_nothrow_constructible<T, Args...>::value
         && std::is_nothrow_move_assignable<T>::value
     )
     {
@@ -605,7 +662,7 @@ public:
     >
     void emplace_front( Args&&... args ) noexcept
     (
-        std::is_nothrow_constructible<T, Args...>::value 
+        std::is_nothrow_constructible<T, Args...>::value
         && std::is_nothrow_move_assignable<T>::value
     )
     {
@@ -619,7 +676,12 @@ public:
 
     // swap:
 
-    void swap( type & rhs ) nsrs_noexcept // nsrs_noexcept_op(std::is_nothrow_swappable<Popper>::value);
+    void swap( type & rhs )
+#if nsrs_CPP11_OR_GREATER
+        noexcept(
+            std17::is_nothrow_swappable<Popper>::value
+        )
+#endif
     {
         using std::swap;
         swap( m_data     , rhs.m_data      );
