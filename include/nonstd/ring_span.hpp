@@ -225,6 +225,18 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 # define nsrs_nullptr NULL
 #endif
 
+// Method enabling
+
+#if nsrs_CPP11_OR_GREATER
+
+#define nsrs_REQUIRES_0(...) \
+    template< bool B = (__VA_ARGS__), typename std::enable_if<B, int>::type = 0 >
+
+#define nsrs_REQUIRES_T(...) \
+    , typename = typename std::enable_if< (__VA_ARGS__), nonstd::detail::enabler >::type
+
+#endif
+
 // includes:
 
 #include <cassert>
@@ -239,6 +251,10 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 
 namespace nonstd {
 
+namespace detail {
+/*enum*/ struct enabler{};
+}
+
 #if nsrs_CPP11_OR_GREATER
 using std::move;
 #else
@@ -250,16 +266,6 @@ struct conditional { typedef T type; };
 
 template< class T, class F >
 struct conditional<false, T, F> { typedef F type; };
-
-#if nsrs_CPP11_OR_GREATER
-
-template< bool B, class T, class F >
-using conditional_t = typename conditional<B,T,F>::type;
-
-template< bool B, class T = void >
-using enable_if_t = typename std::enable_if<B,T>::type;
-
-#endif
 
 //
 // element extraction policies:
@@ -521,8 +527,8 @@ public:
 #endif
 
 #if nsrs_CPP11_OR_GREATER
-    template< bool b = true, typename = nonstd::enable_if_t<b && std::is_copy_assignable<T>::value> >
-    void push_back( value_type const & value) nsrs_noexcept_op(( std::is_nothrow_copy_assignable<T>::value ))
+    nsrs_REQUIRES_0( std::is_copy_assignable<T>::value )
+    void push_back( value_type const & value) noexcept( std::is_nothrow_copy_assignable<T>::value )
 #else
     void push_back( value_type const & value )
 #endif
@@ -534,8 +540,8 @@ public:
     }
 
 #if nsrs_CPP11_OR_GREATER
-    template< bool b = true, typename = nonstd::enable_if_t<b && std::is_move_assignable<T>::value> >
-    void push_back( value_type && value ) nsrs_noexcept_op(( std::is_nothrow_move_assignable<T>::value ))
+    nsrs_REQUIRES_0( std::is_move_assignable<T>::value )
+    void push_back( value_type && value ) noexcept( std::is_nothrow_move_assignable<T>::value )
     {
         if ( full() )  increment_front_and_back_();
         else           increment_back_();
@@ -543,9 +549,17 @@ public:
         back_() = std::move( value );
     }
 
-    template< class... Args >
-    void emplace_back( Args &&... args )
-        nsrs_noexcept_op(( std::is_nothrow_constructible<T, Args...>::value && std::is_nothrow_move_assignable<T>::value ))
+    template< typename... Args
+        nsrs_REQUIRES_T(
+            std::is_constructible<T, Args&&...>::value
+            && std::is_move_assignable<T>::value
+        )
+    >
+    void emplace_back( Args &&... args ) noexcept
+    (
+        std::is_nothrow_constructible<T, Args...>::value 
+        && std::is_nothrow_move_assignable<T>::value
+    )
     {
         if ( full() )  increment_front_and_back_();
         else           increment_back_();
@@ -557,8 +571,8 @@ public:
 #if nsrs_RING_SPAN_LITE_EXTENSION
 
 #if nsrs_CPP11_OR_GREATER
-    template<bool b = true, typename = nonstd::enable_if_t<b && std::is_copy_assignable<T>::value> >
-    void push_front( T const & value ) nsrs_noexcept_op(( std::is_nothrow_copy_assignable<T>::value ))
+    nsrs_REQUIRES_0( std::is_copy_assignable<T>::value )
+    void push_front( T const & value ) noexcept(( std::is_nothrow_copy_assignable<T>::value ))
 #else
     void push_front( T const & value )
 #endif
@@ -570,8 +584,8 @@ public:
     }
 
 #if nsrs_CPP11_OR_GREATER
-    template<bool b = true, typename = nonstd::enable_if_t<b && std::is_move_assignable<T>::value> >
-    void push_front( T && value ) nsrs_noexcept_op(( std::is_nothrow_move_assignable<T>::value ))
+    nsrs_REQUIRES_0( std::is_move_assignable<T>::value )
+    void push_front( T && value ) noexcept(( std::is_nothrow_move_assignable<T>::value ))
     {
         if ( full() ) decrement_front_and_back_();
         else          decrement_front_();
@@ -579,9 +593,17 @@ public:
         front_() = std::move(value);
     }
 
-    template<typename... Args>
-    void emplace_front( Args&&... args )
-        nsrs_noexcept_op(( std::is_nothrow_constructible<T, Args...>::value && std::is_nothrow_move_assignable<T>::value ))
+    template< typename... Args
+        nsrs_REQUIRES_T(
+            std::is_constructible<T, Args&&...>::value
+            && std::is_move_assignable<T>::value
+        )
+    >
+    void emplace_front( Args&&... args ) noexcept
+    (
+        std::is_nothrow_constructible<T, Args...>::value 
+        && std::is_nothrow_move_assignable<T>::value
+    )
     {
         if ( full() ) decrement_front_and_back_();
         else          decrement_front_();
