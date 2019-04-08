@@ -99,7 +99,7 @@
 # define nsrs_COMPILER_MSVC_VERSION  0
 #endif
 
-#define nsrs_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * major + minor ) + patch )
+#define nsrs_COMPILER_VERSION( major, minor, patch ) ( 10 * ( 10 * (major) + (minor) ) + (patch) )
 
 #if defined(__clang__)
 # define nsrs_COMPILER_CLANG_VERSION nsrs_COMPILER_VERSION( __clang_major__, __clang_minor__, __clang_patchlevel__ )
