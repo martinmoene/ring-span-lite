@@ -1,4 +1,4 @@
-from conans import ConanFile
+from conans import ConanFile, CMake
 
 class RingSpanLiteConan(ConanFile):
     version = "0.2.0"
@@ -6,8 +6,8 @@ class RingSpanLiteConan(ConanFile):
     description = "ring-span"
     license = "Boost Software License - Version 1.0. http://www.boost.org/LICENSE_1_0.txt"
     url = "https://github.com/martinmoene/ring-span-lite.git"
-    exports_sources = "include/nonstd/*", "LICENSE.txt"
-    build_policy = "missing"    
+    exports_sources = "include/nonstd/*", "CMakeLists.txt", "cmake/*", "LICENSE.txt"
+    build_policy = "missing"
     author = "Martin Moene"
 
     def build(self):
@@ -15,8 +15,12 @@ class RingSpanLiteConan(ConanFile):
         pass
 
     def package(self):
-        """Provide pkg/include/nonstd/*.hpp"""
-        self.copy("*.hpp")
+        """Run CMake install"""
+        cmake = CMake(self)
+        cmake.definitions["RING_SPAN_LITE_OPT_BUILD_TESTS"] = "OFF"
+        cmake.definitions["RING_SPAN_LITE_OPT_BUILD_EXAMPLES"] = "OFF"
+        cmake.configure()
+        cmake.install()
 
     def package_info(self):
         self.info.header_only()
