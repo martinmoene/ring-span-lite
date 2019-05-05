@@ -19,6 +19,7 @@
 		<Unit filename="../../LICENSE.txt" />
 		<Unit filename="../../README.md" />
 		<Unit filename="../../appveyor.yml" />
+		<Unit filename="../../cmake/ring-span-lite-config-version.cmake.in" />
 		<Unit filename="../../cmake/ring-span-lite-config.cmake.in" />
 		<Unit filename="../../conanfile.py" />
 		<Unit filename="../../example/01-filter.cpp" />
