@@ -1057,14 +1057,12 @@ CASE( "copy_popper: A copy popper replaces the original element" )
 //------------------------------------------------------------------------
 // Issues:
 
-#include <array>
-
 CASE( "ring_span: Undefined behavior on partially filled span overflow" "[.issue-17]" )
 {
-    std::array<int, 5> A = { 1, 2, 3, 4, 5 };
+    int arr[] = { 1, 2, 3, 4, 5 };
     
     // this will cause capacity to be smaller than size:
-    ring_span<int> rs1( A.begin(), A.end(), A.begin(), 10 );
+    ring_span<int> rs1( arr, arr + dim(arr), arr, 10 );
 
     // this will put rs1's size as rs2's capacity, which will allow access violation:
     ring_span<int> rs2( rs1.begin(), rs1.end(), rs1.begin(), 9 );
