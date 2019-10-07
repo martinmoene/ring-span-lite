@@ -331,6 +331,7 @@ Note: test cases that assert are tagged with `[.assert]` and only run when [.ass
 ```
 ring_span: Allows to construct an empty span from an iterator pair
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
+ring_span: Constructing a span with size exceeding capacity asserts m_size <= m_capacity[.assert]
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)

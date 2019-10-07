@@ -80,7 +80,7 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
     EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
-CASE( "ring_span: Creating a span with size exceeding capacity asserts m_size <= m_capacity" "[.assert]" )
+CASE( "ring_span: Constructing a span with size exceeding capacity asserts m_size <= m_capacity" "[.assert]" )
 {
     int arr[] = { 1, 2, 3, 4, 5 };
     
