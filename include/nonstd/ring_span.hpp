@@ -442,7 +442,9 @@ public:
     , m_capacity ( static_cast<size_type>( end   - begin ) )
     , m_front_idx( static_cast<size_type>( first - begin ) )
     , m_popper   ( std11::move( popper ) )
-    {}
+    {
+        assert( m_size <= m_capacity );
+    }
 
 #if nsrs_HAVE_IS_DEFAULT
     ring_span( ring_span && ) = default;

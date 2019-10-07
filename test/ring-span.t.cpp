@@ -80,6 +80,13 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
     EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
+CASE( "ring_span: Creating a span with size exceeding capacity asserts m_size <= m_capacity" "[.assert]" )
+{
+    int arr[] = { 1, 2, 3, 4, 5 };
+    
+    ring_span<int> rs1( arr, arr + dim(arr), arr, dim(arr) + 1 );
+}
+
 CASE( "ring_span: Disallows to copy-construct from a ring_span (compile-time)" )
 {
 #if nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
@@ -1056,22 +1063,6 @@ CASE( "copy_popper: A copy popper replaces the original element" )
 
 //------------------------------------------------------------------------
 // Issues:
-
-CASE( "ring_span: Undefined behavior on partially filled span overflow" "[.issue-17]" )
-{
-    int arr[] = { 1, 2, 3, 4, 5 };
-    
-    // this will cause capacity to be smaller than size:
-    ring_span<int> rs1( arr, arr + dim(arr), arr, 10 );
-
-    // this will put rs1's size as rs2's capacity, which will allow access violation:
-    ring_span<int> rs2( rs1.begin(), rs1.end(), rs1.begin(), 9 );
-    
-    std::cout << rs1.size()  << "/" << rs1.capacity() << "\n";  // 10/5
-    std::cout << rs2.size()  << "/" << rs2.capacity() << "\n";  // 9/10
-    std::cout << rs2.front() << "\n";  // 1
-    std::cout << rs2.back()  << "\n";  // ???
-}
 
 //------------------------------------------------------------------------
 // Applets:
