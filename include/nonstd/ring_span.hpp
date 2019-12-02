@@ -480,6 +480,18 @@ public:
 
     // element access:
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    reference operator[]( size_type idx ) nsrs_noexcept
+    {
+        return assert( idx < m_size ), at_(idx);
+    }
+
+    const_reference operator[]( size_type idx ) const nsrs_noexcept
+    {
+        return assert( idx < m_size ), at_(idx);
+    }
+#endif
+
     reference front() nsrs_noexcept
     {
         return *begin();
@@ -702,12 +714,12 @@ private:
         return idx % m_capacity;
     }
 
-    reference at( size_type idx ) nsrs_noexcept
+    reference at_( size_type idx ) nsrs_noexcept
     {
         return m_data[ normalize_(m_front_idx + idx) ];
     }
 
-    const_reference at( size_type idx ) const nsrs_noexcept
+    const_reference at_( size_type idx ) const nsrs_noexcept
     {
         return m_data[ normalize_(m_front_idx + idx) ];
     }
@@ -826,7 +838,7 @@ public:
 
     reference operator*() const nsrs_noexcept
     {
-        return m_rs->at( m_idx );
+        return m_rs->at_( m_idx );
     }
 
     // advance iterator:
