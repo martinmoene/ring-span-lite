@@ -153,6 +153,8 @@ Synopsis
 | &nbsp;         |&#10003;| **front**() noexcept   | const_reference to element at front |
 | &nbsp;         |&#10003;| **back**() noexcept    | reference to back element at back |
 | &nbsp;         |&#10003;| **back**() noexcept    | const_reference to element at back |
+| &nbsp;         |&ndash; | **operator[]**( size_type idx ) noexcept | reference to element at specified index |
+| &nbsp;         |&ndash; | **operator[]**( size_type idx ) noexcept | const_reference to element at specified index |
 | Elem.extraction|&#10003;| **pop_front**() | Popper::return_type (p0059: auto) |
 | &nbsp;         |&ndash; | **pop_back**()  | Popper::return_type |
 | Elem.insertion|&#10003; | **push_back**( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |

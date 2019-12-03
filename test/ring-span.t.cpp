@@ -169,6 +169,19 @@ CASE( "ring_span: Allows to check for a full span" )
     EXPECT( rs.full() );
 }
 
+CASE( "ring_span: Allows to observe the element at the specified index" )
+{
+#if nsrs_CONFIG_STRICT_P0059
+    EXPECT( !!"operator[] is not available (SG14)" );
+#else
+    int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs[0] == arr[0] );
+    EXPECT( rs[1] == arr[1] );
+    EXPECT( rs[2] == arr[2] );
+#endif
+}
+
 CASE( "ring_span: Allows to observe the element at the front" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
