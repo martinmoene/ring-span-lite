@@ -84,7 +84,7 @@ CASE( "ring_span: Constructing a span with size exceeding capacity asserts m_siz
 {
     int arr[] = { 1, 2, 3, 4, 5 };
     
-    ring_span<int> rs1( arr, arr + dim(arr), arr, dim(arr) + 1 );
+    ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) + 1 );
 }
 
 CASE( "ring_span: Disallows to copy-construct from a ring_span (compile-time)" )
@@ -169,7 +169,7 @@ CASE( "ring_span: Allows to check for a full span" )
     EXPECT( rs.full() );
 }
 
-CASE( "ring_span: Allows to observe the element at the specified index" )
+CASE( "ring_span: Allows to observe the element at the specified index" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"operator[] is not available (SG14)" );
@@ -203,7 +203,7 @@ CASE( "ring_span: Allows to obtain and remove the element at the front" )
     EXPECT( rs.pop_front() == arr[0] );
 }
 
-CASE( "ring_span: Allows to obtain and remove the element at the back" )
+CASE( "ring_span: Allows to obtain and remove the element at the back" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -214,7 +214,7 @@ CASE( "ring_span: Allows to obtain and remove the element at the back" )
 #endif
 }
 
-CASE( "ring_span: Allows to copy-insert an element at the front" )
+CASE( "ring_span: Allows to copy-insert an element at the front" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -228,7 +228,7 @@ CASE( "ring_span: Allows to copy-insert an element at the front" )
 #endif
 }
 
-CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
+CASE( "ring_span: Allows to move-insert an element at the front (C++11)" " [extension]" )
 {
 #if nsrs_CPP11_OR_GREATER
 #if nsrs_CONFIG_STRICT_P0059
@@ -247,7 +247,7 @@ CASE( "ring_span: Allows to move-insert an element at the front (C++11)" )
 #endif
 }
 
-CASE( "ring_span: Allows to emplace an element at the front (C++11)" )
+CASE( "ring_span: Allows to emplace an element at the front (C++11)" " [extension]" )
 {
 #if nsrs_CPP11_OR_GREATER
 #if nsrs_CONFIG_STRICT_P0059
@@ -334,7 +334,7 @@ CASE( "ring_span: Allows to emplace an element at the back (C++11)" )
 #endif
 }
 
-CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" )
+CASE( "ring_span: Adding an element to an empty span makes it non-empty (front)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -358,7 +358,7 @@ CASE( "ring_span: Adding an element to an empty span makes it non-empty (back)" 
     EXPECT( ! rs.empty() );
 }
 
-CASE( "ring_span: Adding an element to an empty span doesn't change its capacity (front)" )
+CASE( "ring_span: Adding an element to an empty span doesn't change its capacity (front)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -384,7 +384,7 @@ CASE( "ring_span: Adding an element to an empty span doesn't change its capacity
     EXPECT( rs.capacity() == dim(arr) );
 }
 
-CASE( "ring_span: Adding an element to a full span leaves it full (front)" )
+CASE( "ring_span: Adding an element to a full span leaves it full (front)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -408,7 +408,7 @@ CASE( "ring_span: Adding an element to a full span leaves it full (back)" )
     EXPECT( rs.full() );
 }
 
-CASE( "ring_span: Adding an element to a full span doesn't change its capacity (front)" )
+CASE( "ring_span: Adding an element to a full span doesn't change its capacity (front)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -442,7 +442,7 @@ CASE( "ring_span: Removing an element from an empty span asserts !empty (front)"
     (void) rs.pop_front();
 }
 
-CASE( "ring_span: Removing an element from an empty span asserts !empty (back)" "[.assert]" )
+CASE( "ring_span: Removing an element from an empty span asserts !empty (back)"  "[extension][.assert]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -465,7 +465,7 @@ CASE( "ring_span: Removing an element from a span with one element makes it empt
     EXPECT( rs.empty() );
 }
 
-CASE( "ring_span: Removing an element from a span with one element makes it empty (back)" )
+CASE( "ring_span: Removing an element from a span with one element makes it empty (back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -492,7 +492,7 @@ CASE( "ring_span: Removing an element from a span with one element doesn't chang
     EXPECT( rs.capacity() == dim(arr) );
 }
 
-CASE( "ring_span: Removing an element from a span with one element doesn't change its capacity (back)" )
+CASE( "ring_span: Removing an element from a span with one element doesn't change its capacity (back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -519,7 +519,7 @@ CASE( "ring_span: Removing an element from a full span makes it not full (front)
     EXPECT( ! rs.full() );
 }
 
-CASE( "ring_span: Removing an element from a full span makes it not full (back)" )
+CASE( "ring_span: Removing an element from a full span makes it not full (back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -546,7 +546,7 @@ CASE( "ring_span: Removing an element from a full span doesn't change its capaci
     EXPECT( rs.capacity() == dim(arr) );
 }
 
-CASE( "ring_span: Removing an element from a full span doesn't change its capacity (back)" )
+CASE( "ring_span: Removing an element from a full span doesn't change its capacity (back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -631,7 +631,7 @@ CASE( "ring_span: Allows iteration (mixed const-non-const)" )
     EXPECT( std::equal( rs.cbegin(), rs.cend(), bgn ) );
 }
 
-CASE( "ring_span: Allows reverse iteration (non-const)" )
+CASE( "ring_span: Allows reverse iteration (non-const)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"rbegin(), rend() are not available (SG14)" );
@@ -644,7 +644,7 @@ CASE( "ring_span: Allows reverse iteration (non-const)" )
 #endif
 }
 
-CASE( "ring_span: Allows reverse iteration (const)" )
+CASE( "ring_span: Allows reverse iteration (const)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"crbegin(), crend() are not available (SG14)" );
@@ -657,7 +657,7 @@ CASE( "ring_span: Allows reverse iteration (const)" )
 #endif
 }
 
-CASE( "ring_span: Allows reverse iteration (mixed const-non-const)" )
+CASE( "ring_span: Allows reverse iteration (mixed const-non-const)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"rbegin(), rend() are not available (SG14)" );
@@ -688,7 +688,7 @@ CASE( "ring_span: A full span is a delay-line of capacity elements (back-front)"
     }
 }
 
-CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)" )
+CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
@@ -702,7 +702,7 @@ CASE( "ring_span: A full span is a delay-line of capacity elements (front-back)"
 #endif
 }
 
-CASE( "ring_span: A non-full span is a stack of capacity elements (back)" )
+CASE( "ring_span: A non-full span is a stack of capacity elements (back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"pop_back() is not available (SG14)" );
@@ -721,7 +721,7 @@ CASE( "ring_span: A non-full span is a stack of capacity elements (back)" )
 #endif
 }
 
-CASE( "ring_span: A non-full span is a stack of capacity elements (front)" )
+CASE( "ring_span: A non-full span is a stack of capacity elements (front)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front() is not available (SG14)" );
@@ -755,7 +755,7 @@ CASE( "ring_span: A non-full span behaves like an harmonica (back-front)" )
     }
 }
 
-CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" )
+CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"push_front(), pop_back() are not available (SG14)" );
@@ -774,7 +774,7 @@ CASE( "ring_span: A non-full span behaves like an harmonica (front-back)" )
 #endif
 }
 
-CASE( "ring_iterator: Allows conversion to const ring_iterator" )
+CASE( "ring_iterator: Allows conversion to const ring_iterator" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"conversion to const iterator is not available (SG14)" );
@@ -827,7 +827,7 @@ CASE( "ring_iterator: Allows to decrement iterator (postfix)" )
     EXPECT( *pos-- == arr[1] );
 }
 
-CASE( "ring_iterator: Allows to advance iterator (+=)" )
+CASE( "ring_iterator: Allows to advance iterator (+=)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
@@ -839,7 +839,7 @@ CASE( "ring_iterator: Allows to advance iterator (+=)" )
 #endif
 }
 
-CASE( "ring_iterator: Allows to advance iterator (-=)" )
+CASE( "ring_iterator: Allows to advance iterator (-=)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
@@ -851,7 +851,7 @@ CASE( "ring_iterator: Allows to advance iterator (-=)" )
 #endif
 }
 
-CASE( "ring_iterator: Allows to offset iterator (+)" )
+CASE( "ring_iterator: Allows to offset iterator (+)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
@@ -863,7 +863,7 @@ CASE( "ring_iterator: Allows to offset iterator (+)" )
 #endif
 }
 
-CASE( "ring_iterator: Allows to offset iterator (-)" )
+CASE( "ring_iterator: Allows to offset iterator (-)" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"iterator advancement is not implemented properly (SG14)" );
@@ -875,7 +875,7 @@ CASE( "ring_iterator: Allows to offset iterator (-)" )
 #endif
 }
 
-CASE( "ring_iterator: Allows to obtain difference of iterators" )
+CASE( "ring_iterator: Allows to obtain difference of iterators" " [extension]" )
 {
 #if nsrs_CONFIG_STRICT_P0059
     EXPECT( !!"iterator difference is not available (SG14)" );
