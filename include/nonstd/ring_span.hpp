@@ -483,12 +483,12 @@ public:
 #if nsrs_RING_SPAN_LITE_EXTENSION
     reference operator[]( size_type idx ) nsrs_noexcept
     {
-        return assert( idx < m_size ), at_(idx);
+        assert( idx < m_size ); return at_(idx);
     }
 
     const_reference operator[]( size_type idx ) const nsrs_noexcept
     {
-        return assert( idx < m_size ), at_(idx);
+        assert( idx < m_size ); return at_(idx);
     }
 #endif
 
