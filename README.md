@@ -333,7 +333,6 @@ Note: test cases that assert are tagged with `[.assert]` and only run when [.ass
 ```
 ring_span: Allows to construct an empty span from an iterator pair
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
-ring_span: Constructing a span with size exceeding capacity asserts m_size <= m_capacity[.assert]
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)
@@ -342,61 +341,60 @@ ring_span: Allows to obtain the capacity of a span
 ring_span: Allows to obtain the number of elements in a span (size)
 ring_span: Allows to check for an empty span
 ring_span: Allows to check for a full span
+ring_span: Allows to observe the element at the specified index [extension]
 ring_span: Allows to observe the element at the front
 ring_span: Allows to observe the element at the back
 ring_span: Allows to obtain and remove the element at the front
-ring_span: Allows to obtain and remove the element at the back
-ring_span: Allows to copy-insert an element at the front
-ring_span: Allows to move-insert an element at the front (C++11)
-ring_span: Allows to emplace an element at the front (C++11)
+ring_span: Allows to obtain and remove the element at the back [extension]
+ring_span: Allows to copy-insert an element at the front [extension]
+ring_span: Allows to move-insert an element at the front (C++11) [extension]
+ring_span: Allows to emplace an element at the front (C++11) [extension]
 ring_span: Allows to copy-insert an element at the back
 ring_span: Allows to move-insert an element at the back (C++11)
 ring_span: Allows to emplace an element at the back (C++11)
-ring_span: Adding an element to an empty span makes it non-empty (front)
+ring_span: Adding an element to an empty span makes it non-empty (front) [extension]
 ring_span: Adding an element to an empty span makes it non-empty (back)
-ring_span: Adding an element to an empty span doesn't change its capacity (front)
+ring_span: Adding an element to an empty span doesn't change its capacity (front) [extension]
 ring_span: Adding an element to an empty span doesn't change its capacity (back)
-ring_span: Adding an element to a full span leaves it full (front)
+ring_span: Adding an element to a full span leaves it full (front) [extension]
 ring_span: Adding an element to a full span leaves it full (back)
-ring_span: Adding an element to a full span doesn't change its capacity (front)
+ring_span: Adding an element to a full span doesn't change its capacity (front) [extension]
 ring_span: Adding an element to a full span doesn't change its capacity (back)
-ring_span: Removing an element from an empty span asserts !empty (front)[.assert]
-ring_span: Removing an element from an empty span asserts !empty (back)[.assert]
 ring_span: Removing an element from a span with one element makes it empty (front)
-ring_span: Removing an element from a span with one element makes it empty (back)
+ring_span: Removing an element from a span with one element makes it empty (back) [extension]
 ring_span: Removing an element from a span with one element doesn't change its capacity (front)
-ring_span: Removing an element from a span with one element doesn't change its capacity (back)
+ring_span: Removing an element from a span with one element doesn't change its capacity (back) [extension]
 ring_span: Removing an element from a full span makes it not full (front)
-ring_span: Removing an element from a full span makes it not full (back)
+ring_span: Removing an element from a full span makes it not full (back) [extension]
 ring_span: Removing an element from a full span doesn't change its capacity (front)
-ring_span: Removing an element from a full span doesn't change its capacity (back)
+ring_span: Removing an element from a full span doesn't change its capacity (back) [extension]
 ring_span: Allows to swap spans (member)
 ring_span: Allows to swap spans (non-member)
 ring_span: Allows to appear in range-for (C++11)
 ring_span: Allows iteration (non-const)
 ring_span: Allows iteration (const)
 ring_span: Allows iteration (mixed const-non-const)
-ring_span: Allows reverse iteration (non-const)
-ring_span: Allows reverse iteration (const)
-ring_span: Allows reverse iteration (mixed const-non-const)
+ring_span: Allows reverse iteration (non-const) [extension]
+ring_span: Allows reverse iteration (const) [extension]
+ring_span: Allows reverse iteration (mixed const-non-const) [extension]
 ring_span: A span with capacity zero is both empty and full
 ring_span: A full span is a delay-line of capacity elements (back-front)
-ring_span: A full span is a delay-line of capacity elements (front-back)
-ring_span: A non-full span is a stack of capacity elements (back)
-ring_span: A non-full span is a stack of capacity elements (front)
+ring_span: A full span is a delay-line of capacity elements (front-back) [extension]
+ring_span: A non-full span is a stack of capacity elements (back) [extension]
+ring_span: A non-full span is a stack of capacity elements (front) [extension]
 ring_span: A non-full span behaves like an harmonica (back-front)
-ring_span: A non-full span behaves like an harmonica (front-back)
-ring_iterator: Allows conversion to const ring_iterator
+ring_span: A non-full span behaves like an harmonica (front-back) [extension]
+ring_iterator: Allows conversion to const ring_iterator [extension]
 ring_iterator: Allows to dereference iterator
 ring_iterator: Allows to increment iterator (prefix)
 ring_iterator: Allows to increment iterator (postfix)
 ring_iterator: Allows to decrement iterator (prefix)
 ring_iterator: Allows to decrement iterator (postfix)
-ring_iterator: Allows to advance iterator (+=)
-ring_iterator: Allows to advance iterator (-=)
-ring_iterator: Allows to offset iterator (+)
-ring_iterator: Allows to offset iterator (-)
-ring_iterator: Allows to obtain difference of iterators
+ring_iterator: Allows to advance iterator (+=) [extension]
+ring_iterator: Allows to advance iterator (-=) [extension]
+ring_iterator: Allows to offset iterator (+) [extension]
+ring_iterator: Allows to offset iterator (-) [extension]
+ring_iterator: Allows to obtain difference of iterators [extension]
 ring_iterator: Allows to compare iterators (==)
 ring_iterator: Allows to compare iterators (!=)
 ring_iterator: Allows to compare iterators (<)
