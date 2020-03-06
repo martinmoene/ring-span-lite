@@ -234,7 +234,7 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
     template< bool B = (__VA_ARGS__), typename std::enable_if<B, int>::type = 0 >
 
 #define nsrs_REQUIRES_T(...) \
-    , typename = typename std::enable_if< (__VA_ARGS__), nonstd::ring_span_lite::detail::enabler >::type
+    , typename std::enable_if< (__VA_ARGS__), int >::type = 0
 
 #endif
 
@@ -251,10 +251,6 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 #endif
 
 namespace nonstd { namespace ring_span_lite {
-
-namespace detail {
-/*enum*/ struct enabler{};
-}
 
 // type traits C++11:
 
