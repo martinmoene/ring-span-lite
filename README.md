@@ -2,7 +2,8 @@
 
 [![Language](https://img.shields.io/badge/C%2B%2B-98/11/14/17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)  [![License](https://img.shields.io/badge/license-BSL-blue.svg)](https://opensource.org/licenses/BSL-1.0) [![Build Status](https://travis-ci.org/martinmoene/ring-span-lite.svg?branch=master)](https://travis-ci.org/martinmoene/ring-span-lite) [![Build status](https://ci.appveyor.com/api/projects/status/w2dgn3fxyrd6vcq8?svg=true)](https://ci.appveyor.com/project/martinmoene/ring-span-lite) [![Version](https://badge.fury.io/gh/martinmoene%2Fring-span-lite.svg)](https://github.com/martinmoene/ring-span-lite/releases) [![download](https://img.shields.io/badge/latest-download-blue.svg)](https://raw.githubusercontent.com/martinmoene/ring-span-lite/master/include/nonstd/ring_span.hpp) [![Conan](https://img.shields.io/badge/on-conan-blue.svg)](https://bintray.com/martinmoene/nonstd-lite/ring-span-lite%3Anonstd-lite/_latestVersion) [![Try it on wandbox](https://img.shields.io/badge/on-wandbox-blue.svg)](https://wandbox.org/permlink/GHo8T1PIo7TV7eoG) [![Try it on godbolt online](https://img.shields.io/badge/on-godbolt-blue.svg)](https://godbolt.org/z/7n4Byc)
 
-**Contents**  
+**Contents**
+
 - [Example usage](#example-usage)
 - [In a nutshell](#in-a-nutshell)
 - [Dependencies](#dependencies)
@@ -13,7 +14,6 @@
 - [Other ring_span implementations](#other-ring-span-implementations)
 - [Notes and references](#notes-and-references)
 - [Appendix](#appendix)
-
 
 Example usage
 -------------
@@ -54,7 +54,7 @@ int main()
 
 ### Compile and run
 
-```
+```Text
 prompt> g++ -std=c++98 -Wall -I../include -o 01-filter.exe 01-filter.cpp && 01-filter.exe
 [ring_span: 2, 3, 5, ]
 [ring_span: 3, 5, 7, ]
@@ -63,38 +63,39 @@ filter result: 5
 
 Or to run with [Buck](https://buckbuild.com/):
 
-```
+```Text
 prompt> buck run example/:01-filter 
 ```
 
 In a nutshell
 -------------
+
 **ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its initial code is inspired on the reference implementation by Arthur O'Dwyer [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
 
 **Features and properties of ring-span lite** are ease of installation (single header), freedom of dependencies other than the standard library.
 
 **Limitations of ring-span lite** are ... .
 
-
 License
 -------
-*ring-span lite* is distributed under the [Boost Software License](LICENSE.txt).
 
+*ring-span lite* is distributed under the [Boost Software License](LICENSE.txt).
 
 Dependencies
 ------------
-*ring-span lite* has no other dependencies than the [C++ standard library](http://en.cppreference.com/w/cpp/header).
 
+*ring-span lite* has no other dependencies than the [C++ standard library](http://en.cppreference.com/w/cpp/header).
 
 Installation
 ------------
-*ring-span lite* is a single-file header-only library. Put `ring_span.hpp` in the [include](include) folder directly into the project source tree or somewhere reachable from your project.
 
+*ring-span lite* is a single-file header-only library. Put `ring_span.hpp` in the [include](include) folder directly into the project source tree or somewhere reachable from your project.
 
 Synopsis
 --------
 
-**Contents**  
+**Contents**
+
 - [Types in namespace nonstd](#types-in-namespace-nonstd)
 - [Interface of *ring-span lite*](#interface-of-ring-span-lite)
 - [Non-member functions for *ring-span lite*](#non-member-functions-for-ring-span-lite)
@@ -210,26 +211,30 @@ Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&en
 ### Configuration macros
 
 #### Standard selection macro
+
 \-D<b>nsrs\_CPLUSPLUS</b>=199711L  
 Define this macro to override the auto-detection of the supported C++ standard, if your compiler does not set the `__cpluplus` macro correctly.
 
 #### Select `std::ring_span` or `nonstd::ring_span`
+
 At default, *ring_span lite* uses `std::ring_span` if it is available and lets you use it via namespace `nonstd`. You can however override this default and explicitly request to use `std::ring_span` or ring_span lite's `nonstd::ring_span` as `nonstd::ring_span` via the following macros.
 
 -D<b>nsrs\_CONFIG\_SELECT\_RING\_SPAN</b>=nsrs_RING_SPAN_DEFAULT  
 Define this to `nsrs_RING_SPAN_STD` to select `std::ring_span` as `nonstd::ring_span`. Define this to `nsrs_RING_SPAN_NONSTD` to select `nonstd::ring_span` as `nonstd::ring_span`. Default is undefined, which has the same effect as defining to `nsrs_RING_SPAN_DEFAULT`.
 
 #### Disable extensions
+
 \-D<b>nsrs\CONFIG\_STRICT\_P0059</b>=0  
 Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
 #### Enable compilation errors
+
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
 Define this to 1 to include the tests with compile-time errors. Default is undefined (same effect as 0).
 
-
 Reported to work with
 ---------------------
+
 The table below mentions the compiler versions *ring-span lite* is reported to work with.
 
 OS        | Compiler   | Versions |
@@ -241,9 +246,9 @@ GNU/Linux | Clang/LLVM | 3.5.0 |
 &nbsp;    | GCC        | 4.8.4 |
 OS X      | ?          | ?   |
 
-
 Building the tests
 ------------------
+
 To build the tests you need:
 - [Buck](https://buckbuild.com/) or [CMake](http://cmake.org) version 2.8.7 or later to be installed and in your PATH.
 - A [suitable compiler](#reported-to-work-with).
@@ -253,7 +258,8 @@ The [*lest* test framework](https://github.com/martinmoene/lest)  is included in
 ### Buck
 
 To run the tests:
-```
+
+```Text
 prompt> buck run test/
 ```
 
@@ -286,15 +292,16 @@ Here we use c:\ring-span-lite\build-win-x86-vc10.
 
 All tests should pass, indicating your platform is supported and you are ready to use *ring-span lite*. See the table with [supported types and functions](#features).
 
-
 Other ring-span implementations
 -------------------------------
-- Bjørn Reese. [Circular span](https://github.com/breese/trial.circular).
 
+- Bjørn Reese. [Circular span](https://github.com/breese/trial.circular).
 
 Notes and references
 --------------------
+
 ### References
+
 [1] [p0059: A proposal to add a ring span to the standard library](http://wg21.link/p0059) ([latest](http://wg21.link/p0059), [r4](http://wg21.link/p0059r4), [r3](http://wg21.link/p0059r3), [r2](http://wg21.link/p0059r2), [r1](http://wg21.link/p0059r1), [r0](http://wg21.link/p0059r0)).  
 [2] [WG21-SG14/SG14](https://github.com/WG21-SG14/SG14/). Reference implementation of [`std::ring_span`](https://github.com/WG21-SG14/SG14/blob/master/SG14/ring.h) by [Guy Davidson](https://github.com/hatcat) and [Arthur O'Dwyer](https://github.com/Quuxplusone).  
 [3] [Arthur O'Dwyer](https://github.com/Quuxplusone). Reference implementation of [`std::ring_span`](https://github.com/Quuxplusone/ring_view).  
@@ -302,11 +309,11 @@ Notes and references
 [5] Phillip Johnston. [Creating a Circular Buffer in C and C++](https://embeddedartistry.com/blog/2017/4/6/circular-buffers-in-cc). 17 May 2017.  
 [6] Jan Gaspar. [Boost.Circular Buffer](http://www.boost.org/libs/circular_buffer).  
 
-
 Appendix
 --------
 
-**Contents**  
+**Contents**
+
 - [A.1 Applets](#a1)
 - [A.2 Compile-time information](#a2)
 - [A.3 Ring-span lite test specification](#a3)
@@ -316,7 +323,7 @@ Appendix
 
 Applets demonstrate a specific use case. They are available via tag `[.applet]`.
 
-```
+```Text
 > ring-span-main.t.exe -l .applet
 ring_span: filter[.applet]
 ```
@@ -331,7 +338,7 @@ The version of *ring-span lite* is available via tag `[.version]`. The following
 
 Note: test cases that assert are tagged with `[.assert]` and only run when [.assert] is included on the command line, like: `test [.assert] partial-test-name`.
 
-```
+```Text
 ring_span: Allows to construct an empty span from an iterator pair
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
