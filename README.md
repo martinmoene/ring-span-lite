@@ -289,7 +289,8 @@ All tests should pass, indicating your platform is supported and you are ready t
 
 Other ring-span implementations
 -------------------------------
-(TBD)
+- Bjørn Reese. [Circular span](https://github.com/breese/trial.circular).
+
 
 Notes and references
 --------------------
