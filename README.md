@@ -296,6 +296,7 @@ Other ring-span implementations
 -------------------------------
 
 - Bjørn Reese. [Circular span](https://github.com/breese/trial.circular).
+- Jan Wilmans. [ring_span](https://github.com/janwilmans/ring_span), based on code by Björn Fahller.
 
 Notes and references
 --------------------
