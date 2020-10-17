@@ -13,7 +13,7 @@
 #define NONSTD_RING_SPAN_LITE_HPP
 
 #define ring_span_lite_MAJOR  0
-#define ring_span_lite_MINOR  3
+#define ring_span_lite_MINOR  4
 #define ring_span_lite_PATCH  0
 
 #define ring_span_lite_VERSION  nsrs_STRINGIFY(ring_span_lite_MAJOR) "." nsrs_STRINGIFY(ring_span_lite_MINOR) "." nsrs_STRINGIFY(ring_span_lite_PATCH)

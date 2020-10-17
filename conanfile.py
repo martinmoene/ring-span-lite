@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake
 
 class RingSpanLiteConan(ConanFile):
-    version = "0.3.0"
+    version = "0.4.0"
     name = "ring-span-lite"
     description = "ring-span"
     license = "Boost Software License - Version 1.0. http://www.boost.org/LICENSE_1_0.txt"
