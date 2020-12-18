@@ -83,7 +83,7 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
 CASE( "ring_span: Constructing a span with size exceeding capacity asserts m_size <= m_capacity" "[.assert]" )
 {
     int arr[] = { 1, 2, 3, 4, 5 };
-    
+
     ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) + 1 );
 }
 
@@ -1071,6 +1071,50 @@ CASE( "copy_popper: A copy popper replaces the original element" )
     (void) rs.pop_front() ;
 
     EXPECT( arr[0] == replacement );
+#endif
+}
+
+// ring:
+
+#include <vector>
+
+CASE( "ring: Allows to create data owning ring from container" )
+{
+    ring< std::vector<int> > r( 3 );
+
+    EXPECT( r.size() == 0u );
+    EXPECT( r.capacity() == 3u );
+
+    // overflow ring by one element:
+
+    for ( size_t i = 0; i < r.size() + 1; ++i )
+    {
+        r.push_back( static_cast<int>( i ) );
+    }
+
+    EXPECT( r.size() == 3u );
+    EXPECT( r.capacity() == 3u );
+
+    EXPECT( r.front() == 1 );
+    EXPECT( r.back()  == 3 );
+    EXPECT( r[1]      == 2 );
+
+    EXPECT( r.pop_front() == 1 );
+    EXPECT( r.pop_front() == 2 );
+    EXPECT( r.pop_front() == 3 );
+
+    EXPECT( r.size() == 0u );
+
+    r.push_front( 42 );
+    EXPECT( r.front() == 42 );
+
+#if nsrs_CPP11_OR_GREATER
+    r.emplace_front( 55 );
+    r.emplace_back(  77 );
+    EXPECT( r.front() == 55 );
+    EXPECT( r.back () == 77 );
+
+    EXPECT( r.size() == 3u );
 #endif
 }
 

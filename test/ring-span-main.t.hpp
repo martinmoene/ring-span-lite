@@ -10,6 +10,7 @@
 #ifndef RING_SPAN_LITE_T_INCLUDED
 #define RING_SPAN_LITE_T_INCLUDED
 
+#include "nonstd/ring.hpp"
 #include "nonstd/ring_span.hpp"
 
 // Compiler warning suppression for usage of lest:

@@ -70,7 +70,9 @@ prompt> buck run example/:01-filter
 In a nutshell
 -------------
 
-**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its initial code is inspired on the reference implementation by Arthur O'Dwyer [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one. 
+**ring-span lite** is a single-file header-only library to represent a circular buffer view on a container. The library aims to provide a [C++yy-like ring_span]() for use with C++98 and later [1][2]. Its initial code is inspired on the reference implementation by Arthur O'Dwyer [3]. It is my intention to let the interface of this `ring_span` follow the unfolding standard one.
+
+This library also includes header `<ring.hpp>` to provide a data-owning ring buffer.
 
 **Features and properties of ring-span lite** are ease of installation (single header), freedom of dependencies other than the standard library.
 
@@ -207,6 +209,57 @@ note 1: accepts lhs and rhs of different const-ness.
 | &nbsp;          |&#10003;| **operator-**( ring_iterator<&hellip;> it, int i ) noexcept | ring_iterator<&hellip;> |
 
 Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&ensp;&middot;&ensp;&ndash;/&#10003; not in proposal/in sg14 code
+
+#### Class `ring`
+
+| Kind | Type / Method | Note / Result |
+|------|---------------|---------------|
+| Various types  | **size_type**              |&nbsp; |
+| Value types    | **value_type**             |&nbsp; |
+| &nbsp;         | **reference**              |&nbsp; |
+| &nbsp;         | **const_reference**        |&nbsp; |
+| Iterator types | **iterator**               |&nbsp; |
+| &nbsp;         | **const_iterator**         |&nbsp; |
+| &nbsp;         | **reverse_iterator**       |&nbsp; |
+| &nbsp;         | **const_reverse_iterator** |&nbsp; |
+| Construction   | **ring**(size_type size)   | create empty ring of capacity `size` |
+| Iteration      | **begin**() noexcept       | iterator |
+| &nbsp;         | **begin**() noexcept       | const_iterator |
+| &nbsp;         | **cbegin**() noexcept      | const_iterator |
+| &nbsp;         | **end**() noexcept         | iterator |
+| &nbsp;         | **end**() noexcept         | const_iterator |
+| &nbsp;         | **cend**() noexcept        | const_iterator |
+| Reverse iter.  | **rbegin**() noexcept      | reverse_iterator |
+| &nbsp;         | **rbegin**() noexcept      | const_reverse_iterator |
+| &nbsp;         | **crbegin**() noexcept     | const_reverse_iterator |
+| &nbsp;         | **rend**() noexcept        | reverse_iterator |
+| &nbsp;         | **rend**() noexcept        | const_reverse_iterator |
+| &nbsp;         | **crend**() noexcept       | const_reverse_iterator |
+| Observation    | **empty**() noexcept       | true if empty |
+| &nbsp;         | **full**() noexcept        | true if full |
+| &nbsp;         | **size**() noexcept        | current number of elements |
+| &nbsp;         | **capacity**() noexcept    | maximum number of elements |
+| Element access | **front**() noexcept       | reference to element at front |
+| &nbsp;         | **front**() noexcept       | const_reference to element at front |
+| &nbsp;         | **back**() noexcept        | reference to back element at back |
+| &nbsp;         | **back**() noexcept        | const_reference to element at back |
+| Element access | **front**() noexcept       | reference to element at front |
+| &nbsp;         | **front**() noexcept       | const_reference to element at front |
+| &nbsp;         | **back**() noexcept        | reference to back element at back |
+| &nbsp;         | **back**() noexcept        | const_reference to element at back |
+| &nbsp;         | **operator[]**( size_type idx ) noexcept | reference to element at specified index |
+| &nbsp;         | **operator[]**( size_type idx ) noexcept | const_reference to element at specified index |
+| Elem.extraction| **pop_front**() | Popper::return_type |
+| &nbsp;         | **pop_back**()  | Popper::return_type |
+| Elem.insertion|& **push_back**( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         | **push_back**( value_type const & value )     | void; unrestrained (< C++11) |
+| &nbsp;         | **push_back**( value_type && value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         | **emplace_back**( Args &&... args ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         | **push_front**( value_type const & value ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| &nbsp;         | **push_front**( value_type const & value )    | void; unrestrained (< C++11) |
+| &nbsp;         | **push_front**( value_type && value ) noexcept(&hellip;)| void; restrained (>= C++11) |
+| &nbsp;         | **emplace_front**( Args &&... args ) noexcept(&hellip;) | void; restrained (>= C++11) |
+| Swap           | **swap**( ring_span & rhs ) noexcept | void; |
 
 ### Configuration macros
 
@@ -418,4 +471,5 @@ default_popper: A default popper moves the element (C++11)
 default_popper: A default popper leaves the original element unchanged
 copy_popper: A copy popper returns the element
 copy_popper: A copy popper replaces the original element
+ring: Allows to create data owning ring from container
 ```
