@@ -788,7 +788,7 @@ CASE( "ring_iterator: Allows conversion to const ring_iterator" " [extension]" )
 #endif
 }
 
-CASE( "ring_iterator: Allows to dereference iterator" )
+CASE( "ring_iterator: Allows to dereference iterator (operator*())" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );
 
