@@ -795,6 +795,17 @@ CASE( "ring_iterator: Allows to dereference iterator" )
     EXPECT( *rs.begin() == arr[0] );
 }
 
+namespace op_arrow { struct S { int v; }; }
+
+CASE( "ring_iterator: Allows to dereference iterator (operator->())" )
+{
+    using op_arrow::S;
+
+    S arr[] = { {1}, {2}, {3}, }; ring_span<S> rs( arr, arr + dim(arr), arr, dim(arr) );
+
+    EXPECT( rs.begin()->v == arr[0].v );
+}
+
 CASE( "ring_iterator: Allows to increment iterator (prefix)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( arr, arr + dim(arr), arr, dim(arr) );

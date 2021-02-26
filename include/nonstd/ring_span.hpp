@@ -838,6 +838,13 @@ public:
         return m_rs->at_( m_idx );
     }
 
+    // see issue #21:
+
+    pointer operator->() const nsrs_noexcept
+    {
+        return & m_rs->at_( m_idx );
+    }
+
     // advance iterator:
 
     type & operator++() nsrs_noexcept
