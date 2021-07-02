@@ -275,6 +275,11 @@ At default, *ring_span lite* uses `std::ring_span` if it is available and lets y
 -D<b>nsrs\_CONFIG\_SELECT\_RING\_SPAN</b>=nsrs_RING_SPAN_DEFAULT  
 Define this to `nsrs_RING_SPAN_STD` to select `std::ring_span` as `nonstd::ring_span`. Define this to `nsrs_RING_SPAN_NONSTD` to select `nonstd::ring_span` as `nonstd::ring_span`. Default is undefined, which has the same effect as defining to `nsrs_RING_SPAN_DEFAULT`.
 
+#### Assume capacity is power of two
+
+\-D<b>nsrs\_CONFIG\_CAPACITY\_IS\_POWER\_OF\_2</b>=0  
+Define this to 1 to optimize for a capacity that is a power of two. This makes the index normalization computation more efficient by using the _bitwise and_ operation instead of _remainder division_. Default is undefined (same effect as 0).
+
 #### Disable extensions
 
 \-D<b>nsrs\CONFIG\_STRICT\_P0059</b>=0  

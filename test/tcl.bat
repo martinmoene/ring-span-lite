@@ -21,7 +21,8 @@ set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_DEFAULT
 ::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_NONSTD
 ::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_STD
 
-set unit_config=
+set unit_config=^
+    -Dnsrs_CONFIG_CAPACITY_IS_POWER_OF_2=0
 
 set msvc_defines=^
     -D_CRT_SECURE_NO_WARNINGS ^

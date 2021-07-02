@@ -35,6 +35,10 @@
 # define nsrs_CONFIG_STRICT_P0059  0
 #endif
 
+#ifndef  nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
+# define nsrs_CONFIG_CAPACITY_IS_POWER_OF_2  0
+#endif
+
 #define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
 #ifndef  nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
@@ -385,6 +389,12 @@ namespace detail {
 template< class, bool >
 class ring_iterator;
 
+template< typename T >
+bool is_power_of_2( T n )
+{
+    return n > 0 && (n & (n - 1)) == 0;
+}
+
 }
 
 //
@@ -424,7 +434,11 @@ public:
     , m_capacity ( static_cast<size_type>( end - begin ) )
     , m_front_idx( 0 )
     , m_popper   ( std11::move( popper ) )
-    {}
+    {
+#if nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
+        assert( detail::is_power_of_2( m_capacity ) );
+#endif
+    }
 
     template< class ContiguousIterator >
     ring_span(
@@ -708,7 +722,11 @@ private:
 
     size_type normalize_( size_type const idx ) const nsrs_noexcept
     {
+#if nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
+        return idx & (m_capacity - 1);
+#else
         return idx % m_capacity;
+#endif
     }
 
     reference at_( size_type idx ) nsrs_noexcept
