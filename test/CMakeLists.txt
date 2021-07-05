@@ -130,6 +130,7 @@ function( make_target target std )
     message( STATUS "Make target: '${std}'" )
 
     add_executable            ( ${target} ${SOURCES} )
+    target_include_directories( ${target} SYSTEM  PRIVATE lest )
     target_link_libraries     ( ${target} PRIVATE ${PACKAGE} )
     target_compile_options    ( ${target} PRIVATE ${OPTIONS} )
     target_compile_definitions( ${target} PRIVATE ${DEFINITIONS} )
