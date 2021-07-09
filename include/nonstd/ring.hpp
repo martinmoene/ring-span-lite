@@ -16,11 +16,25 @@
 
 namespace nonstd {
 
-template< typename Container /*= std::vector<T>*/ >
+template
+<
+    typename Container /*= std::vector<T>*/
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    , bool SizeIsPowerOf2 = false
+#endif
+>
 class ring
 {
 public:
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    typedef ring_span<
+        typename Container::value_type
+        , default_popper<typename Container::value_type>
+        , SizeIsPowerOf2
+    > RingSpan;
+#else
     typedef ring_span< typename Container::value_type > RingSpan;
+#endif
 
     typedef typename RingSpan::value_type       value_type;
     typedef typename RingSpan::size_type        size_type;

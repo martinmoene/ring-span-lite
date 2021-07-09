@@ -31,6 +31,33 @@ inline constexpr size_t dim( T (&arr)[N] )
 # define dim(arr) ( sizeof(arr) / sizeof(0[arr]) )
 #endif
 
+namespace tst {
+
+// std::equal() requires iterator::operator-(),
+// which is not available with nsrs_CONFIG_STRICT_P0059
+
+template< typename InputIt1, typename InputIt2 >
+bool equal( InputIt1 first1, InputIt1 last1, InputIt2 first2 )
+{
+#if nsrs_CONFIG_STRICT_P0059
+    return true;
+#else
+    return std::equal( first1, last1, first2 );
+#endif
+}
+
+template< typename InputIt1, typename InputIt2, typename T >
+T inner_product( InputIt1 first1, InputIt1 last1, InputIt2 first2, T init )
+{
+#if nsrs_CONFIG_STRICT_P0059
+    return init;
+#else
+    return std::inner_product( first1, last1, first2, init );
+#endif
+}
+
+} // namespace tst
+
 #if nsrs_CPP11_OR_GREATER
 struct noncopyable
 {
@@ -67,9 +94,23 @@ CASE( "ring_span: Allows to construct an empty span from an iterator pair" )
     EXPECT( rs.capacity() == dim(arr)     );
 }
 
+CASE( "ring_span: Allows to construct an empty span from an iterator pair - size is power of 2" )
+{
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    int arr[] = { 1, 2, 3, 4, };
+
+    ring_span<int, nonstd::default_popper<int>, true> rs( arr, arr + dim(arr) );
+
+    EXPECT( rs.size()     == size_type(0) );
+    EXPECT( rs.capacity() == dim(arr)     );
+#else
+    EXPECT( !!"'size is power of 2' is not available (nsrs_CONFIG_STRICT_P0059)" );
+#endif
+}
+
 CASE( "ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size" )
 {
-    int arr[] = { 7, 7, 1, 2, 3, 7, 7, 7, };
+    int arr[] = { 7, 7, 1, 2, 3, 7, 7, };
     size_type first = 2;
     size_type count = 3;
 
@@ -77,7 +118,25 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
 
     EXPECT( rs.size()     == count    );
     EXPECT( rs.capacity() == dim(arr) );
-    EXPECT( std::equal( rs.begin(), rs.end(), arr + first ) );
+    EXPECT( tst::equal( rs.begin(), rs.end(), arr + first ) );
+}
+
+CASE( "ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size - size is power of 2" )
+{
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    int arr[] = { 7, 7, 1, 2, 3, 7, 7, 8, };
+    size_type first = 2;
+    size_type count = 3;
+
+    ring_span<int, nonstd::default_popper<int>, true> rs( arr, arr + dim(arr), arr + first, count );
+
+    EXPECT( rs.size()     == count    );
+    EXPECT( rs.capacity() == dim(arr) );
+    EXPECT( tst::equal( rs.begin(), rs.end(), arr + first ) );
+#else
+    EXPECT( !!"'size is power of 2' is not available (nsrs_CONFIG_STRICT_P0059)" );
+#endif
+
 }
 
 CASE( "ring_span: Constructing a span with size exceeding capacity asserts m_size <= m_capacity" "[.assert]" )
@@ -120,7 +179,7 @@ CASE( "ring_span: Allows to move-construct from a ring_span (C++11)" )
 
     EXPECT( rs.size()     == dim(arr) );
     EXPECT( rs.capacity() == dim(arr) );
-    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
+    EXPECT( tst::equal( rs.begin(), rs.end(), arr ) );
 #else
     EXPECT( !!"ring_span: move-construction is not available (no C++11)" );
 #endif
@@ -135,7 +194,7 @@ CASE( "ring_span: Allows to move-assign from a ring_span (C++11)" )
 
     EXPECT( rs.size()     == dim(arr) );
     EXPECT( rs.capacity() == dim(arr) );
-    EXPECT( std::equal( rs.begin(), rs.end(), arr ) );
+    EXPECT( tst::equal( rs.begin(), rs.end(), arr ) );
 #else
     EXPECT( !!"ring_span: move-assignment is not available (no C++11)" );
 #endif
@@ -569,8 +628,8 @@ CASE( "ring_span: Allows to swap spans (member)" )
 
     rs1.swap( rs2 );
 
-    EXPECT( std::equal( rs1.begin(), rs1.end(), arr2 ) );
-    EXPECT( std::equal( rs2.begin(), rs2.end(), arr1 ) );
+    EXPECT( tst::equal( rs1.begin(), rs1.end(), arr2 ) );
+    EXPECT( tst::equal( rs2.begin(), rs2.end(), arr1 ) );
 }
 
 CASE( "ring_span: Allows to swap spans (non-member)" )
@@ -581,8 +640,8 @@ CASE( "ring_span: Allows to swap spans (non-member)" )
     using std::swap;
     swap( rs1, rs2 );
 
-    EXPECT( std::equal( rs1.begin(), rs1.end(), arr2 ) );
-    EXPECT( std::equal( rs2.begin(), rs2.end(), arr1 ) );
+    EXPECT( tst::equal( rs1.begin(), rs1.end(), arr2 ) );
+    EXPECT( tst::equal( rs2.begin(), rs2.end(), arr1 ) );
 }
 
 CASE( "ring_span: Allows to appear in range-for (C++11)" )
@@ -596,7 +655,7 @@ CASE( "ring_span: Allows to appear in range-for (C++11)" )
         vec.push_back( x );
     }
 
-    EXPECT( std::equal( vec.begin(), vec.end(), arr ) );
+    EXPECT( tst::equal( vec.begin(), vec.end(), arr ) );
 #else
     EXPECT( !!"range-for is not available (no C++11)" );
 #endif
@@ -608,8 +667,8 @@ CASE( "ring_span: Allows iteration (non-const)" )
     ring_span<int>        rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int> const crs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( std::equal(  rs.begin(),  rs.end(), arr ) );
-    EXPECT( std::equal( crs.begin(), crs.end(), arr ) );
+    EXPECT( tst::equal(  rs.begin(),  rs.end(), arr ) );
+    EXPECT( tst::equal( crs.begin(), crs.end(), arr ) );
 }
 
 CASE( "ring_span: Allows iteration (const)" )
@@ -618,8 +677,8 @@ CASE( "ring_span: Allows iteration (const)" )
     ring_span<int>        rs( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int> const crs( arr, arr + dim(arr), arr, dim(arr) );
 
-    EXPECT( std::equal(  rs.cbegin(),  rs.cend(), arr ) );
-    EXPECT( std::equal( crs.cbegin(), crs.cend(), arr ) );
+    EXPECT( tst::equal(  rs.cbegin(),  rs.cend(), arr ) );
+    EXPECT( tst::equal( crs.cbegin(), crs.cend(), arr ) );
 }
 
 CASE( "ring_span: Allows iteration (mixed const-non-const)" )
@@ -628,7 +687,7 @@ CASE( "ring_span: Allows iteration (mixed const-non-const)" )
     ring_span<int>::iterator bgn = rs.begin();
 
     EXPECT( bgn < rs.cend() );
-    EXPECT( std::equal( rs.cbegin(), rs.cend(), bgn ) );
+    EXPECT( tst::equal( rs.cbegin(), rs.cend(), bgn ) );
 }
 
 CASE( "ring_span: Allows reverse iteration (non-const)" " [extension]" )
@@ -640,7 +699,7 @@ CASE( "ring_span: Allows reverse iteration (non-const)" " [extension]" )
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     std::vector<int> vec( arr, arr + dim(arr) );
 
-    EXPECT( std::equal( rs.rbegin(), rs.rend(), vec.rbegin() ) );
+    EXPECT( tst::equal( rs.rbegin(), rs.rend(), vec.rbegin() ) );
 #endif
 }
 
@@ -653,7 +712,7 @@ CASE( "ring_span: Allows reverse iteration (const)" " [extension]" )
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     std::vector<int> vec( arr, arr + dim(arr) );
 
-    EXPECT( std::equal( rs.crbegin(), rs.crend(), vec.rbegin() ) );
+    EXPECT( tst::equal( rs.crbegin(), rs.crend(), vec.rbegin() ) );
 #endif
 }
 
@@ -666,7 +725,7 @@ CASE( "ring_span: Allows reverse iteration (mixed const-non-const)" " [extension
     ring_span  <int> rs ( arr, arr + dim(arr), arr, dim(arr) );
     ring_span<int>::reverse_iterator rbgn = rs.rbegin();
 
-    EXPECT( std::equal( rs.crbegin(), rs.crend(), rbgn ) );
+    EXPECT( tst::equal( rs.crbegin(), rs.crend(), rbgn ) );
 #endif
 }
 
@@ -784,7 +843,7 @@ CASE( "ring_iterator: Allows conversion to const ring_iterator" " [extension]" )
 
     ring_span<int>::const_iterator cbgn = bgn;
 
-    EXPECT( std::equal( cbgn, rs.cend(), rs.cbegin() ) );
+    EXPECT( tst::equal( cbgn, rs.cend(), rs.cbegin() ) );
 #endif
 }
 
@@ -1108,11 +1167,63 @@ CASE( "ring: Allows to create data owning ring from container" )
 
     EXPECT( r.front() == 1 );
     EXPECT( r.back()  == 3 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    EXPECT( r[1]      == 2 );
+#endif
+
+    EXPECT( r.pop_front() == 1 );
+    EXPECT( r.pop_front() == 2 );
+    EXPECT( r.pop_front() == 3 );
+
+    EXPECT( r.size() == 0u );
+
+    unsigned int count = 0u;
+
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.push_front( 42 );
+    EXPECT( r.front() == 42 );
+#endif
+
+#if nsrs_CPP11_OR_GREATER
+    ++count;
+    r.emplace_back(  77 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.emplace_front( 55 );
+    EXPECT( r.front() == 55 );
+#endif
+    EXPECT( r.back () == 77 );
+#endif
+    EXPECT( r.size() == count );
+}
+
+CASE( "ring: Allows to create data owning ring from container - size is power of 2" )
+{
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ring< std::vector<int>, true > r( 4 );
+
+    EXPECT( r.size() == 0u );
+    EXPECT( r.capacity() == 4u );
+
+    // overflow ring by one element:
+
+    for ( size_t i = 0; i < r.size() + 1; ++i )
+    {
+        r.push_back( static_cast<int>( i ) );
+    }
+
+    EXPECT( r.size() == 4u );
+    EXPECT( r.capacity() == 4u );
+
+    EXPECT( r.front() == 1 );
+    EXPECT( r.back()  == 4 );
     EXPECT( r[1]      == 2 );
 
     EXPECT( r.pop_front() == 1 );
     EXPECT( r.pop_front() == 2 );
     EXPECT( r.pop_front() == 3 );
+    EXPECT( r.pop_front() == 4 );
 
     EXPECT( r.size() == 0u );
 
@@ -1126,6 +1237,9 @@ CASE( "ring: Allows to create data owning ring from container" )
     EXPECT( r.back () == 77 );
 
     EXPECT( r.size() == 3u );
+#endif
+#else
+    EXPECT( !!"'size is power of 2' is not available (nsrs_CONFIG_STRICT_P0059)" );
 #endif
 }
 
@@ -1151,7 +1265,7 @@ CASE( "ring_span: filter" "[.applet]" )
 
     std::cout << buffer << "\n";
 
-    double result = std::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
+    double result = tst::inner_product( buffer.begin(), buffer.end(), coeff, 0.0 );
 
     std::cout << "filter result: " << result << "\n";
 

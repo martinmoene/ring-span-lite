@@ -48,7 +48,11 @@ namespace nonstd { namespace ring_span_lite {
 template< typename T, class Popper>
 inline std::ostream & operator<<( std::ostream & os, ring_span<T, Popper> const & rs )
 {
+#if nsrs_CONFIG_STRICT_P0059
+    return os << "[ring_span: ???]";
+#else
     os << "[ring_span: "; std::copy( rs.begin(), rs.end(), std::ostream_iterator<T>(os, ", ") ); return os << "]";
+#endif
 }
 
 namespace detail {

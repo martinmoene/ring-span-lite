@@ -25,7 +25,7 @@ set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_DEFAULT
 ::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_STD
 
 set unit_config=^
-    -Dnsrs_CONFIG_CAPACITY_IS_POWER_OF_2=0
+    -Dnsrs_CONFIG_STRICT_P0059=0
 
 rem -flto / -fwhole-program
 set  optflags=-O2

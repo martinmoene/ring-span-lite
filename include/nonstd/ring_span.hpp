@@ -35,10 +35,6 @@
 # define nsrs_CONFIG_STRICT_P0059  0
 #endif
 
-#ifndef  nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
-# define nsrs_CONFIG_CAPACITY_IS_POWER_OF_2  0
-#endif
-
 #define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
 #ifndef  nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
@@ -266,6 +262,26 @@ using std::move;
 template< typename T > T const & move( T const & t ) { return t; }
 #endif
 
+#if nsrs_CPP11_OR_GREATER
+using std::true_type;
+using std::false_type;
+using std::integral_constant;
+#else
+template< typename T, T v >
+struct integral_constant
+{
+    typedef T value_type;
+
+    enum { value = v };
+
+    operator value_type() const { return value; }
+};
+
+typedef integral_constant<bool, true> true_type;
+typedef integral_constant<bool, false> false_type;
+
+#endif //  nsrs_CPP11_OR_GREATER
+
 template< bool B, class T, class F >
 struct conditional { typedef T type; };
 
@@ -277,6 +293,9 @@ struct conditional<false, T, F> { typedef F type; };
 // type traits C++17:
 
 namespace std17 {
+
+template< bool V >
+struct bool_constant : std11::integral_constant<bool, V> {};
 
 #if nsrs_CPP17_OR_GREATER
 
@@ -357,19 +376,19 @@ struct copy_popper
 {
     typedef T return_type;
 
-#if  nsrs_RING_SPAN_LITE_EXTENSION
-# if nsrs_CPP11_OR_GREATER
+#if nsrs_CPP11_OR_GREATER
+# if  nsrs_RING_SPAN_LITE_EXTENSION
     copy_popper( T t )
     : m_copy( std::move(t) )
     {}
 # else
-    copy_popper( T const & t )
-    : m_copy( t )
+    copy_popper( T && t )
+    : m_copy( std::move(t) )
     {}
 # endif
-#else
-    copy_popper( T && t )
-    : copy( std::move(t) )
+#else // C++98, no extension
+    copy_popper( T const & t )
+    : m_copy( t )
     {}
 #endif
 
@@ -400,7 +419,14 @@ bool is_power_of_2( T n )
 //
 // ring span:
 //
-template< class T, class Popper = default_popper<T> >
+template
+<
+    class T
+    , class Popper = default_popper<T>
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    , bool SizeIsPowerOf2 = false
+#endif
+>
 class ring_span
 {
 public:
@@ -411,7 +437,11 @@ public:
 
     typedef std::size_t size_type;
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    typedef ring_span< T, Popper, SizeIsPowerOf2 > type;
+#else
     typedef ring_span< T, Popper > type;
+#endif
 
     typedef detail::ring_iterator< type, false  > iterator;
     typedef detail::ring_iterator< type, true   > const_iterator;
@@ -435,8 +465,8 @@ public:
     , m_front_idx( 0 )
     , m_popper   ( std11::move( popper ) )
     {
-#if nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
-        assert( detail::is_power_of_2( m_capacity ) );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+        assert( !SizeIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
 #endif
     }
 
@@ -455,6 +485,9 @@ public:
     , m_popper   ( std11::move( popper ) )
     {
         assert( m_size <= m_capacity );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+        assert( !SizeIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
+#endif
     }
 
 #if nsrs_HAVE_IS_DEFAULT
@@ -720,14 +753,28 @@ private:
     friend class detail::ring_iterator<ring_span, true >;   // const_iterator;
     friend class detail::ring_iterator<ring_span, false>;   // iterator;
 
+#if nsrs_RING_SPAN_LITE_EXTENSION
+
+    size_type normalize_( size_type const idx, std11::true_type ) const nsrs_noexcept
+    {
+        return idx & (m_capacity - 1);
+    }
+
+    size_type normalize_( size_type const idx, std11::false_type ) const nsrs_noexcept
+    {
+        return idx % m_capacity;
+    }
+
     size_type normalize_( size_type const idx ) const nsrs_noexcept
     {
-#if nsrs_CONFIG_CAPACITY_IS_POWER_OF_2
-        return idx & (m_capacity - 1);
-#else
-        return idx % m_capacity;
-#endif
+        return normalize_( idx, std17::bool_constant<SizeIsPowerOf2>() );
     }
+#else
+    size_type normalize_( size_type const idx ) const nsrs_noexcept
+    {
+        return idx % m_capacity;
+    }
+#endif // nsrs_RING_SPAN_LITE_EXTENSION
 
     reference at_( size_type idx ) nsrs_noexcept
     {

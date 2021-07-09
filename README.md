@@ -107,10 +107,12 @@ Synopsis
 
 | Purpose |[p0059](http://wg21.link/p0059)| Type | Notes |
 |---------|:-----------------------------:|------|-------|
-| Circular buffer view |&#10003;| template< class T, class Popper = default_popper<T> ><br>class **ring_span** | &nbsp; |
+| Circular buffer view |&#10003;/&ndash;| template<<br>&emsp;class T<br>&emsp;, class Popper = default_popper&lt;T><br>&emsp;, bool SizeIsPowerOf2 = false<br>><br>class **ring_span** | SizeIsPowerOf2 is an extension.<br>See Note 1 below and<br> nsrs_CONFIG_STRICT_P0059. |
 | Ignore element |&#10003;| template< class T ><br>class **null_popper**    | &nbsp; |
 | Return element |&#10003;| template< class T ><br>class **default_popper** | &nbsp; |
 | Return element, replace original |&#10003;| template< class T ><br>class **copy_popper** | &nbsp; |
+
+Note 1: With `SizeIsPowerOf2` being `true`, method `normalize_()` is optimized to use bitwise and instead of modulo division.
 
 ### Interface of *ring-span lite*
 
@@ -118,7 +120,7 @@ Synopsis
 
 | Kind |[p0059](http://wg21.link/p0059)| Type / Method | Note / Result |
 |-------|:--------------:|-----------------------------|---------------|
-| Various types  |&#10003;| **type**                   |ring_span< T, Popper > |
+| Various types  |&#10003;| **type**                   |ring_span< T, Popper\[, SizeIsPowerOf2\] > |
 | &nbsp;         |&#10003;| **size_type**              |&nbsp; |
 | Value types    |&#10003;| **value_type**             |&nbsp; |
 | &nbsp;         |&#10003;| **pointer**                |&nbsp; |
@@ -190,15 +192,15 @@ Synopsis
 | &nbsp;        |&#10003;| **operator--**( int ) noexcept   |ring_iterator<&hellip;> |
 | Addition      |&#10003;| **operator+=**( int i ) noexcept |ring_iterator<&hellip;> & |
 | &nbsp;        |&#10003;| **operator-=**( int i ) noexcept |ring_iterator<&hellip;> & |
-| Difference    |&ndash; | **operator-**( ring_iterator<&hellip;> const & rhs ) | difference_type, note 1 |
-| Comparison    |&#10003;| **operator==**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| **operator!=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| **operator<**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
-| &nbsp;        |&#10003;| **operator<=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
-| &nbsp;        |&#10003;| **operator>**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, note 1 |
-| &nbsp;        |&#10003;| **operator>=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, note 1 |
+| Difference    |&ndash; | **operator-**( ring_iterator<&hellip;> const & rhs ) | difference_type, Note 1 |
+| Comparison    |&#10003;| **operator==**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, Note 1 |
+| &nbsp;        |&#10003;| **operator!=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, Note 1 |
+| &nbsp;        |&#10003;| **operator<**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, Note 1 |
+| &nbsp;        |&#10003;| **operator<=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, Note 1 |
+| &nbsp;        |&#10003;| **operator>**( ring_iterator<&hellip;> const & rhs ) const noexcept  |bool, Note 1 |
+| &nbsp;        |&#10003;| **operator>=**( ring_iterator<&hellip;> const & rhs ) const noexcept |bool, Note 1 |
 
-note 1: accepts lhs and rhs of different const-ness.
+Note 1: accepts lhs and rhs of different const-ness.
 
 ### Non-member functions for *ring-span lite*
 
@@ -214,6 +216,7 @@ Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&en
 
 | Kind | Type / Method | Note / Result |
 |------|---------------|---------------|
+| Circular buffer | template<<br>&emsp;class Container<br>&emsp;, bool SizeIsPowerOf2 = false<br>><br>class **ring** | SizeIsPowerOf2 is an extension.<br>See Note 1 below and<br> nsrs_CONFIG_STRICT_P0059. |
 | Various types  | **size_type**              |&nbsp; |
 | Value types    | **value_type**             |&nbsp; |
 | &nbsp;         | **reference**              |&nbsp; |
@@ -261,6 +264,8 @@ Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&en
 | &nbsp;         | **emplace_front**( Args &&... args ) noexcept(&hellip;) | void; restrained (>= C++11) |
 | Swap           | **swap**( ring_span & rhs ) noexcept | void; |
 
+Note 1: With `SizeIsPowerOf2` being `true`, method `normalize_()` of underlying class `ring_span` is optimized to use bitwise and instead of modulo division. Class `default_popper` is used as popper.
+
 ### Configuration macros
 
 #### Standard selection macro
@@ -275,14 +280,9 @@ At default, *ring_span lite* uses `std::ring_span` if it is available and lets y
 -D<b>nsrs\_CONFIG\_SELECT\_RING\_SPAN</b>=nsrs_RING_SPAN_DEFAULT  
 Define this to `nsrs_RING_SPAN_STD` to select `std::ring_span` as `nonstd::ring_span`. Define this to `nsrs_RING_SPAN_NONSTD` to select `nonstd::ring_span` as `nonstd::ring_span`. Default is undefined, which has the same effect as defining to `nsrs_RING_SPAN_DEFAULT`.
 
-#### Assume capacity is power of two
-
-\-D<b>nsrs\_CONFIG\_CAPACITY\_IS\_POWER\_OF\_2</b>=0  
-Define this to 1 to optimize for a capacity that is a power of two. This makes the index normalization computation more efficient by using the _bitwise and_ operation instead of _remainder division_. Default is undefined (same effect as 0).
-
 #### Disable extensions
 
-\-D<b>nsrs\CONFIG\_STRICT\_P0059</b>=0  
+\-D<b>nsrs\_CONFIG\_STRICT\_P0059</b>=0  
 Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
 #### Enable compilation errors
@@ -397,9 +397,15 @@ The version of *ring-span lite* is available via tag `[.version]`. The following
 
 Note: test cases that assert are tagged with `[.assert]` and only run when [.assert] is included on the command line, like: `test [.assert] partial-test-name`.
 
+<details>
+<summary>click to expand</summary>
+<p>
+
 ```Text
 ring_span: Allows to construct an empty span from an iterator pair
+ring_span: Allows to construct an empty span from an iterator pair - size is power of 2
 ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size
+ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size - size is power of 2
 ring_span: Disallows to copy-construct from a ring_span (compile-time)
 ring_span: Disallows to copy-assign from a ring_span (compile-time)
 ring_span: Allows to move-construct from a ring_span (C++11)
@@ -478,4 +484,8 @@ default_popper: A default popper leaves the original element unchanged
 copy_popper: A copy popper returns the element
 copy_popper: A copy popper replaces the original element
 ring: Allows to create data owning ring from container
+ring: Allows to create data owning ring from container - size is power of 2
 ```
+
+</p>
+</details>

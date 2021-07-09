@@ -3,8 +3,8 @@
 :: tc-cl.bat - compile & run tests (clang-cl).
 ::
 
-set      unit=ring-span
-set unit_file=%unit%
+set unit=ring_span
+set unit_file=ring-span
 
 :: if no std is given, use c++14
 
@@ -26,6 +26,7 @@ call :CompilerVersion version
 echo %clang% %version%: %std% %unit_select% %args%
 
 set unit_config=^
+    -Dnsrs_CONFIG_STRICT_P0059=0 ^
     -D%unit%_%UCAP%_HEADER=\"nonstd/%unit%.hpp\" ^
     -D%unit%_TEST_NODISCARD=0 ^
     -D%unit%_CONFIG_SELECT_%UCAP%=%unit_select%
