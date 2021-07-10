@@ -94,7 +94,7 @@ CASE( "ring_span: Allows to construct an empty span from an iterator pair" )
     EXPECT( rs.capacity() == dim(arr)     );
 }
 
-CASE( "ring_span: Allows to construct an empty span from an iterator pair - size is power of 2" )
+CASE( "ring_span: Allows to construct an empty span from an iterator pair - capacity is power of 2" )
 {
 #if nsrs_RING_SPAN_LITE_EXTENSION
     int arr[] = { 1, 2, 3, 4, };
@@ -121,7 +121,7 @@ CASE( "ring_span: Allows to construct a partially filled span from an iterator p
     EXPECT( tst::equal( rs.begin(), rs.end(), arr + first ) );
 }
 
-CASE( "ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size - size is power of 2" )
+CASE( "ring_span: Allows to construct a partially filled span from an iterator pair and iterator, size - capacity is power of 2" )
 {
 #if nsrs_RING_SPAN_LITE_EXTENSION
     int arr[] = { 7, 7, 1, 2, 3, 7, 7, 8, };
@@ -1198,7 +1198,7 @@ CASE( "ring: Allows to create data owning ring from container" )
     EXPECT( r.size() == count );
 }
 
-CASE( "ring: Allows to create data owning ring from container - size is power of 2" )
+CASE( "ring: Allows to create data owning ring from container - capacity is power of 2" )
 {
 #if nsrs_RING_SPAN_LITE_EXTENSION
     ring< std::vector<int>, true > r( 4 );

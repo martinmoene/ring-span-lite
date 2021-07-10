@@ -424,7 +424,7 @@ template
     class T
     , class Popper = default_popper<T>
 #if nsrs_RING_SPAN_LITE_EXTENSION
-    , bool SizeIsPowerOf2 = false
+    , bool CapacityIsPowerOf2 = false
 #endif
 >
 class ring_span
@@ -438,7 +438,7 @@ public:
     typedef std::size_t size_type;
 
 #if nsrs_RING_SPAN_LITE_EXTENSION
-    typedef ring_span< T, Popper, SizeIsPowerOf2 > type;
+    typedef ring_span< T, Popper, CapacityIsPowerOf2 > type;
 #else
     typedef ring_span< T, Popper > type;
 #endif
@@ -466,7 +466,7 @@ public:
     , m_popper   ( std11::move( popper ) )
     {
 #if nsrs_RING_SPAN_LITE_EXTENSION
-        assert( !SizeIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
+        assert( !CapacityIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
 #endif
     }
 
@@ -486,7 +486,7 @@ public:
     {
         assert( m_size <= m_capacity );
 #if nsrs_RING_SPAN_LITE_EXTENSION
-        assert( !SizeIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
+        assert( !CapacityIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
 #endif
     }
 
@@ -767,7 +767,7 @@ private:
 
     size_type normalize_( size_type const idx ) const nsrs_noexcept
     {
-        return normalize_( idx, std17::bool_constant<SizeIsPowerOf2>() );
+        return normalize_( idx, std17::bool_constant<CapacityIsPowerOf2>() );
     }
 #else
     size_type normalize_( size_type const idx ) const nsrs_noexcept

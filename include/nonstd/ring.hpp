@@ -20,7 +20,7 @@ template
 <
     typename Container /*= std::vector<T>*/
 #if nsrs_RING_SPAN_LITE_EXTENSION
-    , bool SizeIsPowerOf2 = false
+    , bool CapacityIsPowerOf2 = false
 #endif
 >
 class ring
@@ -30,7 +30,7 @@ public:
     typedef ring_span<
         typename Container::value_type
         , default_popper<typename Container::value_type>
-        , SizeIsPowerOf2
+        , CapacityIsPowerOf2
     > RingSpan;
 #else
     typedef ring_span< typename Container::value_type > RingSpan;
