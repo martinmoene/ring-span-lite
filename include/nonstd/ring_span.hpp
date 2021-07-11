@@ -140,6 +140,7 @@
 
 #define nsrs_CPP14_000  (nsrs_CPP14_OR_GREATER)
 #define nsrs_CPP17_000  (nsrs_CPP17_OR_GREATER)
+#define nsrs_CPP20_000  (nsrs_CPP20_OR_GREATER)
 
 // Presence of C++11 language features:
 
@@ -160,6 +161,10 @@
 
 // Presence of C++17 language features:
 // no tag
+
+// Presence of C++20 language features:
+
+#define nsrs_HAVE_NO_UNIQUE_ADDRESS     nsrs_CPP20_000
 
 // Presence of C++ library features:
 // no tag
@@ -224,6 +229,12 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 # define nsrs_nullptr nullptr
 #else
 # define nsrs_nullptr NULL
+#endif
+
+#if nsrs_HAVE_NO_UNIQUE_ADDRESS
+# define nsrs_NO_UNIQUE_ADDRESS [[no_unique_address]]
+#else
+# define nsrs_NO_UNIQUE_ADDRESS /*[[no_unique_address]]*/
 #endif
 
 // Method enabling
@@ -843,7 +854,7 @@ private:
     size_type m_size;
     size_type m_capacity;
     size_type m_front_idx;
-    Popper    m_popper;
+    nsrs_NO_UNIQUE_ADDRESS Popper m_popper;
 };
 
 // swap:
