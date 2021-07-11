@@ -76,6 +76,7 @@ CASE( "Presence of C++ language features" "[.stdlanguage]" )
     nsrs_PRESENT( nsrs_HAVE_IS_DELETE );
     nsrs_PRESENT( nsrs_HAVE_NOEXCEPT );
     nsrs_PRESENT( nsrs_HAVE_NULLPTR );
+    nsrs_PRESENT( nsrs_HAVE_NO_UNIQUE_ADDRESS );
 #endif
 }
 
