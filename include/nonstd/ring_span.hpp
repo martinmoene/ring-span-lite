@@ -37,6 +37,15 @@
 
 #define nsrs_RING_SPAN_LITE_EXTENSION  (! nsrs_CONFIG_STRICT_P0059)
 
+#ifndef  nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+# define nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS  0
+#endif
+
+#if      nsrs_CONFIG_STRICT_P0059
+# undef  nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+# define nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS  0
+#endif
+
 #ifndef  nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS
 # define nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS  0
 #endif
@@ -141,8 +150,6 @@
 #define nsrs_CPP14_000  (nsrs_CPP14_OR_GREATER)
 #define nsrs_CPP17_000  (nsrs_CPP17_OR_GREATER)
 #define nsrs_CPP20_000  (nsrs_CPP20_OR_GREATER)
-
-// Presence of C++11 language features:
 
 // half-open range [lo..hi):
 #define nsrs_BETWEEN( v, lo, hi ) ( (lo) <= (v) && (v) < (hi) )
@@ -425,7 +432,7 @@ bool is_power_of_2( T n )
     return n > 0 && (n & (n - 1)) == 0;
 }
 
-}
+} // namespace detail
 
 //
 // ring span:
@@ -439,6 +446,9 @@ template
 #endif
 >
 class ring_span
+#if nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+    : private Popper
+#endif
 {
 public:
     typedef T   value_type;
@@ -470,11 +480,19 @@ public:
         , ContiguousIterator end
         , Popper popper = Popper()
     ) nsrs_noexcept
+#if nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+    : Popper     ( std11::move( popper ) )
+    , m_data     ( &* begin )
+    , m_size     ( 0 )
+    , m_capacity ( static_cast<size_type>( end - begin ) )
+    , m_front_idx( 0 )
+#else
     : m_data     ( &* begin )
     , m_size     ( 0 )
     , m_capacity ( static_cast<size_type>( end - begin ) )
     , m_front_idx( 0 )
     , m_popper   ( std11::move( popper ) )
+#endif
     {
 #if nsrs_RING_SPAN_LITE_EXTENSION
         assert( !CapacityIsPowerOf2 || detail::is_power_of_2( m_capacity ) );
@@ -489,11 +507,19 @@ public:
         , size_type          size
         , Popper popper = Popper()
     ) nsrs_noexcept
+#if nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+    : Popper     ( std11::move( popper ) )
+    , m_data     ( &* begin )
+    , m_size     ( size     )
+    , m_capacity ( static_cast<size_type>( end   - begin ) )
+    , m_front_idx( static_cast<size_type>( first - begin ) )
+#else
     : m_data     ( &* begin )
     , m_size     ( size     )
     , m_capacity ( static_cast<size_type>( end   - begin ) )
     , m_front_idx( static_cast<size_type>( first - begin ) )
     , m_popper   ( std11::move( popper ) )
+#endif
     {
         assert( m_size <= m_capacity );
 #if nsrs_RING_SPAN_LITE_EXTENSION
@@ -641,7 +667,11 @@ public:
         reference element = front_();
         increment_front_();
 
+#if nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+        return this->operator()( element );
+#else
         return m_popper( element );
+#endif
     }
 
 #if nsrs_RING_SPAN_LITE_EXTENSION
@@ -652,7 +682,11 @@ public:
         reference element = back_();
         decrement_back_();
 
+#if nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
+        return this->operator()( element );
+#else
         return m_popper( element );
+#endif
     }
 #endif
 
@@ -757,7 +791,9 @@ public:
         swap( m_size     , rhs.m_size      );
         swap( m_capacity , rhs.m_capacity  );
         swap( m_front_idx, rhs.m_front_idx );
+#if !nsrs_RING_SPAN_LITE_EXTENSION
         swap( m_popper   , rhs.m_popper    );
+#endif
     }
 
 private:
@@ -854,7 +890,9 @@ private:
     size_type m_size;
     size_type m_capacity;
     size_type m_front_idx;
+#if !nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS
     nsrs_NO_UNIQUE_ADDRESS Popper m_popper;
+#endif
 };
 
 // swap:
