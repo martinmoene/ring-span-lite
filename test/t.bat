@@ -22,7 +22,8 @@ set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_DEFAULT
 ::set unit_select=-D%unit%_CONFIG_SELECT_%UCAP%=%unit%_%UCAP%_STD
 
 set unit_config=^
-    -Dnsrs_CONFIG_STRICT_P0059=0
+    -Dnsrs_CONFIG_STRICT_P0059=0 ^
+    -Dnsrs_CONFIG_POPPER_EMPTY_BASE_CLASS=0
 
 set msvc_defines=^
     -D_CRT_SECURE_NO_WARNINGS ^

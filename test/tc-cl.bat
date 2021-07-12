@@ -27,6 +27,7 @@ echo %clang% %version%: %std% %unit_select% %args%
 
 set unit_config=^
     -Dnsrs_CONFIG_STRICT_P0059=0 ^
+    -Dnsrs_CONFIG_POPPER_EMPTY_BASE_CLASS=0 ^
     -D%unit%_%UCAP%_HEADER=\"nonstd/%unit%.hpp\" ^
     -D%unit%_TEST_NODISCARD=0 ^
     -D%unit%_CONFIG_SELECT_%UCAP%=%unit_select%

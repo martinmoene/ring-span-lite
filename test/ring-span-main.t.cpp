@@ -33,6 +33,8 @@ CASE( "ring-span-lite version" "[.ring-span]][.version]" )
 
 CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
 {
+    nsrs_PRESENT( nsrs_CONFIG_STRICT_P0059 );
+    nsrs_PRESENT( nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS );
     nsrs_PRESENT( nsrs_HAVE_STD_RING_SPAN );
     nsrs_PRESENT( nsrs_USES_STD_RING_SPAN );
     nsrs_PRESENT( nsrs_RING_SPAN_DEFAULT );
@@ -41,6 +43,9 @@ CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
     nsrs_PRESENT( nsrs_CONFIG_SELECT_RING_SPAN );
 //  nsrs_PRESENT( nsrs_CONFIG_NO_EXCEPTIONS );
     nsrs_PRESENT( nsrs_CPLUSPLUS );
+
+    int arr[] = { 7, 7, 7, }; nonstd::ring_span<int> rs( arr, arr + 3 );
+    std::cout << "sizeof( nonstd::ring_span<int>() ): " << sizeof(rs) << "\n";
 }
 
 CASE( "C++ language: __cplusplus" "[.stdc++]" )

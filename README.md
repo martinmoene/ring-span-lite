@@ -285,6 +285,11 @@ Define this to `nsrs_RING_SPAN_STD` to select `std::ring_span` as `nonstd::ring_
 \-D<b>nsrs\_CONFIG\_STRICT\_P0059</b>=0  
 Define this to 1 to omit behaviour not present in proposal [p0059](http://wg21.link/p0059). Default is undefined (same effect as 0).
 
+#### Enable popper empty base class optimization
+
+\-D<b>nsrs\_CONFIG\_POPPER\_EMPTY\_BASE\_CLASS</b>=0  
+Poppers are often stateless. To prevent they take up space C++20 attribute `[[no_unique_address]]` is used when available. Another way to prevent up taking space is to make the popper a base class of `class ring_span`. This is what occurs with macro `nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS` defined to 1. This is an extension to proposal p0059. Disabling extensions via macro `nsrs_CONFIG_STRICT_P0059` also disables this extension. Default is undefined (same effect as 0).
+
 #### Enable compilation errors
 
 \-D<b>nsrs\_CONFIG\_CONFIRMS\_COMPILATION\_ERRORS</b>=0  
