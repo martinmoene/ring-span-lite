@@ -268,6 +268,10 @@ Note 1: `CapacityIsPowerOf2` is an extension (`nsrs_CONFIG_STRICT_P0059=0`).With
 
 ### Configuration macros
 
+#### Tweak header
+
+If the compiler supports [`__has_include()`](https://en.cppreference.com/w/cpp/preprocessor/include), *ring-span lite* supports the [tweak header](https://vector-of-bool.github.io/2020/10/04/lib-configuration.html) mechanism. Provide your *tweak header* as `nonstd/ring_span.tweak.hpp` in a folder in the include-search-path. In the tweak header, provide definitions as documented below, like `#define nsrs_CPLUSPLUS 201103L`.
+
 #### Standard selection macro
 
 \-D<b>nsrs\_CPLUSPLUS</b>=199711L  
@@ -490,6 +494,7 @@ copy_popper: A copy popper returns the element
 copy_popper: A copy popper replaces the original element
 ring: Allows to create data owning ring from container
 ring: Allows to create data owning ring from container - capacity is power of 2
+tweak header: reads tweak header if supported [tweak]
 ```
 
 </p>

@@ -33,6 +33,7 @@ CASE( "ring-span-lite version" "[.ring-span]][.version]" )
 
 CASE( "ring-span-lite configuration" "[.ring-span][.config]" )
 {
+    nsrs_PRESENT( nsrs_HAVE_TWEAK_HEADER );
     nsrs_PRESENT( nsrs_CONFIG_STRICT_P0059 );
     nsrs_PRESENT( nsrs_CONFIG_POPPER_EMPTY_BASE_CLASS );
     nsrs_PRESENT( nsrs_HAVE_STD_RING_SPAN );

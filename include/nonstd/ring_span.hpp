@@ -21,6 +21,18 @@
 #define nsrs_STRINGIFY(  x )  nsrs_STRINGIFY_( x )
 #define nsrs_STRINGIFY_( x )  #x
 
+// tweak header support:
+
+#ifdef __has_include
+# if __has_include(<nonstd/ring_span.tweak.hpp>)
+#  include <nonstd/ring_span.tweak.hpp>
+# endif
+# define nsrs_HAVE_TWEAK_HEADER  1
+#else
+# define nsrs_HAVE_TWEAK_HEADER  0
+//# pragma message("any.hpp: Note: Tweak header not supported.")
+#endif
+
 // ring-span-lite configuration:
 
 #define nsrs_RING_SPAN_DEFAULT  0

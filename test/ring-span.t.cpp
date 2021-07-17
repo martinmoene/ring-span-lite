@@ -1243,6 +1243,15 @@ CASE( "ring: Allows to create data owning ring from container - capacity is powe
 #endif
 }
 
+CASE( "tweak header: reads tweak header if supported " "[tweak]" )
+{
+#if nsrs_HAVE_TWEAK_HEADER
+    EXPECT( RING_SPAN_TWEAK_VALUE == 42 );
+#else
+    EXPECT( !!"Tweak header is not available (nsrs_HAVE_TWEAK_HEADER: 0)." );
+#endif
+}
+
 //------------------------------------------------------------------------
 // Issues:
 

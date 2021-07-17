@@ -1,0 +1,1 @@
+#define RING_SPAN_TWEAK_VALUE 42
