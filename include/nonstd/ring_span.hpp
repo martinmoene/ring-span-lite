@@ -183,7 +183,8 @@
 
 // Presence of C++20 language features:
 
-#define nsrs_HAVE_NO_UNIQUE_ADDRESS     nsrs_CPP20_000
+#define nsrs_HAVE_NO_UNIQUE_ADDRESS        nsrs_CPP20_000
+#define nsrs_HAVE_NO_UNIQUE_ADDRESS_MSVC  (nsrs_COMPILER_MSVC_VER >= 1929)
 
 // Presence of C++ library features:
 // no tag
@@ -252,6 +253,8 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 
 #if nsrs_HAVE_NO_UNIQUE_ADDRESS
 # define nsrs_NO_UNIQUE_ADDRESS [[no_unique_address]]
+#elif nsrs_HAVE_NO_UNIQUE_ADDRESS_MSVC
+# define nsrs_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
 #else
 # define nsrs_NO_UNIQUE_ADDRESS /*[[no_unique_address]]*/
 #endif
