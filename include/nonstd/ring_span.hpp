@@ -62,7 +62,7 @@
 # define nsrs_CONFIG_CONFIRMS_COMPILATION_ERRORS  0
 #endif
 
-// C++ language version detection (C++20 is speculative):
+// C++ language version detection (C++23 is speculative):
 // Note: VC14.0/1900 (VS2015) lacks too much from C++14.
 
 #ifndef   nsrs_CPLUSPLUS
@@ -78,7 +78,8 @@
 #define nsrs_CPP11_OR_GREATER_ ( nsrs_CPLUSPLUS >= 201103L )
 #define nsrs_CPP14_OR_GREATER  ( nsrs_CPLUSPLUS >= 201402L )
 #define nsrs_CPP17_OR_GREATER  ( nsrs_CPLUSPLUS >= 201703L )
-#define nsrs_CPP20_OR_GREATER  ( nsrs_CPLUSPLUS >= 202000L )
+#define nsrs_CPP20_OR_GREATER  ( nsrs_CPLUSPLUS >= 202002L )
+#define nsrs_CPP23_OR_GREATER  ( nsrs_CPLUSPLUS >= 202300L )
 
 // Use C++XX std::ring_span if available and requested:
 
