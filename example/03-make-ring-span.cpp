@@ -153,9 +153,9 @@ inline auto make_ring_span( std::basic_string<T> & str, make_empty_t ) -> ring_s
     return { str.data(), str.data() + str.size() };
 }
 
-#endif // PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
-
 } // namespace nonstd
+
+#endif // PROVIDE_MAKE_RING_SPAN_FROM_GENERIC_CONTAINER
 
 //------------------------------------------------------------------------
 // Application:
