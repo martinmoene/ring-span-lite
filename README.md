@@ -469,6 +469,7 @@ ring_span: A non-full span behaves like an harmonica (front-back) [extension]
 ring_iterator: Allows conversion to const ring_iterator [extension]
 ring_iterator: Allows to dereference iterator (operator*())
 ring_iterator: Allows to dereference iterator (operator->())
+ring_iterator: Allows to index from iterator (operator[](size_t))
 ring_iterator: Allows to increment iterator (prefix)
 ring_iterator: Allows to increment iterator (postfix)
 ring_iterator: Allows to decrement iterator (prefix)
