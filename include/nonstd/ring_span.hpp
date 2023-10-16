@@ -1105,6 +1105,12 @@ inline ring_iterator<RS,C> operator+( ring_iterator<RS,C> it, int i ) nsrs_noexc
 }
 
 template< class RS, bool C >
+inline ring_iterator<RS,C> operator+(  int i, ring_iterator<RS,C> it ) nsrs_noexcept
+{
+    it += i; return it;
+}
+
+template< class RS, bool C >
 inline ring_iterator<RS,C> operator-( ring_iterator<RS,C> it, int i ) nsrs_noexcept
 {
     it -= i; return it;
