@@ -944,6 +944,7 @@ CASE( "ring_iterator: Allows to offset iterator (+)" " [extension]" )
     ring_span<int>::iterator pos = rs.begin();
 
     EXPECT( *(pos + 2) == arr[2] );
+    EXPECT( *(2 + pos) == arr[2] );
 #endif
 }
 
