@@ -936,10 +936,12 @@ class ring_iterator : public std::iterator
 template< class RS, bool is_const >
 class ring_iterator
 {
+    friend RS;  // clang: non-class friend type 'RS' is a C++11 extension [-Wc++11-extensions]
 public:
     typedef ring_iterator<RS, is_const> type;
 
     typedef std::ptrdiff_t difference_type;
+    typedef typename RS::size_type size_type;
     typedef typename RS::value_type value_type;
 
     typedef typename std11::conditional<is_const, const value_type, value_type>::type * pointer;
@@ -974,6 +976,20 @@ public:
     {
         return & m_rs->at_( m_idx );
     }
+
+    // see issue #30:
+
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    reference operator[]( size_type idx ) nsrs_noexcept
+    {
+        return m_rs->at_(m_idx + idx);
+    }
+
+    const reference operator[]( size_type idx ) const nsrs_noexcept
+    {
+        return m_rs->at_(m_idx + idx);
+    }
+#endif
 
     // advance iterator:
 
@@ -1066,10 +1082,8 @@ public:
     }
 
 private:
-    friend RS;  // clang: non-class friend type 'RS' is a C++11 extension [-Wc++11-extensions]
     friend class ring_iterator<RS, ! is_const>;
 
-    typedef typename RS::size_type size_type;
     typedef typename std11::conditional<is_const, const RS, RS>::type ring_type;
 
     ring_iterator( size_type idx, typename std11::conditional<is_const, const RS, RS>::type * rs ) nsrs_noexcept
