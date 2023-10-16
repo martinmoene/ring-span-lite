@@ -865,6 +865,20 @@ CASE( "ring_iterator: Allows to dereference iterator (operator->())" )
     EXPECT( rs.begin()->v == arr[0].v );
 }
 
+CASE( "ring_iterator: Allows to index from iterator (operator[](size_t))" )
+{
+    using op_arrow::S;
+
+    S arr[] = { {1}, {2}, {3}, }; ring_span<S> rs( &arr[0], &arr[0] + dim(arr), &arr[0], dim(arr) );
+
+    EXPECT( rs.begin()[0].v == arr[0].v );
+    EXPECT( rs.begin()[1].v == arr[1].v );
+    EXPECT( (rs.begin() + 1)[0].v == arr[1].v );
+    EXPECT( (rs.begin() + 1)[1].v == arr[2].v );
+    // explicit const iterator
+    EXPECT( rs.cbegin()[0].v == arr[0].v );
+}
+
 CASE( "ring_iterator: Allows to increment iterator (prefix)" )
 {
     int arr[] = { 1, 2, 3, }; ring_span<int> rs( &arr[0], &arr[0] + dim(arr), &arr[0], dim(arr) );
