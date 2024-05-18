@@ -13,6 +13,10 @@
 
 #include nsrs_RING_SPAN_LITE_T_HEADER
 
+#if nsrs_CPP11_OR_GREATER
+# include <array>
+#endif
+
 #include <numeric>
 
 using namespace nonstd;
@@ -1255,6 +1259,17 @@ CASE( "ring: Allows to create data owning ring from container - capacity is powe
 #endif
 #else
     EXPECT( !!"'size is power of 2' is not available (nsrs_CONFIG_STRICT_P0059)" );
+#endif
+}
+
+// issue-33: std::array
+
+CASE( "ring: Allows to create data owning ring from std::array (C++11)" )
+{
+#if nsrs_CPP11_OR_GREATER
+    ring< std::array<int, 3 >> r;
+#else
+    EXPECT( !!"std::array is not available (no C++11)" );
 #endif
 }
 

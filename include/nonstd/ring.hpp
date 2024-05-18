@@ -48,6 +48,14 @@ public:
     typedef typename RingSpan::const_reverse_iterator   const_reverse_iterator;
 #endif
 
+#if nsrs_CPP11_OR_GREATER
+    nsrs_REQUIRES_0( !std::is_constructible<Container, size_t>::value )
+    explicit ring()
+        : cont{}
+        , rs( std::begin(cont), std::end(cont) )
+    {}
+#endif
+
     explicit ring( size_type capacity )
         : cont( capacity )
         , rs( cont.begin(), cont.end() )
