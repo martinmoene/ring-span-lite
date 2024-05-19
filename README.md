@@ -495,6 +495,7 @@ copy_popper: A copy popper returns the element
 copy_popper: A copy popper replaces the original element
 ring: Allows to create data owning ring from container
 ring: Allows to create data owning ring from container - capacity is power of 2
+ring: Allows to create data owning ring from std::array (C++11)
 tweak header: reads tweak header if supported [tweak]
 ```
 
