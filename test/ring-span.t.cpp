@@ -1268,9 +1268,22 @@ CASE( "ring: Allows to create data owning ring from std::array (C++11)" )
 {
 #if nsrs_CPP11_OR_GREATER
     ring< std::array<int, 3 >> r;
+
+    EXPECT( r.capacity() == 3 );
+    EXPECT( r.size()     == 0 );
 #else
     EXPECT( !!"std::array is not available (no C++11)" );
 #endif
+}
+
+// issue-33: C-array
+
+CASE( "ring: Allows to create data owning ring from C-array" )
+{
+    ring< int[3] > r;
+
+    EXPECT( r.capacity() == 3 );
+    EXPECT( r.size()     == 0 );
 }
 
 CASE( "tweak header: reads tweak header if supported " "[tweak]" )

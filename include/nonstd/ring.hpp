@@ -14,7 +14,69 @@
 
 #include <nonstd/ring_span.hpp>
 
+#if nsrs_CPP11_OR_GREATER
+# include <array>
+#endif
+
 namespace nonstd {
+
+namespace nsrs {
+
+namespace std11 {
+
+template< class T, T v > struct integral_constant { enum { value = v }; };
+template< bool B       > struct bool_constant : integral_constant<bool, B>{};
+
+typedef bool_constant< true  > true_type;
+typedef bool_constant< false > false_type;
+
+template< class C >
+typename C::iterator begin( C & c ) { return c.begin(); }
+
+template< class C >
+typename C::iterator end( C & c ) { return c.end(); }
+
+template< typename T, std::size_t N >
+T * begin( T (&array)[N] ) { return &array[0]; }
+
+template< typename T, std::size_t N >
+T * end( T (&array)[N] ) { return &array[N]; }
+
+} // namespace std11
+template< class Q >
+struct is_array : std11::false_type {};
+
+template< class T >
+struct is_array<T[]> : std11::true_type {};
+
+template< class T, std::size_t N >
+struct is_array<T[N]> : std11::true_type {};
+
+template< class Q >
+struct is_std_array_oracle : std11::false_type{};
+
+//#if nsrs_HAVE( ARRAY )
+#if nsrs_CPP11_OR_GREATER
+
+template< class T, std::size_t Extent >
+struct is_std_array_oracle< std::array<T, Extent> > : std11::true_type{};
+
+#endif
+
+template< class Q >
+struct is_std_array : is_std_array_oracle< Q >{};
+
+template< typename Container >
+struct vt
+{
+    typedef typename Container::value_type value_type;
+};
+
+template< typename T, std::size_t N >
+struct vt< T[N] >
+{
+    typedef T value_type;
+};
 
 template
 <
@@ -28,12 +90,12 @@ class ring
 public:
 #if nsrs_RING_SPAN_LITE_EXTENSION
     typedef ring_span<
-        typename Container::value_type
-        , default_popper<typename Container::value_type>
+        typename vt<Container>::value_type
+        , default_popper<typename vt<Container>::value_type>
         , CapacityIsPowerOf2
     > RingSpan;
 #else
-    typedef ring_span< typename Container::value_type > RingSpan;
+    typedef ring_span< typename vt<Container>::value_type > RingSpan;
 #endif
 
     typedef typename RingSpan::value_type       value_type;
@@ -48,14 +110,20 @@ public:
     typedef typename RingSpan::const_reverse_iterator   const_reverse_iterator;
 #endif
 
-#if nsrs_CPP11_OR_GREATER
-    nsrs_REQUIRES_0( !std::is_constructible<Container, size_t>::value )
+    nsrs_REQUIRES_0((
+        is_array<Container>::value
+        || is_std_array<Container>::value
+    ))
     explicit ring()
         : cont{}
-        , rs( std::begin(cont), std::end(cont) )
+        , rs( std11::begin(cont), std11::end(cont) )
     {}
-#endif
 
+    // non C-Array, non std::array
+    nsrs_REQUIRES_0((
+        !is_array<Container>::value
+        && !is_std_array<Container>::value
+    ))
     explicit ring( size_type capacity )
         : cont( capacity )
         , rs( cont.begin(), cont.end() )
@@ -281,6 +349,12 @@ private:
     Container cont;
     RingSpan  rs;
 };
+
+} // namespace nsrs
+
+// Make types available in namespace nonstd:
+
+using nsrs::ring;
 
 } // namespace nonstd
 
