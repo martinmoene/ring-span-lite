@@ -225,7 +225,8 @@ Legenda:&ensp;&ndash; not in proposal&ensp;&middot;&ensp;&#10003; in proposal&en
 | &nbsp;         | **const_iterator**         |&nbsp; |
 | &nbsp;         | **reverse_iterator**       |&nbsp; |
 | &nbsp;         | **const_reverse_iterator** |&nbsp; |
-| Construction   | **ring**(size_type size)   | create empty ring of capacity `size` |
+| Construction   | **ring**()                 | create empty ring,<br>C-array, `std::array` |
+| &nbsp;         | **ring**(size_type size)   | create empty ring of capacity `size`,<br>dynamic container |
 | Iteration      | **begin**() noexcept       | iterator |
 | &nbsp;         | **begin**() noexcept       | const_iterator |
 | &nbsp;         | **cbegin**() noexcept      | const_iterator |
