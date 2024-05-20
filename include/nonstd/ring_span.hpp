@@ -270,6 +270,11 @@ nsrs_DISABLE_MSVC_WARNINGS( 4345 26439 26440 26472 26473 26481 26490 )
 #define nsrs_REQUIRES_T(...) \
     , typename std::enable_if< (__VA_ARGS__), int >::type = 0
 
+#else
+
+#define nsrs_REQUIRES_0(...)  /*empty*/
+#define nsrs_REQUIRES_T(...)  /*empty*/
+
 #endif
 
 // includes:
