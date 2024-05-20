@@ -1269,8 +1269,50 @@ CASE( "ring: Allows to create data owning ring from std::array (C++11)" )
 #if nsrs_CPP11_OR_GREATER
     ring< std::array<int, 3 >> r;
 
-    EXPECT( r.capacity() == 3 );
-    EXPECT( r.size()     == 0 );
+    EXPECT( r.size() == 0u );
+    EXPECT( r.capacity() == 3u );
+
+    // overflow ring by one element:
+
+    for ( size_t i = 0; i < r.size() + 1; ++i )
+    {
+        r.push_back( static_cast<int>( i ) );
+    }
+
+    EXPECT( r.size() == 3u );
+    EXPECT( r.capacity() == 3u );
+
+    EXPECT( r.front() == 1 );
+    EXPECT( r.back()  == 3 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    EXPECT( r[1]      == 2 );
+#endif
+
+    EXPECT( r.pop_front() == 1 );
+    EXPECT( r.pop_front() == 2 );
+    EXPECT( r.pop_front() == 3 );
+
+    EXPECT( r.size() == 0u );
+
+    unsigned int count = 0u;
+
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.push_front( 42 );
+    EXPECT( r.front() == 42 );
+#endif
+
+#if nsrs_CPP11_OR_GREATER
+    ++count;
+    r.emplace_back(  77 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.emplace_front( 55 );
+    EXPECT( r.front() == 55 );
+#endif
+    EXPECT( r.back () == 77 );
+#endif
+    EXPECT( r.size() == count );
 #else
     EXPECT( !!"std::array is not available (no C++11)" );
 #endif
@@ -1282,8 +1324,50 @@ CASE( "ring: Allows to create data owning ring from C-array" )
 {
     ring< int[3] > r;
 
-    EXPECT( r.capacity() == 3 );
-    EXPECT( r.size()     == 0 );
+    EXPECT( r.size() == 0u );
+    EXPECT( r.capacity() == 3u );
+
+    // overflow ring by one element:
+
+    for ( size_t i = 0; i < r.size() + 1; ++i )
+    {
+        r.push_back( static_cast<int>( i ) );
+    }
+
+    EXPECT( r.size() == 3u );
+    EXPECT( r.capacity() == 3u );
+
+    EXPECT( r.front() == 1 );
+    EXPECT( r.back()  == 3 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    EXPECT( r[1]      == 2 );
+#endif
+
+    EXPECT( r.pop_front() == 1 );
+    EXPECT( r.pop_front() == 2 );
+    EXPECT( r.pop_front() == 3 );
+
+    EXPECT( r.size() == 0u );
+
+    unsigned int count = 0u;
+
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.push_front( 42 );
+    EXPECT( r.front() == 42 );
+#endif
+
+#if nsrs_CPP11_OR_GREATER
+    ++count;
+    r.emplace_back(  77 );
+#if nsrs_RING_SPAN_LITE_EXTENSION
+    ++count;
+    r.emplace_front( 55 );
+    EXPECT( r.front() == 55 );
+#endif
+    EXPECT( r.back () == 77 );
+#endif
+    EXPECT( r.size() == count );
 }
 
 CASE( "tweak header: reads tweak header if supported " "[tweak]" )
