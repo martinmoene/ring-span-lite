@@ -43,6 +43,7 @@ template< typename T, std::size_t N >
 T * end( T (&array)[N] ) { return &array[N]; }
 
 } // namespace std11
+
 template< class Q >
 struct is_array : std11::false_type {};
 
@@ -110,6 +111,8 @@ public:
     typedef typename RingSpan::const_reverse_iterator   const_reverse_iterator;
 #endif
 
+    // construct from C-Array, std::array:
+
     nsrs_REQUIRES_0((
         is_array<Container>::value
         || is_std_array<Container>::value
@@ -119,7 +122,8 @@ public:
         , rs( std11::begin(cont), std11::end(cont) )
     {}
 
-    // non C-Array, non std::array
+    // construct from container not being C-Array or std::array:
+
     nsrs_REQUIRES_0((
         !is_array<Container>::value
         && !is_std_array<Container>::value
