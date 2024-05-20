@@ -118,7 +118,7 @@ public:
         || is_std_array<Container>::value
     ))
     explicit ring()
-        : cont{}
+        : cont()
         , rs( std11::begin(cont), std11::end(cont) )
     {}
 
