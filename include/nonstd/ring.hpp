@@ -18,17 +18,9 @@
 # include <array>
 #endif
 
-namespace nonstd {
-
-namespace nsrs {
+namespace nonstd { namespace ring_span_lite {
 
 namespace std11 {
-
-template< class T, T v > struct integral_constant { enum { value = v }; };
-template< bool B       > struct bool_constant : integral_constant<bool, B>{};
-
-typedef bool_constant< true  > true_type;
-typedef bool_constant< false > false_type;
 
 template< class C >
 typename C::iterator begin( C & c ) { return c.begin(); }
@@ -354,11 +346,11 @@ private:
     RingSpan  rs;
 };
 
-} // namespace nsrs
+} // namespace ring_span_lite
 
 // Make types available in namespace nonstd:
 
-using nsrs::ring;
+using ring_span_lite::ring;
 
 } // namespace nonstd
 
